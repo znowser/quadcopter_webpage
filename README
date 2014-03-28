@@ -6,11 +6,11 @@ mellan användare och en quadcopter. Denna quadcoptern byggs vid sidan av projek
 beskrivas mer djupgående i senare delar. Detta dokument har även som syfte att beskriva de ramverk som kommer användas under projektets gång.
 
 Ramverk
-    Projektet kommer i grova drag bestå av tre delar. Dessa benämns frontend, backend och databas. Som frontend har projektgruppen valt att använda 
+Projektet kommer i grova drag bestå av tre delar. Dessa benämns frontend, backend och databas. Som frontend har projektgruppen valt att använda 
 Angular.js. Ramverket Django kommer fungera som backend och MySQL kommer användas som databas.
 
 Funktionalitet
-    Hemsidan är tänkt att bestå av flera funktionaliteter. Bland dessa, en konstant videoström som skickas från en kamera fäst på quadcoptern. I dagsläget 
+Hemsidan är tänkt att bestå av flera funktionaliteter. Bland dessa, en konstant videoström som skickas från en kamera fäst på quadcoptern. I dagsläget 
 har projektgruppen tänkt använda Videogular för att lösa detta. Quadcoptern är utrustad med ett gyro, detta gyro kan skicka vinklar, vinkelaccelerationer m.m.
 Dessa data ska kunna samplas av hemsidan, sparas ner i databasen samt kunna rita upp grafer av de önskade datat. Google Chart Tools kan tänkas vara en 
 fungerande lösning till detta. Hemsidan ska även kunna rita upp en dynamsik 3d modell av quadcopterns momentana tillstånd. Quadcoptern kan dessutom skicka 
