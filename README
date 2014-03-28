@@ -1,2 +1,23 @@
 Projektspecifikation
 ==============================
+
+1. Inledning
+1.1 Syfte
+    Denna specifikation skrivs som ett dokument för kursen TDDD27. Syftet med detta projekt är att konstruera en hemsida som ska fungera som ett gränssnitt 
+mellan användare och en quadcopter. Denna quadcoptern byggs vid sidan av projektet. Hemsidan ska kunna styra samt övervaka quadcoptern. Funktionalitet kommer
+beskrivas mer djupgående i senare delar. Detta dokument har även som syfte att beskriva de ramverk som kommer användas under projektets gång.
+
+2. Ramverk
+    Projektet kommer i grova drag bestå av tre delar. Dessa benämns frontend, backend och databas. Som frontend har projektgruppen valt att använda 
+Angular.js. Ramverket Django kommer fungera som backend och MySQL kommer användas som databas.
+
+3. Funktionalitet
+    Hemsidan är tänkt att bestå av flera funktionaliteter. Bland dessa, en konstant videoström som skickas från en kamera fäst på quadcoptern. I dagsläget 
+har projektgruppen tänkt använda Videogular för att lösa detta. Quadcoptern är utrustad med ett gyro, detta gyro kan skicka vinklar, vinkelaccelerationer m.m.
+Dessa data ska kunna samplas av hemsidan, sparas ner i databasen samt kunna rita upp grafer av de önskade datat. Google Chart Tools kan tänkas vara en 
+fungerande lösning till detta. Hemsidan ska även kunna rita upp en dynamsik 3d modell av quadcopterns momentana tillstånd. Quadcoptern kan dessutom skicka 
+koordinater via GPS. Med hjälp av Google Maps ska hemsidan kunna rita upp var quadcoptern befinner sig just nu. Det ska även vara möjligt att via Google Maps 
+kunna skapa rutter via att placera ut punkter på en karta som sedan interpoleras och blir en färdrutt för quadcoptern. En annan funktionalitet tänkt att 
+användas på hemsidan är att möjliggöra styrning av quadcoptern. Denna funktionalitet måste skyddas med atomiska lås för att inte korrumpera styrfunktionerna
+i quadcoptern. 
+
