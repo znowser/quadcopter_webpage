@@ -19,5 +19,4 @@ fungerande lösning till detta. Hemsidan ska även kunna rita upp en dynamsik 3d
 koordinater via GPS. Med hjälp av Google Maps ska hemsidan kunna rita upp var quadcoptern befinner sig just nu. Det ska även vara möjligt att via Google Maps 
 kunna skapa rutter via att placera ut punkter på en karta som sedan interpoleras och blir en färdrutt för quadcoptern. En annan funktionalitet tänkt att 
 användas på hemsidan är att möjliggöra styrning av quadcoptern. Denna funktionalitet måste skyddas med atomiska lås för att inte korrumpera styrfunktionerna
-i quadcoptern. 
-
+i quadcoptern. Det ska även finnas inloggningsalternativ på hemsidan. Dessa ät tänkta att fungera via tokens i Angular.js.
