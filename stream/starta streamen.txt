@@ -1,4 +1,8 @@
-1. Starta först ffserver.
+1. Starta först ffserver. Måste alltid startas först! osync annars!
 2. Kör följande kommando på raspberryn. (320x240, bitrate = 500 kb/s. fps = 24 force rtp protocol).
 
 	raspivid -t 0 -fps 24 -w 320 -h 240 -o - -b 500000 | ffmpeg -r 24 -i - -vcodec copy -an -b:v 500k -f rtp rtp://192.168.0.148:5050
+
+
+
+OBS chrome pausar liveuppspelningen vid tab/byte av flik vilket resulterar i att streamen blir fruktansvärt fördröjd!
