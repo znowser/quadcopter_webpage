@@ -1,5 +1,5 @@
 ffmpeg stream: 
-ffmpeg -r 24 -i stream.sdp -fflags nobuffer  http://localhost:8090/feed1.ffm
+ffmpeg -i stream.sdp -fflags nobuffer  http://localhost:8090/feed1.ffm
 
 ffserver:
 ffserver -f ffserver.conf &

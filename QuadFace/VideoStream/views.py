@@ -5,5 +5,7 @@ def index(request):
     context = {}
     return render(request, 'VideoStream/index.html', context)
     
+
+    
     
 

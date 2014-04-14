@@ -1,6 +1,7 @@
 import asyncore
 import socket
 import sys,os
+import httplib
 
 sys.path.append('../../QuadFace')
 os.environ['DJANGO_SETTINGS_MODULE'] = '../QuadFace/settings.py'
@@ -41,9 +42,11 @@ class EchoHandler(asyncore.dispatcher_with_send):
     def handle_read(self):
         data = self.recv(1024)
         if data:
-        	handle_data(data)
-        	#print(data)
-            #self.send(data)
+            handle_data(data)
+            conn = httplib.HTTPConnection("localhost", 8080)
+            conn.request("GET", "/communication/updateSockets/")
+            response = conn.getresponse()
+            conn.close
 
 class EchoServer(asyncore.dispatcher):
 
@@ -57,10 +60,20 @@ class EchoServer(asyncore.dispatcher):
     def handle_accept(self):
         pair = self.accept()
         if pair is not None:
+            conn = None
+            try:
+                conn = sqlite3.connect('../db.sqlite3')
+                c = conn.cursor()
+                c.execute("DELETE FROM CommunicationLink_quadcopterdata")		
+                conn.commit()
+                conn.close()  
+            except sqlite3.Error, e:
+                print "Error %s:" % e.args[0]
+                sys.exit(1)
             sock, addr = pair
             print 'Incoming connection from %s' % repr(addr)
             handler = EchoHandler(sock)
 
-server = EchoServer('0.0.0.0', 8080)
+server = EchoServer('0.0.0.0', 8090)
 asyncore.loop()
 

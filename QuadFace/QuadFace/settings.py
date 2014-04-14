@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ws4redis',
     'VideoStream',
     'CommunicationLink',
 )
@@ -53,7 +54,15 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'QuadFace.urls'
 
-WSGI_APPLICATION = 'QuadFace.wsgi.application'
+#WSGI_APPLICATION = 'QuadFace.wsgi.application'
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.static',
+    'ws4redis.context_processors.default',
+)
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS_PREFIX = 'session'
 
 
 # Database
@@ -84,3 +93,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+WEBSOCKET_URL = '/ws/'

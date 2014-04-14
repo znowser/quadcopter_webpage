@@ -1,0 +1,8 @@
+modules installed and commands for them(Installed under a virtualenv):
+greenlet, pip install greenlet 
+gevent, pip install gevent
+gevent-socketio, pip install gevent-socketio
+django-websocket-redis, pip install django-websocket-redis (installationDOcs: http://django-websocket-redis.readthedocs.org/en/latest/installation.html)
+django-redis-session, pip install django-redis-sessions
+redis-server, brew install redis (start by: redis-server & )
+
