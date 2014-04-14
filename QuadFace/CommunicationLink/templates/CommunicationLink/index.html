@@ -1,0 +1,26 @@
+<html ng-app>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
+	{% load staticfiles %}
+	<script src="{% static "CommunicationLink/client.js" %}"></script>
+	<title>
+		Video stream
+	</title>
+</head>
+<body>
+<div ng-controller='itemsController'>
+{% if data_for_graphs %}
+
+    <ul>
+    {% for x in data_for_graphs %}
+		{{x.x_angle}} {{x.y_angle}} {{x.z_angle}}
+		<br>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+<button id='buttonid' style="display: none;" ng-click="update()"></button>
+</div>
+</body>
+</html>

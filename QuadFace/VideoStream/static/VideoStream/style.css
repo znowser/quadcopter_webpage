@@ -1,0 +1,10 @@
+.middle {
+	   position: fixed;
+	   top: 50%;
+	   left: 50%;
+	   height: 480px;
+	   margin-top: -280px;
+	   width: 720px;
+	   margin-left: -360px;
+
+}

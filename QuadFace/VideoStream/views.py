@@ -4,3 +4,8 @@ from django.http import HttpResponse
 def index(request):
     context = {}
     return render(request, 'VideoStream/index.html', context)
+    
+
+    
+    
+
