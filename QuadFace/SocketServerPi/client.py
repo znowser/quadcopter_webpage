@@ -1,8 +1,9 @@
 import socket
 import sys
 from time import sleep
+import random
 
-HOST, PORT = "10.0.1.13", 8090
+HOST, PORT = "127.0.0.1", 8091
 #data = " ".join(sys.argv[1:])
 
 # Create a socket (SOCK_STREAM means a TCP socket)
@@ -12,9 +13,14 @@ try:
     # Connect to server and send data
     sock.connect((HOST, PORT))
     while True:
-        data = raw_input("Mata in din data:")
+        x = random.randint(0, 360)
+        y = random.randint(0, 360)
+        z = random.randint(0, 360)
+        
+        data = "x:" + str(x) + "!y:" + str(y) + "!z:" + str(z) + "!"
+        print(data)
         sock.sendall(data)
-        #sleep(0.5)
+        sleep(0.5)
 
     # Receive data from the server and shut down
     #received = sock.recv(1024)

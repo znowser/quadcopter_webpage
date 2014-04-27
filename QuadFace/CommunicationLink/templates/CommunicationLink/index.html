@@ -1,26 +1,41 @@
-<html ng-app>
+<html ng-app="quadcopter">
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
+	
+	
 	{% load staticfiles %}
-	<script src="{% static "CommunicationLink/client.js" %}"></script>
+	<script src="{% static "CommunicationLink/jquery-2.1.0.min.js" %}"></script> 
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-resource.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-route.min.js"></script>
+	
+	<script src="{% static "CommunicationLink/canvasjs-1/canvasjs.min.js" %}"></script>
+	<script src="{% static "CommunicationLink/client.js" %}"></script> 
+	
+	<style type="text/css">
+			body {
+				font-family: "helvetica";
+				color : #333;
+			}
+			.chart {
+				float:left;
+				width: 50%;
+				height:400px;
+			}
+	</style>
 	<title>
-		Video stream
+		Communication Link
 	</title>
 </head>
 <body>
-<div ng-controller='itemsController'>
-{% if data_for_graphs %}
+<div id="controller" ng-controller="DataCtrl">
 
-    <ul>
-    {% for x in data_for_graphs %}
-		{{x.x_angle}} {{x.y_angle}} {{x.z_angle}}
-		<br>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-<button id='buttonid' style="display: none;" ng-click="update()"></button>
+		<div id="xContainer" style="height: 300px; width:30%; display:inline-block;">
+		</div>
+		<div id="yContainer" style="height: 300px; width:30%; display:inline-block;">
+		</div>
+		<div id="zContainer" style="height: 300px; width:30%; display:inline-block;">
+		</div>
 </div>
 </body>
 </html>

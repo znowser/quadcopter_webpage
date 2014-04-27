@@ -6,3 +6,6 @@ django-websocket-redis, pip install django-websocket-redis (installationDOcs: ht
 django-redis-session, pip install django-redis-sessions
 redis-server, brew install redis (start by: redis-server & )
 
+javascript:
+angular-charts
+
