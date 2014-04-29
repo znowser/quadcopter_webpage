@@ -56,7 +56,66 @@ clientModule.factory('graphService', function($rootScope, $http){
 	
 	return graphService;
 });
-function MapCtrl($scope){
+
+
+clientModule.factory('mapService', function($rootScope, $http){
+	var mapService = {};
+	mapService.message = '';
+	mapService.data = '';
+	mapService.set = false;
+	var ws = null;
+	
+	mapService.setUpMapWebsockets = function(openClose) {
+		
+		if (!mapService.set && openClose.localeCompare('open') == 0){
+			
+			ws = new WebSocket('ws://127.0.0.1:8080/ws/coords?subscribe-broadcast');
+			ws.onopen = function() {
+		    	console.log("websocket connected");
+				mapService.set = true;
+			};
+			ws.onmessage = function(e) {
+				//console.log(e.data);
+				result = JSON.parse(e.data);
+				mapService.message = result;
+				mapService.wsLocationBroadcast();
+			};
+			ws.onerror = function(e) {
+		    	console.error(e);
+			};
+			ws.onclose = function(e) {
+				console.log("connection closed");
+				mapService.set = false;
+			} 
+		} else {
+			if (openClose.localeCompare('close') == 0 && mapService.set){
+				ws.close();
+			}
+		}
+	};
+	
+	mapService.getLocation = function(){
+		$http({method: 'GET', url: '/maps'}).
+			success(function(data, status, headers, config) {
+					mapService.data = data;
+					mapService.httpLocationBroadcast();
+			}).
+			error(function(data, status, headers, config) {
+			});
+	};
+	
+	mapService.wsLocationBroadcast = function(){
+		$rootScope.$broadcast('websocketLocation');
+	}
+	
+	mapService.httpLocationBroadcast = function(){
+		$rootScope.$broadcast('httpLocation');
+	}
+	
+	return mapService;
+});
+
+function MapCtrl($scope, mapService){
 	console.log("kartor");
 	$scope.map = {
 	    center: {
@@ -65,13 +124,22 @@ function MapCtrl($scope){
 	    },
 	    zoom: 16
 	};
-	$scope.quadPosition = {
-		latitude: 58.40721748,
-		longitude: 15.57939143
-	};
+	$scope.quadPosition = {};
+	
+	$scope.$on('httpLocation', function(){
+		result = mapService.data;
+		$scope.quadPosition.latitude = result[0].fields.latitude;
+		$scope.quadPosition.longitude = result[0].fields.longitude;
+	});
+	$scope.$on('websocketLocation', function(){
+		console.log(mapService.message);
+		result = mapService.message;
+		$scope.quadPosition.latitude = result[0].fields.latitude;
+		$scope.quadPosition.longitude = result[0].fields.longitude;
+	});
 }
 
-function MenuCtrl($scope, graphService){
+function MenuCtrl($scope, graphService, mapService){
 	$scope.welcome = true;
 	$scope.communications = false;
 	$scope.video = false;
@@ -84,6 +152,7 @@ function MenuCtrl($scope, graphService){
 			$scope.video = false;
 			$scope.maps = false;
 			graphService.setUpWebsockets('close');
+			mapService.setUpMapWebsockets('close');
 			
 		}
 		if (item.localeCompare('communications') == 0){
@@ -93,6 +162,7 @@ function MenuCtrl($scope, graphService){
 			$scope.maps= false;
 			graphService.getData();
 			graphService.setUpWebsockets('open');
+			mapService.setUpMapWebsockets('close');
 			
 			
 			
@@ -103,6 +173,7 @@ function MenuCtrl($scope, graphService){
 			$scope.video = true;
 			$scope.maps= false;
 			graphService.setUpWebsockets('close');
+			mapService.setUpMapWebsockets('close');
 			
 		}
 		if (item.localeCompare('maps') == 0){
@@ -110,7 +181,9 @@ function MenuCtrl($scope, graphService){
 			$scope.communications = false;
 			$scope.video = false;
 			$scope.maps= true;
+			mapService.getLocation();
 			graphService.setUpWebsockets('close');
+			mapService.setUpMapWebsockets('open');
 			
 		}
 	    
@@ -120,7 +193,7 @@ function MenuCtrl($scope, graphService){
 	
 }
 
-function GraphCtrl($scope, $http, graphService){
+function GraphCtrl($scope, graphService){
 	
 
 	var x = []; // dataPoints
@@ -234,9 +307,7 @@ function GraphCtrl($scope, $http, graphService){
 		z.length=0;
 		xVal = 0;
 		result = graphService.data;
-		console.log(result);
 		for (var i = result.length-1; i >= 0; i--){
-			console.log(result[i].fields.x_angle);
 			$scope.updateChart(result[i].fields.x_angle,result[i].fields.y_angle,result[i].fields.z_angle);	
 		}
 		
@@ -246,6 +317,7 @@ function GraphCtrl($scope, $http, graphService){
 	
 }
 
-MenuCtrl.$inject = ['$scope', 'graphService'];
-GraphCtrl.$inject = ['$scope','$http' ,'graphService'];
+MenuCtrl.$inject = ['$scope', 'graphService', 'mapService'];
+GraphCtrl.$inject = ['$scope', 'graphService'];
+MapCtrl.$inject = ['$scope', 'mapService'];
 

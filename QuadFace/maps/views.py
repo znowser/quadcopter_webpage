@@ -6,14 +6,12 @@ from django.core import serializers
 
 from maps.models import coordinates
 
-#from CommunicationLink.models import QuadCopterData
-
 def index(request):
-    coordinates = serializers.serialize('json', coordinates.objects.all().reverse().order_by('id')[:1])
-    return HttpResponse(coordinates, content_type="application/json")
+    coordinate = serializers.serialize('json', coordinates.objects.all().reverse().order_by('id')[:1])
+    return HttpResponse(coordinate, content_type="application/json")
     
     
 def update_web_sockets(request):
-    coordinates = serializers.serialize('json', Qcoordinates.objects.all().reverse().order_by('id')[:1])
-    RedisPublisher(facility='coords', broadcast=True).publish_message(coordinates)
+    coordinate = serializers.serialize('json', coordinates.objects.all().reverse().order_by('id')[:1])
+    RedisPublisher(facility='coords', broadcast=True).publish_message(coordinate)
     return HttpResponse("")

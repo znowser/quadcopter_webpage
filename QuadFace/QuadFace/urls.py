@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^$', include('client.urls')),
     # url(r'^blog/', include('blog.urls')),
 	url(r'^stream/', include('VideoStream.urls')),
-    url(r'^map/', include('maps.urls')),
+    url(r'^maps/', include('maps.urls')),
 	url(r'^communication/', include('CommunicationLink.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
