@@ -1,0 +1,86 @@
+<html >
+	<head>
+		{% load staticfiles %}
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-resource.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-route.min.js"></script>
+		<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script src="{% static "client/client.js" %}"></script>
+		<script src="{% static "client/canvasjs-1/canvasjs.min.js" %}"></script>
+		<script src="{% static "client/underscore-master/underscore-min.js" %}"></script>
+		<script src="{% static "client/angular-google-maps-master/dist/angular-google-maps.js" %}"></script>
+		
+		<link rel="stylesheet" type="text/css" href="{% static "client/client.css" %}" />
+		<style type="text/css">
+				body {
+					font-family: "helvetica";
+					color : #333;
+				}
+				.chart {
+					float:left;
+					width: 50%;
+					height:100%;
+				}
+		</style>
+	</head>
+	
+	<body ng-app="client" >
+		<div ng-controller="MenuCtrl">
+			<div class="menu">
+				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">
+					Welcome
+			 	</div>
+				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">
+					 Quadcopter Data
+			 	</div>
+				<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">
+					 Videostream
+			 	</div>
+				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
+					 Maps
+			 	</div>
+		 	</div>
+			 
+ 			<div id="welcomeDivContent"  class="contentDiv" ng-show='welcome' >
+				
+ 				<h3 class="header">Welcome!</h3>
+				<p class="welcome"> 
+				This site is to be used as a Web GUI for a quadcopter some students from Linköpings Tekniska Högskola are building. The developments of this
+				site is being driven by two of the students involved in former mentioned group. We are not only building this site for the quadcopter but also
+				for a class named TDDD27 Advanced Webprogramming at Linköpings Tekniska Högskola. When this site is done, a user will be able to look at a live feed
+				coming from the quadcopter. The user will be able to look at live data coming from the quadcopter. The user will also eventually be able to control the quadcopter from this GUI.
+				
+				</p>
+ 			 </div>
+ 			<div id="communicationsDivContent"  ng-controller="GraphCtrl" ng-show='communications'>
+				<div>
+				 	<div id="xContainer" style="height: 30%; width:30%; display:inline-block; margin-left:12%; margin-right:6%;">
+				 	</div>
+				 	<div id="yContainer" style="height: 30%; width:30%; display:inline-block; margin-left:auto; margin-right:auto;">
+				 	</div>
+				</div>
+				<div>
+				 	<div id="zContainer" style="height: 30%; width:30%; display:inline-block; margin-left:12%; margin-right:auto;">
+				 	</div>
+				</div>
+ 			 </div>
+ 			<div id="videoDivContent"  class="contentDiv" ng-show='video'>
+	 				<video  class="stream" controls autoplay>
+	 	  		  	  <source src="http://192.168.0.186:8090/test.webm" type="video/webm">
+	 	  				  Your browser does not support the video tag.
+	 				  </video>
+ 			 </div>
+  			<div id="mapsDivContent"  class="contentDiv" ng-controller="MapCtrl" ng-show='maps' >
+				<google-map center="map.center" zoom="map.zoom">
+				<marker coords="quadPosition"></marker>
+			</google-map>
+				
+  				
+  			 </div>
+			 
+			
+			
+		</div>
+	</body>
+	
+</html>
