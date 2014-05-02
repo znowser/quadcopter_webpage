@@ -1,4 +1,4 @@
-var clientModule = angular.module('client', ['ngRoute', 'google-maps'])
+var clientModule = angular.module('client', ['ngRoute', 'google-maps', 'ngAnimate'])
 
 clientModule.factory('graphService', function($rootScope, $http){
 	var graphService = {};
@@ -17,7 +17,6 @@ clientModule.factory('graphService', function($rootScope, $http){
 				graphService.set = true;
 			};
 			ws.onmessage = function(e) {
-				//console.log(e.data);
 				result = JSON.parse(e.data);
 				graphService.message = result;
 				graphService.wsBroadcast();
@@ -75,7 +74,6 @@ clientModule.factory('mapService', function($rootScope, $http){
 				mapService.set = true;
 			};
 			ws.onmessage = function(e) {
-				//console.log(e.data);
 				result = JSON.parse(e.data);
 				mapService.message = result;
 				mapService.wsLocationBroadcast();
@@ -111,12 +109,16 @@ clientModule.factory('mapService', function($rootScope, $http){
 	mapService.httpLocationBroadcast = function(){
 		$rootScope.$broadcast('httpLocation');
 	}
+	mapService.mapBroadcast = function(){
+		$rootScope.$broadcast('map');
+	}
 	
 	return mapService;
 });
 
-function MapCtrl($scope, mapService){
-	console.log("kartor");
+function MapCtrl($scope, mapService, $http){
+	$scope.quadPosition = {};
+	//console.log("kartor");
 	$scope.map = {
 	    center: {
 	        latitude: 58.40721748,
@@ -124,7 +126,7 @@ function MapCtrl($scope, mapService){
 	    },
 	    zoom: 16
 	};
-	$scope.quadPosition = {};
+
 	
 	$scope.$on('httpLocation', function(){
 		result = mapService.data;
@@ -132,11 +134,21 @@ function MapCtrl($scope, mapService){
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
 	$scope.$on('websocketLocation', function(){
-		console.log(mapService.message);
 		result = mapService.message;
 		$scope.quadPosition.latitude = result[0].fields.latitude;
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
+	$scope.$on('map', function(){
+		console.log('resize');
+		$scope.updateMap();
+	});
+	/*$scope.updateMap = function(){
+		console.log("update2");
+		window.setTimeout(function(){google.maps.event.trigger($scope.map, 'resize');},100);
+		console.log("sized");
+		//$scope.$apply();
+	}*/
+	
 }
 
 function MenuCtrl($scope, graphService, mapService){
@@ -161,10 +173,8 @@ function MenuCtrl($scope, graphService, mapService){
 			$scope.video = false;
 			$scope.maps= false;
 			graphService.getData();
-			graphService.setUpWebsockets('open');
 			mapService.setUpMapWebsockets('close');
-			
-			
+			graphService.setUpWebsockets('open');
 			
 		}
 		if (item.localeCompare('video') == 0){
@@ -181,6 +191,7 @@ function MenuCtrl($scope, graphService, mapService){
 			$scope.communications = false;
 			$scope.video = false;
 			$scope.maps= true;
+			mapService.mapBroadcast();
 			mapService.getLocation();
 			graphService.setUpWebsockets('close');
 			mapService.setUpMapWebsockets('open');
@@ -195,7 +206,18 @@ function MenuCtrl($scope, graphService, mapService){
 
 function GraphCtrl($scope, graphService){
 	
-
+	$scope.xAngle = true;
+	$scope.yAngle = true;
+	$scope.zAngle = true;
+	$scope.aAngle = true;
+	$scope.bAngle = true;
+	$scope.play = true;
+	$scope.setGraphVisability = function(var1){
+		var1 = ! var1;
+	};
+	$scope.setPlayPause = function(){
+		$scope.play = ! $scope.play;
+	};
 	var x = []; // dataPoints
 	var y = [];
 	var z = [];
@@ -203,7 +225,8 @@ function GraphCtrl($scope, graphService){
 	$scope.xChart = new CanvasJS.Chart("xContainer",{
 		title :{
 			text: "x-angle"
-		},			
+		},		
+		backgroundColor: "#CCCCCC",		
 		data: [
 		{
 			name:'x',
@@ -222,7 +245,8 @@ function GraphCtrl($scope, graphService){
 	$scope.yChart = new CanvasJS.Chart("yContainer",{
 		title :{
 			text: "y-angle"
-		},			
+		},	
+		backgroundColor: "#CCCCCC",			
 		data: [
 		{
 			name:'y',
@@ -241,7 +265,8 @@ function GraphCtrl($scope, graphService){
 	$scope.zChart = new CanvasJS.Chart("zContainer",{
 		title :{
 			text: "z-angle"
-		},			
+		},		
+		backgroundColor: "#CCCCCC",	
 		data: [
 		{
 			name:'z',
@@ -257,6 +282,47 @@ function GraphCtrl($scope, graphService){
 	    	title:"Time"
 	  	},
   	});
+	$scope.aChart = new CanvasJS.Chart("aContainer",{
+		title :{
+			text: "a-angle"
+		},		
+		backgroundColor: "#CCCCCC",	
+		data: [
+		{
+			name:'a',
+			type: "spline",
+			color:"yellow",
+			dataPoints: y 
+		}
+		],
+		axisY:{
+	   		title:"Angle"
+	  	}, 
+		axisX:{
+	    	title:"Time"
+	  	},
+  	});
+	$scope.bChart = new CanvasJS.Chart("bContainer",{
+		title :{
+			text: "b-angle"
+		},		
+		backgroundColor: "#CCCCCC",	
+		data: [
+		{
+			name:'a',
+			type: "spline",
+			color:"orange",
+			dataPoints: z 
+		}
+		],
+		axisY:{
+	   		title:"Angle"
+	  	}, 
+		axisX:{
+	    	title:"Time"
+	  	},
+  	});
+
 
 	var xVal = 0;
 	var dataLength = 20; // number of dataPoints visible at any point
@@ -279,23 +345,14 @@ function GraphCtrl($scope, graphService){
 			y.shift();	
 			z.shift();		
 		}
-		$scope.xChart.render();
-		$scope.yChart.render();
-		$scope.zChart.render();
-						
+		if ($scope.play){
+			$scope.xChart.render();
+			$scope.yChart.render();
+			$scope.zChart.render();
+			$scope.aChart.render();
+			$scope.bChart.render();	
+		}		
 	};
-
-	/*$http({method: 'GET', url: '/communication'}).
-		success(function(data, status, headers, config) {
-			for (var i = data.length-1; i >= 0; i--){
-				$scope.updateChart(data[i].fields.x_angle, data[i].fields.y_angle, data[i].fields.z_angle);
-				console.log(data[i].fields.y_angle);
-				console.log(i);
-			}
-		}).
-		error(function(data, status, headers, config) {
-		});*/
-		
 	$scope.$on('websocket', function(){
 		result = graphService.message;
 		$scope.updateChart(result[0].fields.x_angle,result[0].fields.y_angle,result[0].fields.z_angle);	
@@ -312,12 +369,77 @@ function GraphCtrl($scope, graphService){
 		}
 		
 	});
-		
-			
 	
 }
 
+function SlideCtrl($scope, $timeout){
+	//console.log("url: " + );
+	$scope.slides = [
+		{image: DJANGO_STATIC_URL+'client/quadcopter/Abstract.jpg', description: 'Image 0'},
+		{image: DJANGO_STATIC_URL+'client/quadcopter/Beach.jpg', description: 'Image 1'},
+		{image: DJANGO_STATIC_URL+'client/quadcopter/Circles.jpg', description: 'Image 2'},
+		{image: DJANGO_STATIC_URL+'client/quadcopter/Brushes.jpg', description: 'Image 3'},
+		{image: DJANGO_STATIC_URL+'client/quadcopter/Blue Pond.jpg', description: 'Image 4'},
+	];
+	
+	$scope.currentIndex = 0;
+	
+
+	$scope.setCurrentSlideIndex = function (index) {
+	     $scope.currentIndex = index;
+	};
+			
+	$scope.isCurrentSlideIndex = function (index) {
+		return $scope.currentIndex === index;
+	};
+	
+	$scope.prevSlide = function () {
+		$scope.currentIndex = ($scope.currentIndex < $scope.slides.length - 1) ? ++$scope.currentIndex : 0;
+	};
+
+	$scope.nextSlide = function () {
+		$scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.slides.length - 1;
+	};
+
+	$scope.intervalFunction = function(){
+		$timeout(function() {
+			$scope.currentIndex++;
+			if ($scope.currentIndex >= $scope.slides.length){
+				$scope.currentIndex = 0;
+			}
+			$scope.intervalFunction();
+		}, 4000)
+	};
+	$scope.intervalFunction();
+}
+
+clientModule.animation('.slide-animation', function () {
+        return {
+            addClass: function (element, className, done) {
+                if (className == 'ng-hide') {
+                    TweenMax.to(element, 0.5, {left: -element.parent().width(), onComplete: done });
+                }
+                else {
+                    done();
+                }
+            },
+            removeClass: function (element, className, done) {
+                if (className == 'ng-hide') {
+                    element.removeClass('ng-hide');
+
+                    TweenMax.set(element, { left: element.parent().width() });
+                    TweenMax.to(element, 0.5, {left: 0, onComplete: done });
+                }
+                else {
+                    done();
+                }
+            }
+        };
+    });
+
+
+
 MenuCtrl.$inject = ['$scope', 'graphService', 'mapService'];
 GraphCtrl.$inject = ['$scope', 'graphService'];
-MapCtrl.$inject = ['$scope', 'mapService'];
+MapCtrl.$inject = ['$scope', 'mapService', '$http'];
 

@@ -1,14 +1,22 @@
 <html >
 	<head>
 		{% load staticfiles %}
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-animate.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-resource.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular-route.min.js"></script>
 		<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+		
 		<script src="{% static "client/client.js" %}"></script>
 		<script src="{% static "client/canvasjs-1/canvasjs.min.js" %}"></script>
 		<script src="{% static "client/underscore-master/underscore-min.js" %}"></script>
 		<script src="{% static "client/angular-google-maps-master/dist/angular-google-maps.js" %}"></script>
+		
+		<script type="text/javascript">
+		    DJANGO_STATIC_URL = '{{ STATIC_URL }}';
+		</script>
 		
 		<link rel="stylesheet" type="text/css" href="{% static "client/client.css" %}" />
 		<style type="text/css">
@@ -24,11 +32,11 @@
 		</style>
 	</head>
 	
-	<body ng-app="client" >
+	<body ng-app="client" bgcolor="#D4D4D4">
 		<div ng-controller="MenuCtrl">
 			<div class="menu">
 				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">
-					Welcome
+					Home
 			 	</div>
 				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">
 					 Quadcopter Data
@@ -37,49 +45,121 @@
 					 Videostream
 			 	</div>
 				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
-					 Maps
+					 Map
 			 	</div>
 		 	</div>
-			 
- 			<div id="welcomeDivContent"  class="contentDiv" ng-show='welcome' >
-				
- 				<h3 class="header">Welcome!</h3>
-				<p class="welcome"> 
-				This site is to be used as a Web GUI for a quadcopter some students from Linköpings Tekniska Högskola are building. The developments of this
-				site is being driven by two of the students involved in former mentioned group. We are not only building this site for the quadcopter but also
-				for a class named TDDD27 Advanced Webprogramming at Linköpings Tekniska Högskola. When this site is done, a user will be able to look at a live feed
-				coming from the quadcopter. The user will be able to look at live data coming from the quadcopter. The user will also eventually be able to control the quadcopter from this GUI.
-				
-				</p>
- 			 </div>
- 			<div id="communicationsDivContent"  ng-controller="GraphCtrl" ng-show='communications'>
-				<div>
-				 	<div id="xContainer" style="height: 30%; width:30%; display:inline-block; margin-left:12%; margin-right:6%;">
-				 	</div>
-				 	<div id="yContainer" style="height: 30%; width:30%; display:inline-block; margin-left:auto; margin-right:auto;">
-				 	</div>
-				</div>
-				<div>
-				 	<div id="zContainer" style="height: 30%; width:30%; display:inline-block; margin-left:12%; margin-right:auto;">
-				 	</div>
-				</div>
- 			 </div>
- 			<div id="videoDivContent"  class="contentDiv" ng-show='video'>
-	 				<video  class="stream" controls autoplay>
-	 	  		  	  <source src="http://192.168.0.186:8090/test.webm" type="video/webm">
-	 	  				  Your browser does not support the video tag.
-	 				  </video>
- 			 </div>
-  			<div id="mapsDivContent"  class="contentDiv" ng-controller="MapCtrl" ng-show='maps' >
-				<google-map center="map.center" zoom="map.zoom">
-				<marker coords="quadPosition"></marker>
-			</google-map>
-				
-  				
-  			 </div>
-			 
 			
+			<div id="welcomeDivContent" class="content" ng-show='welcome'>
+ 				<div  ng-init='currentIndex = 0' class="contentLeft" ng-controller="SlideCtrl"  >
+					<center>
+					<div class="container slider">
+						<img class="slide slide-animation"  ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}">
+					</div>
+					<h1 class="mainText">Quadcopter Project</h1>
+				</center>
+				</div>
 			
+				<div class="contentRight" >
+ 					<h3 class="header">Welcome to the quadcopter GUI!</h3>
+					<h5 class="smallHeader" ng-click="showContent('video')">Live Video!</h5>
+					<p class="welcome">
+						Come and watch the quadcopter in action! See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.
+					</p>
+					<h5 class="smallHeader" ng-click="showContent('communications')">Dynamic data updates</h5>
+					<p class="welcome">
+						The quadcopter can send a stream of dynamic data to our server, making it possible to see everything about the quadcopter dynamically. Everything from current battery level to engine load!
+					</p>
+					<h5 class="smallHeader" ng-click="showContent('maps')">Coordinates</h5>
+					<p class="welcome">
+						This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.
+					</p>
+					<h5 class="smallHeader">Live control it!</h5>
+					<p class="welcome">
+						Not only is the user able to watch a live stream from the quadcopter, the user will also be able to stear the quadcopter!
+					</p>
+ 					<h3 class="header">About</h3>
+					<h5 class="smallHeader">Quadcopter</h5>
+					<p class="welcome">
+						Quadcopter is a project driven by five students on Linköpings Tekniska Högskola. It is about building a functional quadcopter. 
+					</p>
+					<h5 class="smallHeader">Weg GUI</h5>
+					<p class="welcome">
+						This GUI is a part of the quadcopter project and also a part of the course TDDD27, avancerad webbprogrammering. 
+					</p>
+
+ 			 	</div>
+		 	</div>
+			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
+				<div class="contentLeft" >
+				 		<div id="xContainer" class="graphLeft" ng-show="xAngle">
+				 		</div>
+				 		<div id="yContainer" class="graphLeft" ng-show="yAngle">
+				 		</div>
+						<div id="zContainer" class="graphLeft" ng-show="zAngle">
+						</div>
+				 		<div id="aContainer" class="graphLeft" ng-show="aAngle">
+				 		</div>
+						<div id="bContainer" class="graphLeft" ng-show="bAngle">
+						</div>
+ 				</div>
+				<div class="contentRight">
+					<h3 class="header">Controls for Quadcopter data</h3>
+					<h5 class="smallHeader">Which data to show:</h5>
+					<input style="margin-left:2%;" type="checkbox" ng-model="xAngle" checked ng-click="setGraphVisability(xAngle)"><p style="display: inline;" class="welcome">Show X-angle Graph</p><br>
+					<input style="margin-left:2%;" type="checkbox" ng-model="yAngle" checked ng-click="setGraphVisability(yAngle)"><p style="display: inline;" class="welcome">Show Y-angle Graph</p><br>
+					<input style="margin-left:2%;" type="checkbox" ng-model="zAngle" checked ng-click="setGraphVisability(zAngle)"><p style="display: inline;" class="welcome">Show Z-angle Graph</p><br>
+					<input style="margin-left:2%;" type="checkbox" ng-model="aAngle" checked ng-click="setGraphVisability(yAngle)"><p style="display: inline;" class="welcome">Show Y-angle Graph</p><br>
+					<input style="margin-left:2%;" type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"><p style="display: inline;" class="welcome">Show Z-angle Graph</p>
+					
+					<h5 class="smallHeader">Play/pause datastream:</h5>
+					<button style="margin-left:2%;" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
+				</div>
+			</div>
+			<div id="videoDivContent" class="content"  ng-show='video'>
+ 				<div   class="contentLeft">
+					<div class="slider">
+	 					<video  class="slide" controls autoplay>
+	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm">
+	 	  						Your browser does not support the video tag.
+	 						</video>
+				</div>
+ 				</div>
+				<div class="contentRight">
+					<h3 class="header">Video Stream</h3>
+					<h5 class="smallHeader">Live</h5>
+					<p class="welcome">
+						This is a live stream coming from the qudcopter. If the screen is black that means the camera is off. Please start the camera if you wish to watch the stream.
+					</p>
+					
+				</div>
+			</div>
+			
+  			<div  id="mapsDivContent" class="content" ng-if='maps'>
+				<div  class="contentLeft" ng-controller="MapCtrl"  >
+					<div class="slider">
+						<google-map id="gMap" draggable='true'  class="slide" center="map.center" zoom="map.zoom">
+							<marker coords="quadPosition"></marker>
+						</google-map>
+					</div>	
+  				</div>
+				<div class="contentRight">
+					<h3 class="header">Map</h3>
+					<h5 class="smallHeader">Coordinates</h5>
+					<p class="welcome">
+						The marker shown on the map is the last known location of the quadcopter.
+					</p>
+					<h5 class="smallHeader">Build route</h5>
+					<p class="welcome">
+						In the future it will be possible from this GUI to build routes for the quadcopter.
+					</p>
+					
+				</div>
+			</div>
+			<div class="menuBottom" style="margin-bottom:0px;">
+				<div  class="menuItem">
+					<font color="#7CFC00">Trademark Quadis</font>
+			 	</div>
+			</div>
 		</div>
 	</body>
 	
