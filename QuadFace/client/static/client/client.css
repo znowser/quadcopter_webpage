@@ -1,21 +1,84 @@
+/*For putting the footer at absolute bottom*/
+html, body {
+height: 100%;
+width: 100%;
+margin:0;
+padding: 0;
+}
+
+.push {/*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
+clear:both;
+height: 40px;
+width:100%;
+bottom:0;
+right:0;
+left:0;
+}
+
+.wrapper {
+min-height: 100%;
+width:100%;
+margin: 0 auto -40px;
+}
+
+/*Footer, menu CSS. Hover = hovering over a menuitem, menuItem = a clickable link in menu.*/
+.menu
+{
+width:100%;/*Border at the bottom of the border, 1px*/ 
+height:40px;
+background-color:#3B6AA0;
+text-align:center;/*putting the text at the middle of the item widthwise*/
+top:0;
+right:0;
+left:0;
+z-index:10;
+position:fixed;
+border-style:solid; 
+border-left:0px; 
+border-top:0px;
+border-right:0px;
+border-width:1px;
+border-color:black;	
+}
+
+.footer{
+clear:both;
+width:100%;
+height:40px;
+background-color:#3B6AA0;
+margin-top:15px;
+margin-right:0;
+text-align:center;/*putting the text at the middle of the item widthwise*/
+position:static;
+z-index:10;
+bottom:0;
+right:0;
+left:0;
+border-style:solid;/*Border at the top of the border, 1px*/ 
+border-left:0px; 
+border-right:0px;
+border-bottom:0px;
+border-width:1px;
+border-color:black;
+}
+
 .menuItem
 { 
-
 height:100%;
-
 float:left;
 margin-left:3%;
 margin-right:3%;
 text-align:center;
-vertical-align:middle;
+vertical-align:middle;/*putting the text at the middle of the item heightwise*/
 font-family:Georgia;
-line-height:40px;
+line-height:40px;/*putting the text at the middle of the item heightwise*/
 color:white;
 }
+
 .hover
 { 
-
 height:100%;
+cursor: pointer;
 float:left;
 margin-left:3%;
 margin-right:3%;
@@ -27,161 +90,136 @@ color:white;
 background-color:#26466D;
 }
 
-
-.menu
+/*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
+.content/*No set height since heiht isen't know and might be bigger than windowsize*/
 {
-
 width:100%;
-height:40px;
-background-color:#3B6AA0;
-text-align:center;
-top:0;
-left:0;
-right:0;
-z-index:10;
-position:absolute;
-
-	
-}
-
-.menuBottom
-{
-
-height:40px;
-width:100%;
-background-color:#3B6AA0;
-text-align:center;	
-bottom: 0;
-left: 0;
-position: fixed;
-right: 0;
-}
-.content
-{
-	overflow:scroll;
-width:100%;
-margin-top:5%;
-height:87%;
+margin-top:60px;
 background-color:#D4D4D4;
+}
 
-
+.contentMobile/*Content on mobile device(small screen) single row.*/
+{
+margin-top:5%;
+margin-left:10px;
+width:100%;
+background-color:#D4D4D4;
 }
 
 .contentLeft
 {
-	
 margin-top:10px;
 margin-left:10px;
+margin-bottom:10px;
 width:55%;
-height:95%;
-float:left;
+float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 background-color:#D4D4D4;
-
 }
+
 .contentRight
 {
-overflow:scroll;
 margin-top:10px;
 margin-bottom:10px;
 margin-right:10px;	
 width:40%;
-height:95%;
 float:left;
 background-color:#D4D4D4;
-border-style:solid;
+/*border-style:solid;
 border-right:0px;
 border-top:0px;
 border-bottom:0px;
-border-color:#3B6AA0;
-
-
-
+border-color:#3B6AA0;*/
 }
-.mainText
+
+/*Different text CSS, regular, headings...*/
+.logoText
 {
 color:#104E8B;
-font-family:Georgia;
-
-	
+font-family:Georgia;	
 }
 
-.welcome
+.standard
 {
-	margin-left:2%;
-	margin-right:2%;
-font-family:Georgia;
-
-	
+margin-left:2%;
+margin-right:2%;
+font-family:Georgia;	
 }
+
 .header
 {
-	color:#104E8B;
-	margin-left:2%;
-	margin-right:2%;
-font-family:Georgia;
-	
+color:#104E8B;
+margin-left:2%;
+margin-right:2%;
+font-family:Georgia;	
 }
+
 .smallHeader
 {
-	color:#3A66A7;
-	margin-left:2%;
-	margin-right:2%;
+color:#3A66A7;
+margin-left:2%;
+margin-right:2%;
 font-family:Georgia;
 }
 
+.smallHeaderLink
+{
+color:#3A66A7;
+cursor: pointer;
+margin-left:2%;
+margin-right:2%;
+font-family:Georgia;
+}
+
+/*Google map container*/
 .angular-google-map-container 
 { 
-height: 100%;
+height:100%;
 width:100%; 
 }
+
+/*Screen = CSS for video and google map, slide = CSS for slideshow, frame = the frame around Screen and Slide.*/
+.screen {
+width:90%;
+height:90%;	
+position:absolute;
+top:5%;
+left:5%;
+
+}
+
 .slide {
 width:90%;
 height:90%;	
-position: absolute;
-top: 20;
-left: 30;
-
+position:absolute;
+top:5%;
+left:5%;
 }
-.slider {
-width: 90%;
-height: 50%;
-overflow: hidden;
-position: relative;
+
+.frame {
+width:90%;
+height:50%;
+position:relative;
 background-color:#CCCCCC;
 border-radius:10px;
 }
 
-.stream {
-width:100%;
-height:70%;
-margin-top:5%;
-
-/*
-margin-top:33%;
-margin-left:10%;
-margin-right:10%;
-margin-bottom:12%;*/
-text-align:center;
+.frameMobile {/*Frame for mobile devices (small screen)*/
+width:90%;
+height:90%;
+position:relative;
+background-color:#CCCCCC;
+border-radius:10px;
 }
+/*CSS for painting graphs*/
 .graphLeft 
 {
-height: 35%;
+height:35%;
 width:35%; 
 display:inline-block; 
-background-color:black;
 margin-bottom:6%;
 margin-left:6%; 
 margin-right:6%;
-z-index:-1;
+z-index:-1;/*Making it go below footer and header when scrolled*/
 }
-.GraphRight
-{
-height: 30%; 
-width:30%; 
-display:inline-block; 
-margin-bottom:6%;
-margin-left:auto; 
-margin-right:auto;
 
-}
 
