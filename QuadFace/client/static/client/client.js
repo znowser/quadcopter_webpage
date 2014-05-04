@@ -1,7 +1,7 @@
 var clientModule = angular.module('client', ['google-maps', 'ngAnimate'])//The main directive on the site.
 
 var isMobileDevice = function(){
-	if(/Android|webOS|iPhoneiPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
+	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
 		return true;
 	} else {
 		return false;
