@@ -38,6 +38,9 @@
 				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
 					Map
 			 	</div>
+				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">
+					{% verbatim %}{{userLoggedIn}}{% endverbatim %}
+			 	</div>
 		 	</div>
 			<!--Index page, slideshow and some information about the page and quadcopter
 			Generates left container for desktop or generate only one large container for mobile devices-->

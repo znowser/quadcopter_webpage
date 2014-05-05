@@ -149,6 +149,9 @@ function MenuCtrl($scope, graphService, mapService){
 	$scope.communications = false;
 	$scope.video = false;
 	$scope.maps = false;
+	$scope.login = false;
+	
+	$scope.userLoggedIn = "Log in";
 	
 	$scope.frameClass = "";//Some css classes differ wether mobile or desktop, these are set here. 
 	$scope.ContentClass = "";
@@ -202,7 +205,11 @@ function MenuCtrl($scope, graphService, mapService){
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
 		}
-	    
+		//login view
+		if(item.localeCompate('login') == 0){
+			alert("helo");
+			$scope.userLoggedIn = "Log out";
+		}
 	 };
 	
 		
