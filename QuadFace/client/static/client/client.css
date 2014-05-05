@@ -1,14 +1,30 @@
 /*For putting the footer at absolute bottom*/
 html, body {
-height: 100%;
-width: 100%;
-margin:0;
-padding: 0;
+height:100%;
+width:100%;
+margin:0px 0px 0px 0px;
+padding:0;
+background-color:#DBDBDB;
+font-family:Georgia;
+color:#333;
 }
 
-.push {/*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
+a:link
+{
+color:#FFFFFF;
+}
+
+/*properties used by canvasJS to format graphs*/
+.chart {
+float:left;
+width: 50%;
+height:100%;
+}
+
+/*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
+.push {
 clear:both;
-height: 40px;
+height:40px;
 width:100%;
 bottom:0;
 right:0;
@@ -70,7 +86,6 @@ margin-left:3%;
 margin-right:3%;
 text-align:center;
 vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-font-family:Georgia;
 line-height:40px;/*putting the text at the middle of the item heightwise*/
 color:white;
 }
@@ -85,7 +100,6 @@ margin-right:3%;
 border-radius:7px;
 text-align:center;
 vertical-align:middle;
-font-family:Georgia;
 color:white;
 background-color:#26466D;
 }
@@ -95,16 +109,24 @@ background-color:#26466D;
 {
 width:100%;
 margin-top:60px;
-background-color:#DBDBDB;
+
 }
 
-.contentMobile/*Content on mobile device(small screen) single row.*/
+/*Content on mobile device(small screen) single row.*/
+.contentMobile
 {
 margin-top:3%;
 margin-left:0%;
 width:100%;
 float:left;
-background-color:#DBDBDB;
+
+}
+
+.mobileMargin
+{
+ margin-left:3%;
+ margin-top:-3%;
+ margin-right:3%;
 }
 
 .contentLeft
@@ -114,36 +136,47 @@ margin-left:10px;
 margin-bottom:10px;
 width:55%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
-background-color:#DBDBDB;
 }
 
 .contentRight
-{
+{	
 margin-top:10px;
 margin-bottom:10px;
 margin-right:10px;	
 width:40%;
 float:left;
-background-color:#DBDBDB;
 /*border-style:solid;
+=======
+}
+
+.contentDividerRight
+{
+border-style:solid;
+>>>>>>> 89ed6c6d5b868055106daefed7206f5f0b1958c6
 border-right:0px;
 border-top:0px;
 border-bottom:0px;
-border-color:#3B6AA0;*/
+border-color:#3B6AA0;
+}
+
+.contentDividerLeft
+{
+border-style:solid;
+border-left:0px;
+border-top:0px;
+border-bottom:0px;
+border-color:#3B6AA0;
 }
 
 /*Different text CSS, regular, headings...*/
 .logoText
 {
 color:#104E8B;
-font-family:Georgia;	
 }
 
 .standard
 {
 margin-left:2%;
-margin-right:2%;
-font-family:Georgia;	
 }
 
 .header
@@ -151,7 +184,6 @@ font-family:Georgia;
 color:#104E8B;
 margin-left:2%;
 margin-right:2%;
-font-family:Georgia;	
 }
 
 .smallHeader
@@ -159,7 +191,6 @@ font-family:Georgia;
 color:#3A66A7;
 margin-left:2%;
 margin-right:2%;
-font-family:Georgia;
 }
 
 .smallHeaderLink
@@ -168,7 +199,6 @@ color:#3A66A7;
 cursor: pointer;
 margin-left:2%;
 margin-right:2%;
-font-family:Georgia;
 }
 
 /*Google map container*/
@@ -188,12 +218,17 @@ left:5%;
 
 }
 
-.slide {
+.slide {	
 width:90%;
 height:90%;	
 position:absolute;
 top:5%;
 left:5%;
+}
+
+.ckboxText {
+	margin-left:0%;
+	display: inline;
 }
 
 .animate-show, .animate-hide {
