@@ -8,4 +8,7 @@ redis-server, brew install redis (start by: redis-server & )
 
 javascript:
 angular-charts
+angular-google-maps
+underscore.min.js
 
+animate.css

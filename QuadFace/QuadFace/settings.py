@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'VideoStream',
     'CommunicationLink',
 	'AuthSystem',
+    'client',
+    'maps',
 )
 
 
