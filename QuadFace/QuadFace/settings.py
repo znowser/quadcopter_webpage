@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'ws4redis',
     'VideoStream',
     'CommunicationLink',
-	'AuthSystem',
+    'AuthSystem',
     'client',
     'maps',
 )
