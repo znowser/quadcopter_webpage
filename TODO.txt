@@ -1,0 +1,41 @@
+==== Quadcopter Data ====
+
+	Utseende:
+	* Batteri 3 celler + total volt (4 staplar, CanvasJS)
+	* Alla fyra motorer (4 staplar, CanvasJS)
+	* Temperatur (spline, CanvasJS)
+	* Höjd (spline, CanvasJS)
+	* Roll/Pitch/Yaw 3d modell ( Jaanga eller dylikt js plugin)
+	
+	Databas:
+	-- Table Quadcopter_Data --
+	
+	* column1: BatteryCell1 int
+	* column2: BatteryCell2 int
+	* column3: BatteryCell3 int
+	
+	* column4: Engine1 int
+	* column5: Engine2 int
+	* column6: Engine3 int
+	* column7: Engine4 int
+	
+	* column8: Temperature float 1 dec point Celsius
+	* column9: Altitude float 1 dec point Meter
+	
+	* column10: Roll float 1 dec point Meter
+	* column11: Pitch float 1 dec point Meter
+	* column12: Yaw float 1 dec point Meter
+	
+== Design ==
+	
+	* Logga för projektet visas i menyn bredvid fältet "Home". Länkar till "Home".
+	
+	* Texten "Log in" visas längst upp till höger i menyn om användaren inte är inloggad,
+	  Annars visas användarnamnet. Länkar till registrering om användaren inte är inloggad, 
+	  annars till kontouppgifter och log out knapp.
+	
+	* Om man hoovrar över fältet "Contact Us" så visas en popup med kontaktinformation.
+	
+	* Möjlighet att dölja informationsfätlet på sidan Quadcopter Data.
+	
+	* Kunna registrera nya användare direkt på sidan.
