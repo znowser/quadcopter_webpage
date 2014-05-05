@@ -133,6 +133,7 @@ function MapCtrl($scope, mapService, $http){
 	
 	$scope.$on('httpLocation', function(){
 		result = mapService.data;
+		console.log(result);
 		$scope.quadPosition.latitude = result[0].fields.latitude;//Updating position on map.
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
@@ -224,110 +225,83 @@ function GraphCtrl($scope, graphService){
 		$scope.play = ! $scope.play;
 	};
 	
-	var x = []; //dataPoints
-	var y = [];
-	var z = [];
+	var battery = []; //dataPoints
+	var engines = [];
+	var temp = [];
+	var alt = [];
 	
 	/* Below are all different datas displayed on the communication view. */
-	$scope.xChart = new CanvasJS.Chart("xContainer",{
+	$scope.batteryChart = new CanvasJS.Chart("batteryContainer",{
 		title :{
-			text: "x-angle"
+			text: "Battery levels"
 		},		
 		backgroundColor: "#CCCCCC",		
 		data: [
 		{
-			name:'x',
-			type: "spline",
-			color:"#00FF00",
-			dataPoints: x 
+			name:'battery',
+			type: "column",
+			color:"#006400",
+			dataPoints: battery 
 		}
 		],
 		axisY:{
-	    	  title:"Angle"
+	    	  title:"%"
 	  	}, 
-		axisX:{
-	    	  title:"Time"
-	  	},
   	});
-	$scope.yChart = new CanvasJS.Chart("yContainer",{
+	
+	$scope.engineChart = new CanvasJS.Chart("engineContainer",{
 		title :{
-			text: "y-angle"
+			text: "Engine load"
 		},	
 		backgroundColor: "#CCCCCC",			
 		data: [
 		{
-			name:'y',
-			type: "spline",
-			color:"#FF0000",
-			dataPoints: y 
+			name:'engines',
+			type: "column",
+			color:"#8A0707",
+			dataPoints: engines 
 		}
 		],
 		axisY:{
-	  		title:"Angle"
+	  		title:"Load"
 		}, 
-		axisX:{
-		    title:"Time"
-		},
+
 	});
-	$scope.zChart = new CanvasJS.Chart("zContainer",{
+	
+	$scope.tempChart = new CanvasJS.Chart("temperatureContainer",{
+			title :{
+				text: "Temperature"
+			},		
+			backgroundColor: "#CCCCCC",		
+			data: [
+			{
+				name:'temp',
+				type: "spline",
+				color:"#999900",
+				dataPoints: temp 
+			}
+			],
+			axisY:{
+		    	  suffix:"°C"
+		  	}, 
+	  	});
+		
+	$scope.altChart = new CanvasJS.Chart("altitudeContainer",{
 		title :{
-			text: "z-angle"
+			text: "Altitude"
 		},		
 		backgroundColor: "#CCCCCC",	
 		data: [
 		{
-			name:'z',
+			name:'alt',
 			type: "spline",
-			color:"#0000FF",
-			dataPoints: z 
+			color:"#000080",
+			dataPoints: alt
 		}
 		],
 		axisY:{
-	   		title:"Angle"
+	   		suffix:"m"
 	  	}, 
-		axisX:{
-	    	title:"Time"
-	  	},
-  	});
-	$scope.aChart = new CanvasJS.Chart("aContainer",{
-		title :{
-			text: "a-angle"
-		},		
-		backgroundColor: "#CCCCCC",	
-		data: [
-		{
-			name:'a',
-			type: "spline",
-			color:"yellow",
-			dataPoints: y 
-		}
-		],
-		axisY:{
-	   		title:"Angle"
-	  	}, 
-		axisX:{
-	    	title:"Time"
-	  	},
-  	});
-	$scope.bChart = new CanvasJS.Chart("bContainer",{
-		title :{
-			text: "b-angle"
-		},		
-		backgroundColor: "#CCCCCC",	
-		data: [
-		{
-			name:'a',
-			type: "spline",
-			color:"orange",
-			dataPoints: z 
-		}
-		],
-		axisY:{
-	   		title:"Angle"
-	  	}, 
-		axisX:{
-	    	title:"Time"
-	  	},
   	});
 	/* End of communication view data */
 
@@ -335,46 +309,75 @@ function GraphCtrl($scope, graphService){
 	var dataLength = 20; //number of dataPoints visible at any point
 	
 	//If the sidplayed data is a dynamic chart, it is updated in this function. 
-	$scope.updateChart = function (x_value, y_value, z_value) {
-
-		x.push(
-			{ x: xVal, y: x_value}
-		);
-		y.push(
-			{ x: xVal, y: y_value}
-		);
-		z.push(
-			{ x: xVal, y: z_value}
-		);
-		xVal = xVal + 0.5;
-		if (x.length > dataLength)
-		{
-			x.shift();	
-			y.shift();	
-			z.shift();		
+	$scope.updateColumnChart = function (c1, c2, c3, e1, e2, e3, e4) {
+		for (var i = 0; i < battery.length; i++){
+			battery.shift();
+			engines.shift();
 		}
+		
+		battery.push({ label: "Cell1", y: c1});
+		battery.push({ label: "Cell2", y: c2});
+		battery.push({ label: "Cell3", y: c3});
+		battery.push({ label: "Total", y: ((c1+c2+c3)/3)});
+		
+		engines.push({ label: "Engine1", y: e1});
+		engines.push({ label: "Engine2", y: e2});
+		engines.push({ label: "Engine3", y: e3});
+		engines.push({ label: "Engine4", y: e4});
+
 		if ($scope.play){
-			$scope.xChart.render();
-			$scope.yChart.render();
-			$scope.zChart.render();
-			$scope.aChart.render();
-			$scope.bChart.render();	
+			$scope.batteryChart.render();
+			$scope.engineChart.render();
 		}		
 	};
 	
+	$scope.updateChart = function (x_value, y_value) {
+		var x1 = +x_value;
+		var y1 = +y_value;
+		
+		temp.push(
+			{ x: xVal, y: x1}
+		);
+		alt.push(
+			{ x: xVal, y: y1}
+		);
+
+		xVal = xVal + 0.5;
+		if (temp.length > dataLength)
+		{
+			temp.shift();	
+			alt.shift();	
+	
+		}
+		if ($scope.play){
+			$scope.tempChart.render();
+			$scope.altChart.render();
+		}		
+	};
+	
+	
 	$scope.$on('websocket', function(){//Here the controller listens for new data on the websocket.
 		result = graphService.message;
-		$scope.updateChart(result[0].fields.x_angle,result[0].fields.y_angle,result[0].fields.z_angle);	//websocket data is single Json row of data.
+		$scope.updateColumnChart(result[0].fields.BatteryCell1,result[0].fields.BatteryCell2,result[0].fields.BatteryCell3,
+			result[0].fields.Engine1,result[0].fields.Engine2,result[0].fields.Engine3, result[0].fields.Engine4);	//websocket data is single Json row of data.
+		$scope.updateChart(result[0].fields.Temperature, result[0].fields.Altitude);
 	});
 	
 	$scope.$on('http', function(){//Here the controller listens for new data from HTTP
-		x.length=0;
-		y.length=0;
-		z.length=0;
+		battery.length=0;
+		engines.length=0;
+		temp.length=0;
+		alt.length=0;
 		xVal = 0;
+		
 		result = graphService.data;
+		//console.log("http");
+		$scope.updateColumnChart(result[result.length-1].fields.BatteryCell1,result[result.length-1].fields.BatteryCell2,
+			result[result.length-1].fields.BatteryCell3, result[result.length-1].fields.Engine1,result[result.length-1].fields.Engine2,
+			result[result.length-1].fields.Engine3, result[result.length-1].fields.Engine4);
+			
 		for (var i = result.length-1; i >= 0; i--){//HTTP data can be up to 20 rows of Json data, iteration ensued.
-			$scope.updateChart(result[i].fields.x_angle,result[i].fields.y_angle,result[i].fields.z_angle);	
+			$scope.updateChart(result[i].fields.Temperature,result[i].fields.Altitude);	
 		}
 		
 	});

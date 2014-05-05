@@ -31,7 +31,7 @@
 		</style>
 	</head>
 	<!--App for the Angular application is client.-->
-	<body ng-app="client" bgcolor="#D4D4D4" style="margin:0 0 0 0;">
+	<body ng-app="client" bgcolor="#DBDBDB" style="margin:0 0 0 0;">
 		<!--MenuCtrl is setting which view that should be seen on menuItem click-->
 		<div ng-controller="MenuCtrl" class="wrapper">
 			<div class="menu">
@@ -112,16 +112,14 @@
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
 				<div class="contentLeft" style="border-style:solid; border-left:0px; border-top:0px; border-bottom:0px; border-color:#3B6AA0;">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="xContainer" class="graphLeft" ng-show="xAngle">
+				 		<div id="batteryContainer" class="graphLeft" ng-show="xAngle">
 				 		</div>
-				 		<div id="yContainer" class="graphLeft" ng-show="yAngle">
+				 		<div id="engineContainer" class="graphLeft" ng-show="yAngle">
 				 		</div>
-						<div id="zContainer" class="graphLeft" ng-show="zAngle">
+						<div id="temperatureContainer" class="graphLeft" ng-show="zAngle">
 						</div>
-				 		<div id="aContainer" class="graphLeft" ng-show="aAngle">
+				 		<div id="altitudeContainer" class="graphLeft" ng-show="aAngle">
 				 		</div>
-						<div id="bContainer" class="graphLeft" ng-show="bAngle">
-						</div>
  				</div>
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
 				<div class="contentRight">
