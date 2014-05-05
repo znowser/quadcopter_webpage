@@ -54,13 +54,30 @@
 					<center >
 	
 					<!--Slideshow-->
-					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)">
-						<img  class="slide"  ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}" style="clear:both;">
+					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-hide="mobile">
+						<img  class="slide" ng-animate="{show:'animate-show', hide:'animate-hide'}"  ng-repeat="slide in slides" ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}" style="clear:both;">
 					</div>
 					<h1 ng-hide="mobile" class="logoText">Quadcopter Project</h1>
-				</center>
-				</div>
-			
+					
+					</center>
+					<div ng-show="mobile" style="margin-left:3%;margin-top:-3%;margin-right:3%"> 
+						<h1 class="logoText" style="margin-left:2%;margin-right:2%">Quadcopter Project</h1>
+ 						<h3 class="header">Welcome to the quadcopter mobile device GUI</h3>
+						<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
+						<p class="standard">
+						Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.
+						</p>
+						<h5 class="smallHeaderLink" ng-click="showContent('maps')">Coordinates</h5>
+						<p class="standard">
+						This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.
+						</p>
+ 						<h3 class="header">About</h3>
+						<h5 class="smallHeader">Mobile GUI</h5>
+						<p class="standard">
+						The quadcopter mobile GUI is a GUI more suitable for mobile devices. 
+						</p>
+					</div>
+				</div>	
 				<div class="contentRight" ng-hide="mobile" style="border-style:solid; border-right:0px; border-top:0px; border-bottom:0px; border-color:#3B6AA0;" >
  					<h3 class="header">Welcome to the quadcopter GUI</h3>
 					<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
@@ -127,8 +144,11 @@
 					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}">
 						<!--Videoplayer-->
 						
-	 					<video  class="screen" controls autoplay>
-	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm">
+	 					<video  class="screen" controls autoplay preload="auto">
+	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {
+'provider':'video',
+'fullscreen':'true',
+}>
 	 	  						Your browser does not support the video tag.
 	 						</video>
 						
@@ -145,7 +165,7 @@
 				</div>
 			</div>
 			
-  			<div  id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl">
+  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl">
 				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" >
 					<center>
 					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}">

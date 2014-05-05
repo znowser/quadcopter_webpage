@@ -18,7 +18,7 @@ clientModule.factory('graphService', function($rootScope, $http){//Factory for c
 		
 		if (!graphService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://10.0.1.13:8080/ws/comLink?subscribe-broadcast');
+			ws = new WebSocket('ws://192.168.0.186:8080/ws/comLink?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				graphService.set = true;
@@ -75,7 +75,7 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 		
 		if (!mapService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://10.0.1.13:8080/ws/coords?subscribe-broadcast');
+			ws = new WebSocket('ws://192.168.0.186:8080/ws/coords?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				mapService.set = true;
@@ -382,14 +382,22 @@ function GraphCtrl($scope, graphService){
 }
 
 function SlideCtrl($scope, $timeout){
+	$scope.mobile = false;
+	if (isMobileDevice()){
+		$scope.mobile = true;
+		$scope.slides = [];
+	
+	} else {
+		$scope.slides = [
+			{image: DJANGO_STATIC_URL+'client/quadcopter/Abstract.jpg', description: 'Image 0'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/Beach.jpg', description: 'Image 1'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/Circles.jpg', description: 'Image 2'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/Brushes.jpg', description: 'Image 3'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/Blue Pond.jpg', description: 'Image 4'},
+		];
+	}
 	/* Static images loaded from Django inte the clientview. These being displayed as a slideshow on the home page. */
-	$scope.slides = [
-		{image: DJANGO_STATIC_URL+'client/quadcopter/Abstract.jpg', description: 'Image 0'},
-		{image: DJANGO_STATIC_URL+'client/quadcopter/Beach.jpg', description: 'Image 1'},
-		{image: DJANGO_STATIC_URL+'client/quadcopter/Circles.jpg', description: 'Image 2'},
-		{image: DJANGO_STATIC_URL+'client/quadcopter/Brushes.jpg', description: 'Image 3'},
-		{image: DJANGO_STATIC_URL+'client/quadcopter/Blue Pond.jpg', description: 'Image 4'},
-	];
+	
 	
 	$scope.currentIndex = 0;
 	
