@@ -12,28 +12,29 @@ import sqlite3
 from time import sleep
 
 def handle_data(data):
-	Angles = {}
-	conn = None;
-	try:
-		conn = sqlite3.connect('../db.sqlite3')
-		c = conn.cursor()
-		for i in range(3):
-			start = data.find(":")
-			end = data.find("!")
-			Angles[i] = int(data[start+1:end])
-			#print(i)
-			data = data[end+1:]
-				
-		c.execute("INSERT INTO CommunicationLink_quadcopterdata(x_angle, y_angle, z_angle) VALUES (?, ?, ?)", (Angles[0], Angles[1], Angles[2]))		
-		conn.commit()
+    quad_data = {}
+    conn = None;
+    try:
+        conn = sqlite3.connect('../db.sqlite3')
+        c = conn.cursor()
+        #print(data)
+        for i in range(12):
+            start = data.find(":")
+            end = data.find("!")
+            quad_data[i] = int(data[start+1:end])
+            #print(quad_data[i])
+            data = data[end+1:]	    
+        c.execute("INSERT INTO CommunicationLink_quadcopterdata(BatteryCell1, BatteryCell2, BatteryCell3, Engine1, Engine2, Engine3, Engine4, Temperature, Altitude, Roll, Pitch, Yaw) VALUES (?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,? ,?)", 
+        (quad_data[0], quad_data[1], quad_data[2], quad_data[3], quad_data[4], quad_data[5], quad_data[6], quad_data[7], quad_data[8], quad_data[9], quad_data[10], quad_data[11]))
+        conn.commit()
+            
+    except sqlite3.Error, e:
+        print "Error %s:" % e.args[0]
+        sys.exit(1)	
 		
-	except sqlite3.Error, e:
-		print "Error %s:" % e.args[0]
-		sys.exit(1)	
-		
-	finally:
-		if conn:
-			conn.close()
+    finally:
+        if conn:
+            conn.close()
 
 
 sock = None

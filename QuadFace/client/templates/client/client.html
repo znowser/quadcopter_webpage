@@ -22,6 +22,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static "client/animate.css-master/animate.css" %}" />
 	</head>
 	<!--App for the Angular application is client.-->
+
 	<body ng-app="client" >
 		<!--MenuCtrl is setting which view that should be seen on menuItem click-->
 		<div ng-controller="MenuCtrl" class="wrapper">
@@ -111,16 +112,14 @@
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
 				<div class="contentLeft contentDividerLeft">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="xContainer" class="graphLeft" ng-show="xAngle">
+				 		<div id="batteryContainer" class="graphLeft" ng-show="xAngle">
 				 		</div>
-				 		<div id="yContainer" class="graphLeft" ng-show="yAngle">
+				 		<div id="engineContainer" class="graphLeft" ng-show="yAngle">
 				 		</div>
-						<div id="zContainer" class="graphLeft" ng-show="zAngle">
+						<div id="temperatureContainer" class="graphLeft" ng-show="zAngle">
 						</div>
-				 		<div id="aContainer" class="graphLeft" ng-show="aAngle">
+				 		<div id="altitudeContainer" class="graphLeft" ng-show="aAngle">
 				 		</div>
-						<div id="bContainer" class="graphLeft" ng-show="bAngle">
-						</div>
  				</div>
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
 				<div class="contentRight">
