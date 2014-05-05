@@ -4,11 +4,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
     url(r'^$', include('client.urls')),
-    # url(r'^blog/', include('blog.urls')),
-	url(r'^stream/', include('VideoStream.urls')),
+    url(r'^stream/', include('VideoStream.urls')),
     url(r'^maps/', include('maps.urls')),
-	url(r'^communication/', include('CommunicationLink.urls')),
+    url(r'^communication/', include('CommunicationLink.urls')),
+    url(r'^auth/', include('AuthSystem.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
