@@ -239,12 +239,12 @@ border-radius:10px;
 /*CSS for painting graphs*/
 .graphLeft 
 {
-height:35%;
-width:35%; 
+height:40%;
+width:44%; 
 display:inline-block; 
-margin-bottom:6%;
-margin-left:6%; 
-margin-right:6%;
+margin-bottom:4%;
+margin-left:2%; 
+margin-right:2%;
 z-index:-1;/*Making it go below footer and header when scrolled*/
 }
 
