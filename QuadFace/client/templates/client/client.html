@@ -45,7 +45,8 @@
 			 	</div>
 				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">
 					{% verbatim %}{{userLoggedIn}}{% endverbatim %}
-					
+				</div>
+				
 				<div class="batteryItem" ng-class="{batteryItemLow : (battery < 30) == true}" id="mapsDiv" >
 					Battery: {% verbatim %}{{battery}}{% endverbatim %}%
 			 	</div>
