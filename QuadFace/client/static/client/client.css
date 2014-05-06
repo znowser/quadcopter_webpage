@@ -111,16 +111,9 @@ color:white;
 
 .batteryItem
 { 
-	position:fixed;
-	right:10px;
-height:40px;
-float:left;
-margin-left:3%;
-margin-right:3%;
-text-align:center;
-vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:40px;/*putting the text at the middle of the item heightwise*/
-color:white;
+position:fixed;
+right:10px;
+margin: 6px 0px 0px 0px;
 }
 .batteryItemLow
 { 
@@ -476,7 +469,3 @@ margin-left:2%;
 margin-right:2%;
 z-index:30;/*Making it go below footer and header when scrolled*/
 }
-
-
-
-

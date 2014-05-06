@@ -281,7 +281,8 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		$scope.mobile = false;
 	}
 	
-	$scope.battery = 100;
+	//init value for battery image
+	$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_100.png', description: 'Full battery'};
 	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
@@ -363,16 +364,18 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		}
 	});
 	 
-	$scope.i = 0;
- 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.			
-		$scope.i++;
-		if ($scope.i == 10){
-			result = graphService.message;
-		
+ 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.
+			result = graphService.message;	
 			$scope.battery = ((result[0].fields.BatteryCell1 + result[0].fields.BatteryCell2 + result[0].fields.BatteryCell3)/3).toFixed(2);
-			$scope.i = 0;
-		}
-	});
+			if($scope.battery > 75)
+				{$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_100.png', description: '100% battery'};}
+			else if($scope.battery > 50)
+				{$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_75.png', description: '75% battery'};}
+			else if($scope.battery > 25)
+				{$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_50.png', description: '50% battery'};}
+			else
+				{$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_25.png', description: '25% battery'};}
+		});
 }
 
 function loginCtrl($scope, loginService, $http) {
