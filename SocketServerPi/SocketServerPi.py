@@ -3,8 +3,11 @@ import socket
 import sys,os
 import httplib
 
-sys.path.append('../../QuadFace')
-os.environ['DJANGO_SETTINGS_MODULE'] = '../QuadFace/settings.py'
+sys.path.append('../QuadFace')#path to django project
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "QuadFace.settings")#loading quadface settings file, this lets us use Django ORM.
+
+from CommunicationLink.models import QuadCopterData
+from django.core import serializers
 
 import sqlite3
 
@@ -13,28 +16,25 @@ from time import sleep
 
 def handle_data(data):
     quad_data = {}
-    conn = None;
+    #conn = None;
     try:
-        conn = sqlite3.connect('../db.sqlite3')
-        c = conn.cursor()
-        #print(data)
         for i in range(12):
             start = data.find(":")
             end = data.find("!")
             quad_data[i] = int(data[start+1:end])
             #print(quad_data[i])
             data = data[end+1:]	    
-        c.execute("INSERT INTO CommunicationLink_quadcopterdata(BatteryCell1, BatteryCell2, BatteryCell3, Engine1, Engine2, Engine3, Engine4, Temperature, Altitude, Roll, Pitch, Yaw) VALUES (?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,? ,?)", 
-        (quad_data[0], quad_data[1], quad_data[2], quad_data[3], quad_data[4], quad_data[5], quad_data[6], quad_data[7], quad_data[8], quad_data[9], quad_data[10], quad_data[11]))
-        conn.commit()
-            
+        q = QuadCopterData(BatteryCell1=quad_data[0],BatteryCell2=quad_data[1],BatteryCell3=quad_data[2],
+        Engine1=quad_data[3], Engine2=quad_data[4], Engine3=quad_data[5], Engine4=quad_data[6], 
+        Temperature=float(quad_data[7]), Altitude=float(quad_data[8]), Roll=float(quad_data[9]), Pitch=float(quad_data[10]), Yaw=float(quad_data[11]))
+        q.save()
     except sqlite3.Error, e:
         print "Error %s:" % e.args[0]
         sys.exit(1)	
 		
-    finally:
-        if conn:
-            conn.close()
+    #finally:
+        #if conn:
+         #   conn.close()
 
 
 sock = None
@@ -63,11 +63,12 @@ class EchoServer(asyncore.dispatcher):
         if pair is not None:
             conn = None
             try:
-                conn = sqlite3.connect('../db.sqlite3')
+                conn = sqlite3.connect('../QuadFace/db.sqlite3')
                 c = conn.cursor()
                 c.execute("DELETE FROM CommunicationLink_quadcopterdata")		
                 conn.commit()
                 conn.close()  
+                #QuadCopterData.objects.all().delete()
             except sqlite3.Error, e:
                 print "Error %s:" % e.args[0]
                 sys.exit(1)

@@ -106,8 +106,8 @@
 				<!-- ================================== -->
 		 	</div>
 			<!-- Data coming from the quadcopter -->
-			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft contentDividerLeft">
+			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-show='communications'>
+				<div class="contentLeft" ng-dblclick="setView()" ng-show="!left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
 				 		<div id="batteryContainer" class="graphLeft" ng-show="xAngle">
 				 		</div>
@@ -117,19 +117,47 @@
 						</div>
 				 		<div id="altitudeContainer" class="graphLeft" ng-show="aAngle">
 				 		</div>
+						<button class="standard" type="button" ng-click="setView()">Enlarge</button>
+ 				</div>
+				<div class="contentLeftBig" ng-dblclick="setView()" ng-show="left">
+						<!--This is the graphs being painted on the page, can be hidden by the user -->
+				 		<div id="batteryLargeContainer" class="graphBig" ng-show="xAngle">
+				 		</div>
+				 		<div id="engineLargeContainer" class="graphBig" ng-show="yAngle">
+				 		</div>
+						<div id="temperatureLargeContainer" class="graphBig" ng-show="zAngle">
+						</div>
+				 		<div id="altitudeLargeContainer" class="graphBig" ng-show="aAngle">
+				 		</div>
+						<button class="standard" type="button" ng-click="setView()">Enlarge</button>
  				</div>
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
-				<div class="contentRight">
+				<div class="contentRight  contentDividerRight" ng-show="!left">
 					<h3 class="header">Controls for Quadcopter data</h3>
-					<h5 class="smallHeader">Which data to show:</h5>
-					<input class="standard" type="checkbox" ng-model="xAngle" checked ng-click="setGraphVisability(xAngle)"><p class="ckboxText">Show X-angle Graph</p><br>
-					<input class="standard" type="checkbox" ng-model="yAngle" checked ng-click="setGraphVisability(yAngle)"><p class="ckboxText">Show Y-angle Graph</p><br>
-					<input class="standard" type="checkbox" ng-model="zAngle" checked ng-click="setGraphVisability(zAngle)"><p class="ckboxText">Show Z-angle Graph</p><br>
-					<input class="standard" type="checkbox" ng-model="aAngle" checked ng-click="setGraphVisability(yAngle)"><p class="ckboxText">Show Y-angle Graph</p><br>
-					<input class="standard" type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"><p class="ckboxText">Show Z-angle Graph</p>
+					<h5 class="smallHeaderBold">Which data to show:</h5>
+					<h5 class="smallHeaderNoNewLine">Battery</h5>
+					<p class = "standardQuad">Battery shows all cells individually aswell as complete battery percentage. <br>Click on data in the graph to pause it.<br>
+					<p class="ckboxText"><input  type="checkbox" ng-model="xAngle" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
 					
-					<h5 class="smallHeader">Play/pause datastream:</h5>
+					<h5 class="smallHeaderNoNewLine">Engine load</h5>
+					<p class = "standardQuad">Showing the engine load on the different engines.<br>Click on data in the graph to pause it.<br>
+					<p class="ckboxText"><input type="checkbox" ng-model="yAngle" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
+					
+					<h5 class="smallHeaderNoNewLine">Temperature</h5>
+					<p class = "standard">Showing temperature values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
+					<p class="ckboxText"><input type="checkbox" ng-model="zAngle" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
+					
+					<h5 class="smallHeaderNoNewLine">Altitude</h5>
+					<p class = "standard">Showing altitude values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
+					<p class="ckboxText"><input type="checkbox" ng-model="aAngle" checked ng-click="setGraphVisability(yAngle)"> Show altitude</p></p><hr class="line">
+					
+					<h5 class="smallHeaderNoNewLine">3d model</h5>
+					<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.<br>
+					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p><hr class="line">
+					
+					<h3 class="header">Play/pause datastream:</h5>
 					<button class="standard" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
+					
 				</div>
 			</div>
 			

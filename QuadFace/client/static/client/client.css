@@ -9,6 +9,7 @@ font-family:Georgia;
 color:#333;
 }
 
+
 a:link
 {
 color:#FFFFFF;
@@ -137,6 +138,14 @@ margin-bottom:10px;
 width:55%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 }
+.contentLeftBig
+{
+margin-top:10px;
+margin-left:10px;
+margin-bottom:10px;
+width:95%;
+float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
+}
 
 .contentRight
 {	
@@ -147,6 +156,14 @@ width:40%;
 float:left;
 }
 
+.contentRightSmall
+{
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-right:10px;	
+	width:0%;
+	float:left;
+}
 .contentDividerRight
 {
 border-style:solid;
@@ -171,9 +188,39 @@ border-color:#3B6AA0;
 color:#104E8B;
 }
 
+.ckboxText {
+	margin-left:2%;
+	font-size:80%;
+	display: inline;
+	font-weight: bold;
+	line-height:80%;
+}
+
+.line
+{
+	margin-left:2%;
+	color: #3B6AA0;
+	height:2px;
+	border:0;
+	background-color: #3B6AA0;
+	border-radius:50px;
+}
+
 .standard
 {
 margin-left:2%;
+}
+
+.standardQuad
+{
+margin-left:2%;
+line-height:130%
+}
+
+.standardNoNewLine
+{
+margin-left:2%;
+display:inline;
 }
 
 .header
@@ -190,12 +237,30 @@ margin-left:2%;
 margin-right:2%;
 }
 
+.smallHeaderBold
+{
+color:#3A66A7;
+margin-left:2%;
+margin-right:2%;
+font-weight: bold;
+
+}
+
+.smallHeaderNoNewLine
+{
+color:#3A66A7;
+margin-left:2%;
+margin-right:2%;
+display:inline;
+}
+
 .smallHeaderLink
 {
 color:#3A66A7;
 cursor: pointer;
 margin-left:2%;
 margin-right:2%;
+
 }
 
 /*Google map container*/
@@ -223,10 +288,7 @@ top:5%;
 left:5%;
 }
 
-.ckboxText {
-	margin-left:0%;
-	display: inline;
-}
+
 
 .animate-show, .animate-hide {
   -webkit-transition:all linear 1s;
@@ -277,7 +339,17 @@ display:inline-block;
 margin-bottom:4%;
 margin-left:2%; 
 margin-right:2%;
-z-index:-1;/*Making it go below footer and header when scrolled*/
+z-index:30;/*Making it go below footer and header when scrolled*/
+}
+.graphBig
+{
+height:60%;
+width:44%; 
+display:inline-block; 
+margin-bottom:4%;
+margin-left:2%; 
+margin-right:2%;
+z-index:30;/*Making it go below footer and header when scrolled*/
 }
 
 

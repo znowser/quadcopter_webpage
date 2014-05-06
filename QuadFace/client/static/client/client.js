@@ -1,4 +1,7 @@
+
 var clientModule = angular.module('client', ['google-maps', 'ngAnimate'])//The main directive on the site.
+
+
 
 var isMobileDevice = function(){
 	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
@@ -212,14 +215,31 @@ function MenuCtrl($scope, graphService, mapService){
 
 function GraphCtrl($scope, graphService){
 	
+	//viewer.rotate(120,33,22);
+	$scope.contentLeft = "contentLeft";
+	$scope.contentRight = "contentRight  contentDividerRight";
+	$scope.left=false;
+	$scope.update = true;
+	
+	$scope.setView = function(){
+		$scope.left= ! $scope.left;
+		//$scope.$apply();
+		$scope.update = false;
+		
+	}
 	$scope.xAngle = true;//booleans for what data to be displayed.
 	$scope.yAngle = true;
 	$scope.zAngle = true;
 	$scope.aAngle = true;
 	$scope.bAngle = true;
+	$scope.playBattery = true;
+	$scope.playEngine = true;
+	$scope.playTemp = true;
+	$scope.playAlt = true;
 	$scope.play = true;
 	$scope.setGraphVisability = function(var1){
 		var1 = ! var1;
+		$scope.update = true;
 	};
 	$scope.setPlayPause = function(){//Pause or play data stream.
 		$scope.play = ! $scope.play;
@@ -231,6 +251,7 @@ function GraphCtrl($scope, graphService){
 	var alt = [];
 	
 	/* Below are all different datas displayed on the communication view. */
+	//------------------------------Battery----------------------------
 	$scope.batteryChart = new CanvasJS.Chart("batteryContainer",{
 		title :{
 			text: "Battery levels"
@@ -239,6 +260,29 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'battery',
+			click: function(e){ 
+			    $scope.playBattery = ! $scope.playBattery;
+			},
+			type: "column",
+			color:"#006400",
+			dataPoints: battery 
+		}
+		],
+		axisY:{
+	    	  title:"%"
+	  	}, 
+  	});
+	$scope.batteryLargeChart = new CanvasJS.Chart("batteryLargeContainer",{
+		title :{
+			text: "Battery levels"
+		},		
+		backgroundColor: "#CCCCCC",		
+		data: [
+		{
+			name:'battery',
+			click: function(e){ 
+			    $scope.playBattery = ! $scope.playBattery;
+			},
 			type: "column",
 			color:"#006400",
 			dataPoints: battery 
@@ -249,6 +293,7 @@ function GraphCtrl($scope, graphService){
 	  	}, 
   	});
 	
+	//------------------------------Engine----------------------------
 	$scope.engineChart = new CanvasJS.Chart("engineContainer",{
 		title :{
 			text: "Engine load"
@@ -257,6 +302,30 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'engines',
+			click: function(e){ 
+			    $scope.playEngine = ! $scope.playEngine;
+			},
+			type: "column",
+			color:"#8A0707",
+			dataPoints: engines 
+		}
+		],
+		axisY:{
+	  		title:"Load"
+		}, 
+
+	});
+	$scope.engineLargeChart = new CanvasJS.Chart("engineLargeContainer",{
+		title :{
+			text: "Engine load"
+		},	
+		backgroundColor: "#CCCCCC",			
+		data: [
+		{
+			name:'engines',
+			click: function(e){ 
+			    $scope.playEngine = ! $scope.playEngine;
+			},
 			type: "column",
 			color:"#8A0707",
 			dataPoints: engines 
@@ -268,7 +337,28 @@ function GraphCtrl($scope, graphService){
 
 	});
 	
+	//------------------------------Temp----------------------------
 	$scope.tempChart = new CanvasJS.Chart("temperatureContainer",{
+		title :{
+			text: "Temperature"
+		},		
+		backgroundColor: "#CCCCCC",		
+		data: [
+		{
+			name:'temp',
+			click: function(e){ 
+			    $scope.playTemp = ! $scope.playTemp;
+			},
+			type: "spline",
+			color:"#999900",
+			dataPoints: temp 
+		}
+		],
+		axisY:{
+		   	  suffix:"°C"
+		 }, 
+	});
+	$scope.tempLargeChart = new CanvasJS.Chart("temperatureLargeContainer",{
 			title :{
 				text: "Temperature"
 			},		
@@ -276,6 +366,9 @@ function GraphCtrl($scope, graphService){
 			data: [
 			{
 				name:'temp',
+				click: function(e){ 
+				    $scope.playTemp = ! $scope.playTemp;
+				},
 				type: "spline",
 				color:"#999900",
 				dataPoints: temp 
@@ -285,7 +378,8 @@ function GraphCtrl($scope, graphService){
 		    	  suffix:"°C"
 		  	}, 
 	  	});
-		
+	
+	//------------------------------Altitude----------------------------
 	$scope.altChart = new CanvasJS.Chart("altitudeContainer",{
 		title :{
 			text: "Altitude"
@@ -294,6 +388,9 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'alt',
+			click: function(e){ 
+			    $scope.playAlt = ! $scope.playAlt;
+			},
 			type: "spline",
 			color:"#000080",
 			dataPoints: alt
@@ -303,6 +400,27 @@ function GraphCtrl($scope, graphService){
 	   		suffix:"m"
 	  	}, 
   	});
+	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
+		title :{
+			text: "Altitude"
+		},		
+		backgroundColor: "#CCCCCC",	
+		data: [
+		{
+			name:'alt',
+			click: function(e){ 
+			    $scope.playAlt = ! $scope.playAlt;
+			},
+			type: "spline",
+			color:"#000080",
+			dataPoints: alt
+		}
+		],
+		axisY:{
+	   		suffix:"m"
+	  	}, 
+  	});
+	
 	/* End of communication view data */
 
 	var xVal = 0;
@@ -310,10 +428,10 @@ function GraphCtrl($scope, graphService){
 	
 	//If the sidplayed data is a dynamic chart, it is updated in this function. 
 	$scope.updateColumnChart = function (c1, c2, c3, e1, e2, e3, e4) {
-		for (var i = 0; i < battery.length; i++){
-			battery.shift();
-			engines.shift();
-		}
+		//for (var i = 0; i < battery.length; i++){
+		//	battery.shift();
+		//	engines.shift();
+		//}
 		
 		battery.push({ label: "Cell1", y: c1});
 		battery.push({ label: "Cell2", y: c2});
@@ -326,8 +444,16 @@ function GraphCtrl($scope, graphService){
 		engines.push({ label: "Engine4", y: e4});
 
 		if ($scope.play){
-			$scope.batteryChart.render();
-			$scope.engineChart.render();
+			if ($scope.playBattery){
+				$scope.batteryChart.render();
+				$scope.batteryLargeChart.render();
+			}
+			if ($scope.playEngine){
+				$scope.engineChart.render();
+				$scope.engineLargeChart.render();
+			}
+			
+
 		}		
 	};
 	
@@ -350,14 +476,32 @@ function GraphCtrl($scope, graphService){
 	
 		}
 		if ($scope.play){
-			$scope.tempChart.render();
-			$scope.altChart.render();
+			if ($scope.playTemp){
+				$scope.tempChart.render();
+				$scope.tempLargeChart.render();
+			}
+			if ($scope.playAlt){
+				$scope.altChart.render();
+				$scope.altLargeChart.render();
+			}
+			
 		}		
 	};
 	
 	
 	$scope.$on('websocket', function(){//Here the controller listens for new data on the websocket.
 		result = graphService.message;
+		battery.length=0;
+		engines.length=0;
+		var roll = +result[0].fields.roll;
+		var pitch = +result[0].fields.pitch;
+		var yaw = +result[0].fields.yaw;
+		/*viewer.setParameter('InitRotationX', roll);
+		viewer.setParameter('InitRotationY', pitch);
+		viewer.setParameter('InitRotationz', yaw);
+		viewer.init();
+		viewer.update();*/
+		//viewer.rotate(+result[0].fields.roll,+result[0].fields.pitch,+result[0].fields.yaw);
 		$scope.updateColumnChart(result[0].fields.BatteryCell1,result[0].fields.BatteryCell2,result[0].fields.BatteryCell3,
 			result[0].fields.Engine1,result[0].fields.Engine2,result[0].fields.Engine3, result[0].fields.Engine4);	//websocket data is single Json row of data.
 		$scope.updateChart(result[0].fields.Temperature, result[0].fields.Altitude);
@@ -369,8 +513,14 @@ function GraphCtrl($scope, graphService){
 		temp.length=0;
 		alt.length=0;
 		xVal = 0;
-		
 		result = graphService.data;
+		var roll = +result[result.length-1].fields.roll;
+		var pitch = +result[result.length-1].fields.pitch;
+		var yaw = +result[result.length-1].fields.yaw;
+		console.log(roll + " " + yaw + " " + pitch);
+		
+		
+
 		//console.log("http");
 		$scope.updateColumnChart(result[result.length-1].fields.BatteryCell1,result[result.length-1].fields.BatteryCell2,
 			result[result.length-1].fields.BatteryCell3, result[result.length-1].fields.Engine1,result[result.length-1].fields.Engine2,
