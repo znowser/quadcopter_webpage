@@ -118,7 +118,7 @@
 		 	</div>
 			<!-- Data coming from the quadcopter -->
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft" ng-dblclick="setView()" ng-show="!left">
+				<div class="contentLeft" ng-dblclick="setView();$event.stopPropagation()" ng-show="!left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
 				 		<div id="batteryContainer" class="graphLeft" ng-show="batteryShow">
 				 		</div>
@@ -128,7 +128,7 @@
 						</div>
 				 		<div id="altitudeContainer" class="graphLeft" ng-show="altitudeShow" >
 				 		</div><br>
-						<button class="standard" type="button" ng-click="setView()">Enlarge</button>
+						<button class="standard button" type="button" ng-click="setView()">Enlarge</button>
  				</div>
 				<div class="contentLeftBig" ng-dblclick="setView()" ng-show="left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
@@ -140,7 +140,7 @@
 						</div>
 				 		<div id="altitudeLargeContainer" class="graphBig" ng-show="altitudeShow" >
 				 		</div><br>
-						<button class="standard" type="button" ng-click="setView()">Reduce</button>
+						<button class="standard button" type="button" ng-click="setView()">Reduce</button>
  				</div>
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
 				<div class="contentRight  contentDividerRight" ng-show="!left">
@@ -168,7 +168,7 @@
 					
 					<h3 class="header">Play/pause datastream:</h5>
 						<h5 class="smallHeader">Play/Pause</h5>
-					<button class="standard" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
+					<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
 					<h5 class="smallHeader">Enlarge</h5>
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
@@ -176,7 +176,7 @@
 			</div>
 			
 			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
- 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView()">
+ 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView();$event.stopPropagation()">
 					<center>
 					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
 						<!--Videoplayer-->
@@ -187,7 +187,7 @@
 	 					</video>
 				</div>
 				</center>
-				<button class="buttonMap" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
+				<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="setView();">Enlarge/Reduce</button>
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<h3 class="header">Video Stream</h3>
@@ -202,18 +202,18 @@
 				</div>
 			</div>
 			
-  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
-				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView()" >
+  			<div id="mapsDivContent" style="background-color:red" class="content" ng-if='maps' ng-controller="MapCtrl" ng-click="setView()">
+				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   >
 					<center>
-						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}" ng-if="maps">
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
 							<!--Google map-->
-							<google-map id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+							<google-map ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
 								<marker coords="quadPosition"></marker>
 								<marker coords="mobilePosition"></marker>
 							</google-map>
 						</div>	
 					</center>
-					<button class="buttonMap" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
+					<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
 				</div>
 
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
@@ -243,7 +243,7 @@
 										<h5 class="smallHeader">Username</h5>
 										<input class="standard inputbox" type="text" ng-model="loginUsername">
 										<h5 class="smallHeader">Password</h5>
-										<input class="standard inputbox" type="text" ng-model="loginPassword">
+										<input class="standard inputbox" type="password" ng-model="loginPassword">
 										<input class="standard button" type="submit" value="Sign in" ng-click="submitlogin()">
 									</form>
 									<p class="standard">{% verbatim %} {{loginStatus}} {% endverbatim %}</p>
