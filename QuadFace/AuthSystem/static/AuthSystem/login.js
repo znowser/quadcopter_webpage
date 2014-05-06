@@ -71,5 +71,5 @@ loginApp.controller('loginCtrl', function($scope, $http) {
 		}
 	};
 	
-	$scope.loginStatus = "Not logged in";
+	$scope.loginStatus = "";
 });

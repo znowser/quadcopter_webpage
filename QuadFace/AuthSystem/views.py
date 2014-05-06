@@ -27,9 +27,9 @@ def authentication(request):
 			login(request, user)
 			response =  "User is valid, active and authenticated"
 		else:
-			response = "The password is valid, but the account has been disabled!"
+			response = "Account has been disabled!"
 	else:
-		response = "The username and password were incorrect."
+		response = "The username/password was incorrect."
 	
 	return HttpResponse(response)
 	

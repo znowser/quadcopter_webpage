@@ -7,6 +7,93 @@ var isMobileDevice = function(){
 		return false;
 	}
 }
+
+//set post-data format to django-compatible. Must be done for postdata to work with django!
+clientModule.config(['$httpProvider', function($httpProvider) {
+    // setup CSRF support
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+    // http://victorblog.com/2012/12/20/make-angularjs-http-service-behave-like-jquery-ajax/
+    // Rewrite POST body data
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    // Override $http service's default transformRequest
+    $httpProvider.defaults.transformRequest = [function(data){
+      /**
+       * The workhorse; converts an object to x-www-form-urlencoded serialization.
+       * @param {Object} obj
+       * @return {String}
+       */ 
+      var param = function(obj){
+        var query = '';
+        var name, value, fullSubName, subName, subValue, innerObj, i;
+        
+        for(name in obj){
+          value = obj[name];
+          
+          if(value instanceof Array){
+            for(i=0; i<value.length; ++i){
+              subValue = value[i];
+              fullSubName = name + '[' + i + ']';
+              innerObj = {};
+              innerObj[fullSubName] = subValue;
+              query += param(innerObj) + '&';
+            }
+          }
+          else if(value instanceof Object){
+            for(subName in value){
+              subValue = value[subName];
+              fullSubName = name + '[' + subName + ']';
+              innerObj = {};
+              innerObj[fullSubName] = subValue;
+              query += param(innerObj) + '&';
+            }
+          }
+          else if(value !== undefined && value !== null){
+            query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+          }
+        }
+        return query.length ? query.substr(0, query.length - 1) : query;
+      };
+      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    }];
+  }
+]);
+
+//login must be a factory because both the menu and the loginCtrl must split the variables
+clientModule.factory('loginService', function($rootScope, $http){
+	var loginService = {};
+	loginService.userLoggedIn = false;
+	loginService.loginStatus = "Not logged in";
+	
+	//login function
+	loginService.submitlogin = function(loginUsername, loginPassword) {
+		if (loginUsername && loginPassword){
+			
+			//asynchronously login request
+			$http({ 
+					method: 'POST', 
+					url: '/auth/authentication/', 
+					data: {'username': loginUsername, 'password': loginPassword },
+					}).
+			success(function($data, $status, $headers, $config) {
+				loginService.loginStatus = $data;
+				loginService.userLoggedIn = true;
+				loginService.broadcastLoginResponse();
+			}).error(function($data, $status){
+				loginService.loginStatus = $data;
+				loginService.broadcastLoginResponse();
+			});
+		}
+	}
+	
+	loginService.broadcastLoginResponse = function(){
+		$rootScope.$broadcast('loginResponse');
+	}
+	
+	return loginService;	
+});
+
 clientModule.factory('graphService', function($rootScope, $http){//Factory for controlling, websockets and JsonHTTP requests for graphs.
 	var graphService = {};
 	graphService.message = '';
@@ -145,15 +232,17 @@ function MapCtrl($scope, mapService, $http){
 	
 }
 
-function MenuCtrl($scope, graphService, mapService){
+function MenuCtrl($scope, graphService, mapService, loginService){
 	$scope.welcome = true;
 	$scope.communications = false;
 	$scope.video = false;
 	$scope.maps = false;
 	$scope.login = false;
 	
-	$scope.userLoggedIn = "Log in";
+	//Drive/control tab, only visible for logged in users
+	$scope.driveMenyItem = false;
 	
+	$scope.userLoggedIn = "Sign in";
 	$scope.frameClass = "";//Some css classes differ wether mobile or desktop, these are set here. 
 	$scope.ContentClass = "";
 	$scope.mobile = false;
@@ -169,56 +258,96 @@ function MenuCtrl($scope, graphService, mapService){
 	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
-			$scope.welcome = true;
-			$scope.communications = false;
-			$scope.video = false;
-			$scope.maps = false;
-			graphService.setUpWebsockets('close');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
-			mapService.setUpMapWebsockets('close');
-			
+			$scope.goToFrontPage();
 		}
 		if (item.localeCompare('communications') == 0){//Communications window
-			$scope.welcome = false;
+			//hide all views that are defined and check which one that shall be visible	
+			$scope.hideAllViews();
 			$scope.communications = true;
-			$scope.video = false;
-			$scope.maps= false;
 			graphService.getData();
 			mapService.setUpMapWebsockets('close');
 			graphService.setUpWebsockets('open');//Open the websocket for graphs
 			
 		}
 		if (item.localeCompare('video') == 0){//Video view
-			$scope.welcome = false;
-			$scope.communications = false;
+			//hide all views that are defined and check which one that shall be visible
+			$scope.hideAllViews();
 			$scope.video = true;
-			$scope.maps= false;
 			graphService.setUpWebsockets('close');
 			mapService.setUpMapWebsockets('close');
 			
 		}
 		if (item.localeCompare('maps') == 0){//map view
-			$scope.welcome = false;
-			$scope.communications = false;
-			$scope.video = false;
+			//hide all views that are defined and check which one that shall be visible
+			$scope.hideAllViews();
 			$scope.maps= true;
+			
 			mapService.getLocation();
 			graphService.setUpWebsockets('close');
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
 		}
 		//login view
-		if(item.localeCompate('login') == 0){
-			alert("helo");
-			$scope.userLoggedIn = "Log out";
+		if(item.localeCompare('login') == 0){
+			if(loginService.userLoggedIn){
+				$scope.driveMenyItem = false;
+				$scope.loginView = false;
+				loginService.userLoggedIn = false;
+				$scope.userLoggedIn = "Sign in";
+				//prevent that the button staying in pressed mode when moving it.
+				$scope.hover5 = false;
+				//redirect the newly logged out user to the front page.
+				$scope.goToFrontPage();
+			}
+			else{
+				$scope.loginView = true;
+			}
+		}
+		
+		if(item.localeCompare('controller') == 0){
+			$scope.hideAllViews();
+			$scope.controller = true;
 		}
 	 };
-	
-		
-	
+	 
+	 $scope.hideAllViews = function(){
+		$scope.welcome = false;
+		$scope.communications = false;
+		$scope.video = false;
+		$scope.maps= false;
+		$scope.loginView = false;
+	 }
+	 
+	 $scope.goToFrontPage = function(){
+		//hide all views that are defined and check which one that shall be visible
+		$scope.hideAllViews();
+		$scope.welcome = true;
+		graphService.setUpWebsockets('close');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
+		mapService.setUpMapWebsockets('close');
+	}
+	 
+	 //listen if the login was successful and update GUI if that was the case.
+	$scope.$on('loginResponse', function(){
+		//if the login was successful loginService.userLoggedIn is true.
+		if(loginService.userLoggedIn){
+			$scope.driveMenyItem = true;
+			$scope.loginView = false;
+			$scope.userLoggedIn = "Sign out";
+		}
+	});
 }
 
-function GraphCtrl($scope, graphService){
+function loginCtrl($scope, loginService, $http) {
+	$scope.submitlogin = function(){
+		loginService.submitlogin($scope.loginUsername, $scope.loginPassword);
+	};
 	
+	$scope.$on('loginResponse', function(){
+		$scope.loginStatus = loginService.loginStatus;
+	});
+}
+
+function GraphCtrl($scope, graphService){	
 	$scope.xAngle = true;//booleans for what data to be displayed.
 	$scope.yAngle = true;
 	$scope.zAngle = true;
@@ -434,7 +563,8 @@ function SlideCtrl($scope, $timeout){
 }
 
 
-MenuCtrl.$inject = ['$scope', 'graphService', 'mapService'];
+MenuCtrl.$inject = ['$scope', 'graphService', 'mapService', 'loginService'];
 GraphCtrl.$inject = ['$scope', 'graphService'];
 MapCtrl.$inject = ['$scope', 'mapService', '$http'];
+loginCtrl.$inject = ['$scope', 'loginService', '$http'];
 
