@@ -118,30 +118,31 @@
 		 	</div>
 			<!-- Data coming from the quadcopter -->
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft" ng-dblclick="setView();$event.stopPropagation()" ng-show="!left">
+				<div class="contentLeft" ng-click="setView()" ng-show="!left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="batteryContainer" class="graphLeft" ng-show="batteryShow">
+				 		<div id="batteryContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="batteryShow">
 				 		</div>
-				 		<div id="engineContainer" class="graphLeft" ng-show="engineShow">
+				 		<div id="engineContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="engineShow">
 				 		</div>
-						<div id="temperatureContainer" class="graphLeft" ng-show="temperatureShow" >
+						<div id="temperatureContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="temperatureShow" >
 						</div>
-				 		<div id="altitudeContainer" class="graphLeft" ng-show="altitudeShow" >
+				 		<div id="altitudeContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" >
 				 		</div><br>
-						<button class="standard button" type="button" ng-click="setView()">Enlarge</button>
+						
  				</div>
-				<div class="contentLeftBig" ng-dblclick="setView()" ng-show="left">
+				<div class="contentLeftBig" ng-click="setView()" ng-show="left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="batteryLargeContainer" class="graphBig" ng-show="batteryShow" >
+				 		<div id="batteryLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="batteryShow" >
 				 		</div>
-				 		<div id="engineLargeContainer" class="graphBig" ng-show="engineShow" >
+				 		<div id="engineLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="engineShow" >
 				 		</div>
-						<div id="temperatureLargeContainer" class="graphBig" ng-show="temperatureShow" >
+						<div id="temperatureLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" >
 						</div>
-				 		<div id="altitudeLargeContainer" class="graphBig" ng-show="altitudeShow" >
+				 		<div id="altitudeLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" >
 				 		</div><br>
-						<button class="standard button" type="button" ng-click="setView()">Reduce</button>
+						
  				</div>
+				
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
 				<div class="contentRight  contentDividerRight" ng-show="!left">
 					<h3 class="header">Controls for Quadcopter data</h3>
@@ -173,6 +174,7 @@
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 				</div>
+			<button class="standard button" type="button" ng-click="setView();">Enlarge/Reduce</button>
 			</div>
 			
 			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
@@ -202,8 +204,8 @@
 				</div>
 			</div>
 			
-  			<div id="mapsDivContent" style="background-color:red" class="content" ng-if='maps' ng-controller="MapCtrl" ng-click="setView()">
-				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   >
+  			<div id="mapsDivContent" style="background-color:red" class="content" ng-if='maps' ng-controller="MapCtrl" >
+				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   ng-click="setView()">
 					<center>
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
 							<!--Google map-->
