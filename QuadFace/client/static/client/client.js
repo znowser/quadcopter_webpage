@@ -10,7 +10,7 @@ var isMobileDevice = function(){
 		return false;
 	}
 }
-
+/*
 //set post-data format to django-compatible. Must be done for postdata to work with django!
 clientModule.config(['$httpProvider', function($httpProvider) {
     // setup CSRF support
@@ -62,7 +62,7 @@ clientModule.config(['$httpProvider', function($httpProvider) {
     }];
   }
 ]);
-
+*/
 //login must be a factory because both the menu and the loginCtrl must split the variables
 clientModule.factory('loginService', function($rootScope, $http){
 	var loginService = {};
