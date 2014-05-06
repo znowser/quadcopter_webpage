@@ -1,4 +1,7 @@
-var clientModule = angular.module('client', ['google-maps', 'ngAnimate'])//The main directive on the site.
+
+var clientModule = angular.module('client', ['google-maps', 'ngAnimate', 'geolocation'])//The main directive on the site.
+
+
 
 var isMobileDevice = function(){
 	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
@@ -105,7 +108,7 @@ clientModule.factory('graphService', function($rootScope, $http){//Factory for c
 		
 		if (!graphService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/comLink?subscribe-broadcast');
+			ws = new WebSocket('ws://10.0.1.13:8080/ws/comLink?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				graphService.set = true;
@@ -162,7 +165,7 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 		
 		if (!mapService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/coords?subscribe-broadcast');
+			ws = new WebSocket('ws://10.0.1.13:8080/ws/coords?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				mapService.set = true;
@@ -207,8 +210,9 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 	return mapService;
 });
 
-function MapCtrl($scope, mapService, $http){
+function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 	$scope.quadPosition = {};
+	$scope.mobilePosition = {};
 	$scope.map = {
 	    center: {//Coodinates are center of map(Linköping)
 	        latitude: 58.40721748,
@@ -216,7 +220,13 @@ function MapCtrl($scope, mapService, $http){
 	    },
 	    zoom: 16
 	};
-
+	$scope.left = false;
+	$scope.setView = function(){
+		if (!isMobileDevice()){
+			$scope.left= ! $scope.left;
+			
+		}	
+	}
 	
 	$scope.$on('httpLocation', function(){
 		result = mapService.data;
@@ -229,6 +239,21 @@ function MapCtrl($scope, mapService, $http){
 		$scope.quadPosition.latitude = result[0].fields.latitude;//Updating position on map.
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
+	
+	$scope.intervalFunction = function(){
+		$timeout(function() {
+			console.log("hej");
+				geolocation.getLocation().then(function(data){
+			      $scope.mobilePosition.latitude = data.coords.latitude;
+				  $scope.mobilePosition.longitude = data.coords.longitude; 
+			    });
+			$scope.intervalFunction();
+		}, 4000)
+	};
+	if (isMobileDevice()){
+		$scope.intervalFunction();
+	}
+
 	
 }
 
@@ -256,9 +281,21 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		$scope.mobile = false;
 	}
 	
+	$scope.battery = 100;
+	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
+<<<<<<< HEAD
 			$scope.goToFrontPage();
+=======
+			$scope.welcome = true;
+			$scope.communications = false;
+			$scope.video = false;
+			$scope.maps = false;
+			graphService.setUpWebsockets('open');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
+			mapService.setUpMapWebsockets('close');
+			
+>>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 		}
 		if (item.localeCompare('communications') == 0){//Communications window
 			//hide all views that are defined and check which one that shall be visible	
@@ -273,7 +310,12 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			//hide all views that are defined and check which one that shall be visible
 			$scope.hideAllViews();
 			$scope.video = true;
+<<<<<<< HEAD
 			graphService.setUpWebsockets('close');
+=======
+			$scope.maps= false;
+			graphService.setUpWebsockets('open');
+>>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 			mapService.setUpMapWebsockets('close');
 			
 		}
@@ -283,10 +325,11 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			$scope.maps= true;
 			
 			mapService.getLocation();
-			graphService.setUpWebsockets('close');
+			graphService.setUpWebsockets('open');
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
 		}
+<<<<<<< HEAD
 		//login view
 		if(item.localeCompare('login') == 0){
 			if(loginService.userLoggedIn){
@@ -335,6 +378,26 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			$scope.userLoggedIn = "Sign out";
 		}
 	});
+=======
+	    
+	 };
+	 
+
+	 
+	 $scope.i = 0;
+ 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.
+		
+ 		
+		$scope.i++;
+		if ($scope.i == 10){
+	 		result = graphService.message;
+		
+			$scope.battery = ((result[0].fields.BatteryCell1 + result[0].fields.BatteryCell2 + result[0].fields.BatteryCell3)/3).toFixed(2);
+			$scope.i = 0;
+		}
+	});
+	
+>>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 }
 
 function loginCtrl($scope, loginService, $http) {
@@ -342,6 +405,7 @@ function loginCtrl($scope, loginService, $http) {
 		loginService.submitlogin($scope.loginUsername, $scope.loginPassword);
 	};
 	
+<<<<<<< HEAD
 	$scope.$on('loginResponse', function(){
 		$scope.loginStatus = loginService.loginStatus;
 	});
@@ -353,7 +417,31 @@ function GraphCtrl($scope, graphService){
 	$scope.zAngle = true;
 	$scope.aAngle = true;
 	$scope.bAngle = true;
+=======
+	$scope.contentLeft = "contentLeft";
+	$scope.contentRight = "contentRight  contentDividerRight";
+	
+	$scope.left=false;
+
+	$scope.setView = function(){
+		$scope.left= ! $scope.left;
+		
+	}
+	
+	$scope.batteryShow = true;//booleans for what data to be displayed.
+	$scope.engineShow = true;
+	$scope.temperatureShow = true;
+	$scope.altitudeShow = true;
+
+	$scope.last = false;
+	
+	$scope.playBattery = true;
+	$scope.playEngine = true;
+	$scope.playTemp = true;
+	$scope.playAlt = true;
+>>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 	$scope.play = true;
+	
 	$scope.setGraphVisability = function(var1){
 		var1 = ! var1;
 	};
@@ -367,6 +455,7 @@ function GraphCtrl($scope, graphService){
 	var alt = [];
 	
 	/* Below are all different datas displayed on the communication view. */
+	//------------------------------Battery----------------------------
 	$scope.batteryChart = new CanvasJS.Chart("batteryContainer",{
 		title :{
 			text: "Battery levels"
@@ -375,6 +464,29 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'battery',
+			click: function(e){ 
+			    $scope.playBattery = ! $scope.playBattery;
+			},
+			type: "column",
+			color:"#006400",
+			dataPoints: battery 
+		}
+		],
+		axisY:{
+	    	  title:"%"
+	  	}, 
+  	});
+	$scope.batteryLargeChart = new CanvasJS.Chart("batteryLargeContainer",{
+		title :{
+			text: "Battery levels"
+		},		
+		backgroundColor: "#CCCCCC",		
+		data: [
+		{
+			name:'battery',
+			click: function(e){ 
+			    $scope.playBattery = ! $scope.playBattery;
+			},
 			type: "column",
 			color:"#006400",
 			dataPoints: battery 
@@ -385,6 +497,7 @@ function GraphCtrl($scope, graphService){
 	  	}, 
   	});
 	
+	//------------------------------Engine----------------------------
 	$scope.engineChart = new CanvasJS.Chart("engineContainer",{
 		title :{
 			text: "Engine load"
@@ -393,6 +506,30 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'engines',
+			click: function(e){ 
+			    $scope.playEngine = ! $scope.playEngine;
+			},
+			type: "column",
+			color:"#8A0707",
+			dataPoints: engines 
+		}
+		],
+		axisY:{
+	  		title:"Load"
+		}, 
+
+	});
+	$scope.engineLargeChart = new CanvasJS.Chart("engineLargeContainer",{
+		title :{
+			text: "Engine load"
+		},	
+		backgroundColor: "#CCCCCC",			
+		data: [
+		{
+			name:'engines',
+			click: function(e){ 
+			    $scope.playEngine = ! $scope.playEngine;
+			},
 			type: "column",
 			color:"#8A0707",
 			dataPoints: engines 
@@ -404,7 +541,28 @@ function GraphCtrl($scope, graphService){
 
 	});
 	
+	//------------------------------Temp----------------------------
 	$scope.tempChart = new CanvasJS.Chart("temperatureContainer",{
+		title :{
+			text: "Temperature"
+		},		
+		backgroundColor: "#CCCCCC",		
+		data: [
+		{
+			name:'temp',
+			click: function(e){ 
+			    $scope.playTemp = ! $scope.playTemp;
+			},
+			type: "spline",
+			color:"#999900",
+			dataPoints: temp 
+		}
+		],
+		axisY:{
+		   	  suffix:"°C"
+		 }, 
+	});
+	$scope.tempLargeChart = new CanvasJS.Chart("temperatureLargeContainer",{
 			title :{
 				text: "Temperature"
 			},		
@@ -412,6 +570,9 @@ function GraphCtrl($scope, graphService){
 			data: [
 			{
 				name:'temp',
+				click: function(e){ 
+				    $scope.playTemp = ! $scope.playTemp;
+				},
 				type: "spline",
 				color:"#999900",
 				dataPoints: temp 
@@ -421,7 +582,8 @@ function GraphCtrl($scope, graphService){
 		    	  suffix:"°C"
 		  	}, 
 	  	});
-		
+	
+	//------------------------------Altitude----------------------------
 	$scope.altChart = new CanvasJS.Chart("altitudeContainer",{
 		title :{
 			text: "Altitude"
@@ -430,6 +592,9 @@ function GraphCtrl($scope, graphService){
 		data: [
 		{
 			name:'alt',
+			click: function(e){ 
+			    $scope.playAlt = ! $scope.playAlt;
+			},
 			type: "spline",
 			color:"#000080",
 			dataPoints: alt
@@ -439,6 +604,27 @@ function GraphCtrl($scope, graphService){
 	   		suffix:"m"
 	  	}, 
   	});
+	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
+		title :{
+			text: "Altitude"
+		},		
+		backgroundColor: "#CCCCCC",	
+		data: [
+		{
+			name:'alt',
+			click: function(e){ 
+			    $scope.playAlt = ! $scope.playAlt;
+			},
+			type: "spline",
+			color:"#000080",
+			dataPoints: alt
+		}
+		],
+		axisY:{
+	   		suffix:"m"
+	  	}, 
+  	});
+	
 	/* End of communication view data */
 
 	var xVal = 0;
@@ -446,10 +632,10 @@ function GraphCtrl($scope, graphService){
 	
 	//If the sidplayed data is a dynamic chart, it is updated in this function. 
 	$scope.updateColumnChart = function (c1, c2, c3, e1, e2, e3, e4) {
-		for (var i = 0; i < battery.length; i++){
-			battery.shift();
-			engines.shift();
-		}
+		//for (var i = 0; i < battery.length; i++){
+		//	battery.shift();
+		//	engines.shift();
+		//}
 		
 		battery.push({ label: "Cell1", y: c1});
 		battery.push({ label: "Cell2", y: c2});
@@ -462,8 +648,16 @@ function GraphCtrl($scope, graphService){
 		engines.push({ label: "Engine4", y: e4});
 
 		if ($scope.play){
-			$scope.batteryChart.render();
-			$scope.engineChart.render();
+			if ($scope.playBattery){
+				$scope.batteryChart.render();
+				$scope.batteryLargeChart.render();
+			}
+			if ($scope.playEngine){
+				$scope.engineChart.render();
+				$scope.engineLargeChart.render();
+			}
+			
+
 		}		
 	};
 	
@@ -486,14 +680,24 @@ function GraphCtrl($scope, graphService){
 	
 		}
 		if ($scope.play){
-			$scope.tempChart.render();
-			$scope.altChart.render();
+			if ($scope.playTemp){
+				$scope.tempChart.render();
+				$scope.tempLargeChart.render();
+			}
+			if ($scope.playAlt){
+				$scope.altChart.render();
+				$scope.altLargeChart.render();
+			}
+			
 		}		
 	};
 	
 	
 	$scope.$on('websocket', function(){//Here the controller listens for new data on the websocket.
 		result = graphService.message;
+		battery.length=0;
+		engines.length=0;
+		
 		$scope.updateColumnChart(result[0].fields.BatteryCell1,result[0].fields.BatteryCell2,result[0].fields.BatteryCell3,
 			result[0].fields.Engine1,result[0].fields.Engine2,result[0].fields.Engine3, result[0].fields.Engine4);	//websocket data is single Json row of data.
 		$scope.updateChart(result[0].fields.Temperature, result[0].fields.Altitude);
@@ -505,7 +709,6 @@ function GraphCtrl($scope, graphService){
 		temp.length=0;
 		alt.length=0;
 		xVal = 0;
-		
 		result = graphService.data;
 		//console.log("http");
 		$scope.updateColumnChart(result[result.length-1].fields.BatteryCell1,result[result.length-1].fields.BatteryCell2,
@@ -524,15 +727,22 @@ function SlideCtrl($scope, $timeout){
 	$scope.mobile = false;
 	if (isMobileDevice()){
 		$scope.mobile = true;
-		$scope.slides = [];
+		//$scope.slides = [];
+		$scope.slides = [
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile1.jpg', description: 'Image 0'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile2.jpg', description: 'Image 1'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile3.jpg', description: 'Image 2'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile4.jpg', description: 'Image 3'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile5.jpg', description: 'Image 4'},
+		];
 	
 	} else {
 		$scope.slides = [
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Abstract.jpg', description: 'Image 0'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Beach.jpg', description: 'Image 1'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Circles.jpg', description: 'Image 2'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Brushes.jpg', description: 'Image 3'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Blue Pond.jpg', description: 'Image 4'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0011.jpg', description: 'Image 0'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0012.jpg', description: 'Image 1'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0013.jpg', description: 'Image 2'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0014.jpg', description: 'Image 3'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0015.jpg', description: 'Image 4'},
 		];
 	}
 	/* Static images loaded from Django inte the clientview. These being displayed as a slideshow on the home page. */
@@ -561,10 +771,25 @@ function SlideCtrl($scope, $timeout){
 	};
 	$scope.intervalFunction();
 }
+function VideoCtrl($scope, $timeout){
+	$scope.left = false;
+	$scope.setView = function(){
+		if (!isMobileDevice()){
+			$scope.left= ! $scope.left;
+			
+		}
+		//$scope.$apply();		
+	}
+
+}
 
 
 MenuCtrl.$inject = ['$scope', 'graphService', 'mapService', 'loginService'];
 GraphCtrl.$inject = ['$scope', 'graphService'];
+<<<<<<< HEAD
 MapCtrl.$inject = ['$scope', 'mapService', '$http'];
 loginCtrl.$inject = ['$scope', 'loginService', '$http'];
+=======
+MapCtrl.$inject = ['$scope', 'mapService', '$http', '$timeout', 'geolocation'];
+>>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 
