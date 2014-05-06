@@ -128,10 +128,11 @@
 						</div>
 				 		<div id="altitudeContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" >
 				 		</div><br>
+						<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 						
  				</div>
 				<div class="contentLeftBig" ng-click="setView()" ng-show="left">
-						<!--This is the graphs being painted on the page, can be hidden by the user -->
+						<!--This is the big version of the graphs, the canvasjs packet didn't allow for dynamic resizing of objects.. -->
 				 		<div id="batteryLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="batteryShow" >
 				 		</div>
 				 		<div id="engineLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="engineShow" >
@@ -140,7 +141,7 @@
 						</div>
 				 		<div id="altitudeLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" >
 				 		</div><br>
-						
+						<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
  				</div>
 				
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
@@ -149,19 +150,19 @@
 					<h5 class="smallHeaderBold">Which data to show:</h5>
 					<h5 class="smallHeaderNoNewLine">Battery</h5>
 					<p class = "standardQuad">Battery shows all cells individually aswell as complete battery percentage. <br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input  type="checkbox" ng-model="batteryShow" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
+					<p class="ckboxText"><input  class ="standard"type="checkbox" ng-model="batteryShow" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Engine load</h5>
 					<p class = "standardQuad">Showing the engine load on the different engines.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="engineShow" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
+					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="engineShow" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Temperature</h5>
 					<p class = "standard">Showing temperature values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="temperatureShow" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
+					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="temperatureShow" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Altitude</h5>
 					<p class = "standard">Showing altitude values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="altitudeShow" checked ng-click="setGraphVisability(aAngle)"> Show altitude</p></p><hr class="line">
+					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="altitudeShow" checked ng-click="setGraphVisability(aAngle)"> Show altitude</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">3d model</h5>
 					<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.<br>
@@ -173,23 +174,23 @@
 					<h5 class="smallHeader">Enlarge</h5>
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
+					
 				</div>
-			<button class="standard button" type="button" ng-click="setView();">Enlarge/Reduce</button>
 			</div>
 			
 			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
- 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView();$event.stopPropagation()">
+ 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-click="setView()">
 					<center>
 					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
 						<!--Videoplayer-->
 						
-	 					<video  class="screen" ng-class="{screen2 : left}" controls autoplay preload="auto">
+	 					<video  class="screen" ng-click="$event.stopPropagation()" ng-class="{screen2 : left}" controls autoplay preload="auto">
 	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
 	 	  					Your browser does not support the video tag.
 	 					</video>
 				</div>
 				</center>
-				<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="setView();">Enlarge/Reduce</button>
+				
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<h3 class="header">Video Stream</h3>
@@ -204,20 +205,22 @@
 				</div>
 			</div>
 			
-  			<div id="mapsDivContent" style="background-color:red" class="content" ng-if='maps' ng-controller="MapCtrl" >
+  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
+				<div ng-if="!left">
 				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   ng-click="setView()">
 					<center>
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
 							<!--Google map-->
-							<google-map ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+							<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
 								<marker coords="quadPosition"></marker>
 								<marker coords="mobilePosition"></marker>
 							</google-map>
 						</div>	
 					</center>
-					<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
+					<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+					
 				</div>
-
+				
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<h3 class="header">Map</h3>
 					<h5 class="smallHeader">Coordinates</h5>
@@ -233,6 +236,23 @@
 					
 				</div>
 			</div>
+			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
+			<div ng-if="left">
+			<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   ng-click="setView()">
+				<center>
+					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
+						<!--Google map-->
+						<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+							<marker coords="quadPosition"></marker>
+							<marker coords="mobilePosition"></marker>
+						</google-map>
+					</div>	
+				</center>
+				<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+				
+			</div>
+			</div>
+		</div>
 			
 			
 		<!-- Login view-->

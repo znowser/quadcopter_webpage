@@ -220,10 +220,24 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 	    },
 	    zoom: 16
 	};
+	
+	$scope.map2 = {
+	    center: {//Coodinates are center of map(Linköping)
+	        latitude: 58.40721748,
+	        longitude: 15.57939143
+	    },
+	    zoom: 16
+	};
 	$scope.left = false;
 	$scope.setView = function(){
 		if (!isMobileDevice()){
 			$scope.left= ! $scope.left;
+			//window.setTimeout(function(){
+            //	google.maps.event.trigger($scope.map, "resize");
+				
+			  //      },100);
+					  //$scope.map.control.refresh();
+			//google.maps.event.trigger($scope.map, "resize");
 			
 		}	
 	}
