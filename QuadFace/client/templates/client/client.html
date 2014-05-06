@@ -11,6 +11,7 @@
 		
 		<script src="{% static "client/client.js" %}"></script>
 		<script src="{% static "client/canvasjs-1/canvasjs.min.js" %}"></script>
+		<script src="{% static "client/geolocation/src/geolocation.js" %}"></script>
 		<script src="{% static "client/underscore-master/underscore-min.js" %}"></script>
 		<script src="{% static "client/angular-google-maps-master/dist/angular-google-maps.js" %}"></script>
 		
@@ -39,6 +40,9 @@
 				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
 					Map
 			 	</div>
+				<div class="batteryItem" ng-class="{batteryItemLow : (battery < 30) == true}" id="mapsDiv" >
+					Battery: {% verbatim %}{{battery}}{% endverbatim %}%
+			 	</div>
 		 	</div>
 			<!--Index page, slideshow and some information about the page and quadcopter
 			Generates left container for desktop or generate only one large container for mobile devices-->
@@ -46,7 +50,7 @@
  				<div  ng-init='currentIndex = 0'  class="{% verbatim %}{{contentClass}}{% endverbatim %}" >
 					<center>
 						<!--Slideshow-->
-						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-hide="mobile">
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" >
 							<img  class="slide" ng-animate="{show:'animate-show', hide:'animate-hide'}"  ng-repeat="slide in slides" ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}">
 						</div>
 						<h1 ng-hide="mobile" class="logoText"> Quadcopter Project </h1>
@@ -106,30 +110,30 @@
 				<!-- ================================== -->
 		 	</div>
 			<!-- Data coming from the quadcopter -->
-			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-show='communications'>
+			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
 				<div class="contentLeft" ng-dblclick="setView()" ng-show="!left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="batteryContainer" class="graphLeft" ng-show="xAngle">
+				 		<div id="batteryContainer" class="graphLeft" ng-show="batteryShow">
 				 		</div>
-				 		<div id="engineContainer" class="graphLeft" ng-show="yAngle">
+				 		<div id="engineContainer" class="graphLeft" ng-show="engineShow">
 				 		</div>
-						<div id="temperatureContainer" class="graphLeft" ng-show="zAngle">
+						<div id="temperatureContainer" class="graphLeft" ng-show="temperatureShow" >
 						</div>
-				 		<div id="altitudeContainer" class="graphLeft" ng-show="aAngle">
-				 		</div>
+				 		<div id="altitudeContainer" class="graphLeft" ng-show="altitudeShow" >
+				 		</div><br>
 						<button class="standard" type="button" ng-click="setView()">Enlarge</button>
  				</div>
 				<div class="contentLeftBig" ng-dblclick="setView()" ng-show="left">
 						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="batteryLargeContainer" class="graphBig" ng-show="xAngle">
+				 		<div id="batteryLargeContainer" class="graphBig" ng-show="batteryShow" >
 				 		</div>
-				 		<div id="engineLargeContainer" class="graphBig" ng-show="yAngle">
+				 		<div id="engineLargeContainer" class="graphBig" ng-show="engineShow" >
 				 		</div>
-						<div id="temperatureLargeContainer" class="graphBig" ng-show="zAngle">
+						<div id="temperatureLargeContainer" class="graphBig" ng-show="temperatureShow" >
 						</div>
-				 		<div id="altitudeLargeContainer" class="graphBig" ng-show="aAngle">
-				 		</div>
-						<button class="standard" type="button" ng-click="setView()">Enlarge</button>
+				 		<div id="altitudeLargeContainer" class="graphBig" ng-show="altitudeShow" >
+				 		</div><br>
+						<button class="standard" type="button" ng-click="setView()">Reduce</button>
  				</div>
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
 				<div class="contentRight  contentDividerRight" ng-show="!left">
@@ -137,66 +141,75 @@
 					<h5 class="smallHeaderBold">Which data to show:</h5>
 					<h5 class="smallHeaderNoNewLine">Battery</h5>
 					<p class = "standardQuad">Battery shows all cells individually aswell as complete battery percentage. <br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input  type="checkbox" ng-model="xAngle" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
+					<p class="ckboxText"><input  type="checkbox" ng-model="batteryShow" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Engine load</h5>
 					<p class = "standardQuad">Showing the engine load on the different engines.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="yAngle" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
+					<p class="ckboxText"><input type="checkbox" ng-model="engineShow" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Temperature</h5>
 					<p class = "standard">Showing temperature values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="zAngle" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
+					<p class="ckboxText"><input type="checkbox" ng-model="temperatureShow" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">Altitude</h5>
 					<p class = "standard">Showing altitude values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input type="checkbox" ng-model="aAngle" checked ng-click="setGraphVisability(yAngle)"> Show altitude</p></p><hr class="line">
+					<p class="ckboxText"><input type="checkbox" ng-model="altitudeShow" checked ng-click="setGraphVisability(aAngle)"> Show altitude</p></p><hr class="line">
 					
 					<h5 class="smallHeaderNoNewLine">3d model</h5>
 					<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.<br>
 					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p><hr class="line">
 					
 					<h3 class="header">Play/pause datastream:</h5>
+						<h5 class="smallHeader">Play/Pause</h5>
 					<button class="standard" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
+					<h5 class="smallHeader">Enlarge</h5>
+					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 				</div>
 			</div>
 			
-			<div id="videoDivContent" class="content"  ng-show='video'>
- 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" >
+			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
+ 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView()">
 					<center>
-					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}">
+					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
 						<!--Videoplayer-->
 						
-	 					<video  class="screen" controls autoplay preload="auto">
+	 					<video  class="screen" ng-class="{screen2 : left}" controls autoplay preload="auto">
 	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
 	 	  					Your browser does not support the video tag.
 	 					</video>
 				</div>
 				</center>
+				<button class="buttonMap" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
  				</div>
-				<div class="contentRight contentDividerRight" ng-hide="mobile">
+				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<h3 class="header">Video Stream</h3>
 					<h5 class="smallHeader">Live</h5>
 					<p class="standard">
 						This is a live stream coming from the qudcopter. If the screen is black that means the camera is off. Please start the camera if you wish to watch the stream.
 					</p>
+					<h5 class="smallHeader">Enlarge</h5>
+					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+					
 					
 				</div>
 			</div>
 			
-  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl">
-				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" >
+  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
+				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-dblclick="setView()" >
 					<center>
-					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}">
-						<!--Google map-->
-						<google-map id="gMap" draggable='true'  class="screen" center="map.center" zoom="map.zoom">
-							<marker coords="quadPosition"></marker>
-						</google-map>
-					
-					</div>	
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}" ng-if="maps">
+							<!--Google map-->
+							<google-map id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+								<marker coords="quadPosition"></marker>
+								<marker coords="mobilePosition"></marker>
+							</google-map>
+						</div>	
 					</center>
-  				</div>
-				<div class="contentRight contentDividerRight" ng-hide="mobile">
+					<button class="buttonMap" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
+				</div>
+
+				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<h3 class="header">Map</h3>
 					<h5 class="smallHeader">Coordinates</h5>
 					<p class="standard">
@@ -206,6 +219,8 @@
 					<p class="standard">
 						In the future it will be possible from this GUI to build routes for the quadcopter.
 					</p>
+					<h5 class="smallHeader">Enlarge</h5>
+					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 				</div>
 			</div>

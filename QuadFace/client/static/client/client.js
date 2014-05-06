@@ -1,5 +1,5 @@
 
-var clientModule = angular.module('client', ['google-maps', 'ngAnimate'])//The main directive on the site.
+var clientModule = angular.module('client', ['google-maps', 'ngAnimate', 'geolocation'])//The main directive on the site.
 
 
 
@@ -21,7 +21,7 @@ clientModule.factory('graphService', function($rootScope, $http){//Factory for c
 		
 		if (!graphService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/comLink?subscribe-broadcast');
+			ws = new WebSocket('ws://10.0.1.13:8080/ws/comLink?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				graphService.set = true;
@@ -78,7 +78,7 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 		
 		if (!mapService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/coords?subscribe-broadcast');
+			ws = new WebSocket('ws://10.0.1.13:8080/ws/coords?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				mapService.set = true;
@@ -123,8 +123,9 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 	return mapService;
 });
 
-function MapCtrl($scope, mapService, $http){
+function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 	$scope.quadPosition = {};
+	$scope.mobilePosition = {};
 	$scope.map = {
 	    center: {//Coodinates are center of map(Linköping)
 	        latitude: 58.40721748,
@@ -132,7 +133,13 @@ function MapCtrl($scope, mapService, $http){
 	    },
 	    zoom: 16
 	};
-
+	$scope.left = false;
+	$scope.setView = function(){
+		if (!isMobileDevice()){
+			$scope.left= ! $scope.left;
+			
+		}	
+	}
 	
 	$scope.$on('httpLocation', function(){
 		result = mapService.data;
@@ -145,6 +152,21 @@ function MapCtrl($scope, mapService, $http){
 		$scope.quadPosition.latitude = result[0].fields.latitude;//Updating position on map.
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
+	
+	$scope.intervalFunction = function(){
+		$timeout(function() {
+			console.log("hej");
+				geolocation.getLocation().then(function(data){
+			      $scope.mobilePosition.latitude = data.coords.latitude;
+				  $scope.mobilePosition.longitude = data.coords.longitude; 
+			    });
+			$scope.intervalFunction();
+		}, 4000)
+	};
+	if (isMobileDevice()){
+		$scope.intervalFunction();
+	}
+
 	
 }
 
@@ -167,13 +189,15 @@ function MenuCtrl($scope, graphService, mapService){
 		$scope.mobile = false;
 	}
 	
+	$scope.battery = 100;
+	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
 			$scope.welcome = true;
 			$scope.communications = false;
 			$scope.video = false;
 			$scope.maps = false;
-			graphService.setUpWebsockets('close');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
+			graphService.setUpWebsockets('open');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
 			mapService.setUpMapWebsockets('close');
 			
 		}
@@ -192,7 +216,7 @@ function MenuCtrl($scope, graphService, mapService){
 			$scope.communications = false;
 			$scope.video = true;
 			$scope.maps= false;
-			graphService.setUpWebsockets('close');
+			graphService.setUpWebsockets('open');
 			mapService.setUpMapWebsockets('close');
 			
 		}
@@ -202,44 +226,57 @@ function MenuCtrl($scope, graphService, mapService){
 			$scope.video = false;
 			$scope.maps= true;
 			mapService.getLocation();
-			graphService.setUpWebsockets('close');
+			graphService.setUpWebsockets('open');
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
 		}
 	    
 	 };
-	
+	 
+
+	 
+	 $scope.i = 0;
+ 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.
 		
+ 		
+		$scope.i++;
+		if ($scope.i == 10){
+	 		result = graphService.message;
+		
+			$scope.battery = ((result[0].fields.BatteryCell1 + result[0].fields.BatteryCell2 + result[0].fields.BatteryCell3)/3).toFixed(2);
+			$scope.i = 0;
+		}
+	});
 	
 }
 
 function GraphCtrl($scope, graphService){
 	
-	//viewer.rotate(120,33,22);
 	$scope.contentLeft = "contentLeft";
 	$scope.contentRight = "contentRight  contentDividerRight";
-	$scope.left=false;
-	$scope.update = true;
 	
+	$scope.left=false;
+
 	$scope.setView = function(){
 		$scope.left= ! $scope.left;
-		//$scope.$apply();
-		$scope.update = false;
 		
 	}
-	$scope.xAngle = true;//booleans for what data to be displayed.
-	$scope.yAngle = true;
-	$scope.zAngle = true;
-	$scope.aAngle = true;
-	$scope.bAngle = true;
+	
+	$scope.batteryShow = true;//booleans for what data to be displayed.
+	$scope.engineShow = true;
+	$scope.temperatureShow = true;
+	$scope.altitudeShow = true;
+
+	$scope.last = false;
+	
 	$scope.playBattery = true;
 	$scope.playEngine = true;
 	$scope.playTemp = true;
 	$scope.playAlt = true;
 	$scope.play = true;
+	
 	$scope.setGraphVisability = function(var1){
 		var1 = ! var1;
-		$scope.update = true;
 	};
 	$scope.setPlayPause = function(){//Pause or play data stream.
 		$scope.play = ! $scope.play;
@@ -493,15 +530,7 @@ function GraphCtrl($scope, graphService){
 		result = graphService.message;
 		battery.length=0;
 		engines.length=0;
-		var roll = +result[0].fields.roll;
-		var pitch = +result[0].fields.pitch;
-		var yaw = +result[0].fields.yaw;
-		/*viewer.setParameter('InitRotationX', roll);
-		viewer.setParameter('InitRotationY', pitch);
-		viewer.setParameter('InitRotationz', yaw);
-		viewer.init();
-		viewer.update();*/
-		//viewer.rotate(+result[0].fields.roll,+result[0].fields.pitch,+result[0].fields.yaw);
+		
 		$scope.updateColumnChart(result[0].fields.BatteryCell1,result[0].fields.BatteryCell2,result[0].fields.BatteryCell3,
 			result[0].fields.Engine1,result[0].fields.Engine2,result[0].fields.Engine3, result[0].fields.Engine4);	//websocket data is single Json row of data.
 		$scope.updateChart(result[0].fields.Temperature, result[0].fields.Altitude);
@@ -514,13 +543,6 @@ function GraphCtrl($scope, graphService){
 		alt.length=0;
 		xVal = 0;
 		result = graphService.data;
-		var roll = +result[result.length-1].fields.roll;
-		var pitch = +result[result.length-1].fields.pitch;
-		var yaw = +result[result.length-1].fields.yaw;
-		console.log(roll + " " + yaw + " " + pitch);
-		
-		
-
 		//console.log("http");
 		$scope.updateColumnChart(result[result.length-1].fields.BatteryCell1,result[result.length-1].fields.BatteryCell2,
 			result[result.length-1].fields.BatteryCell3, result[result.length-1].fields.Engine1,result[result.length-1].fields.Engine2,
@@ -538,15 +560,22 @@ function SlideCtrl($scope, $timeout){
 	$scope.mobile = false;
 	if (isMobileDevice()){
 		$scope.mobile = true;
-		$scope.slides = [];
+		//$scope.slides = [];
+		$scope.slides = [
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile1.jpg', description: 'Image 0'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile2.jpg', description: 'Image 1'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile3.jpg', description: 'Image 2'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile4.jpg', description: 'Image 3'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/mobile5.jpg', description: 'Image 4'},
+		];
 	
 	} else {
 		$scope.slides = [
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Abstract.jpg', description: 'Image 0'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Beach.jpg', description: 'Image 1'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Circles.jpg', description: 'Image 2'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Brushes.jpg', description: 'Image 3'},
-			{image: DJANGO_STATIC_URL+'client/quadcopter/Blue Pond.jpg', description: 'Image 4'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0011.jpg', description: 'Image 0'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0012.jpg', description: 'Image 1'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0013.jpg', description: 'Image 2'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0014.jpg', description: 'Image 3'},
+			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0015.jpg', description: 'Image 4'},
 		];
 	}
 	/* Static images loaded from Django inte the clientview. These being displayed as a slideshow on the home page. */
@@ -575,9 +604,20 @@ function SlideCtrl($scope, $timeout){
 	};
 	$scope.intervalFunction();
 }
+function VideoCtrl($scope, $timeout){
+	$scope.left = false;
+	$scope.setView = function(){
+		if (!isMobileDevice()){
+			$scope.left= ! $scope.left;
+			
+		}
+		//$scope.$apply();		
+	}
+
+}
 
 
 MenuCtrl.$inject = ['$scope', 'graphService', 'mapService'];
 GraphCtrl.$inject = ['$scope', 'graphService'];
-MapCtrl.$inject = ['$scope', 'mapService', '$http'];
+MapCtrl.$inject = ['$scope', 'mapService', '$http', '$timeout', 'geolocation'];
 

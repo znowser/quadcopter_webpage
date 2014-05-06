@@ -10,5 +10,6 @@ javascript:
 angular-charts
 angular-google-maps
 underscore.min.js
+geolocation.js
 
 animate.css
