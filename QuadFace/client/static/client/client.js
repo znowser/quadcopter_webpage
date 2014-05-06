@@ -285,17 +285,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
-<<<<<<< HEAD
 			$scope.goToFrontPage();
-=======
-			$scope.welcome = true;
-			$scope.communications = false;
-			$scope.video = false;
-			$scope.maps = false;
-			graphService.setUpWebsockets('open');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
-			mapService.setUpMapWebsockets('close');
-			
->>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 		}
 		if (item.localeCompare('communications') == 0){//Communications window
 			//hide all views that are defined and check which one that shall be visible	
@@ -310,12 +300,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			//hide all views that are defined and check which one that shall be visible
 			$scope.hideAllViews();
 			$scope.video = true;
-<<<<<<< HEAD
-			graphService.setUpWebsockets('close');
-=======
-			$scope.maps= false;
 			graphService.setUpWebsockets('open');
->>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 			mapService.setUpMapWebsockets('close');
 			
 		}
@@ -329,7 +314,6 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
 		}
-<<<<<<< HEAD
 		//login view
 		if(item.localeCompare('login') == 0){
 			if(loginService.userLoggedIn){
@@ -365,7 +349,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		//hide all views that are defined and check which one that shall be visible
 		$scope.hideAllViews();
 		$scope.welcome = true;
-		graphService.setUpWebsockets('close');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
+		graphService.setUpWebsockets('open');//Since the user isen't watching neither graphs or map here no websockets needs to be open, close if open.
 		mapService.setUpMapWebsockets('close');
 	}
 	 
@@ -378,26 +362,17 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			$scope.userLoggedIn = "Sign out";
 		}
 	});
-=======
-	    
-	 };
 	 
-
-	 
-	 $scope.i = 0;
- 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.
-		
- 		
+	$scope.i = 0;
+ 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.			
 		$scope.i++;
 		if ($scope.i == 10){
-	 		result = graphService.message;
+			result = graphService.message;
 		
 			$scope.battery = ((result[0].fields.BatteryCell1 + result[0].fields.BatteryCell2 + result[0].fields.BatteryCell3)/3).toFixed(2);
 			$scope.i = 0;
 		}
 	});
-	
->>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 }
 
 function loginCtrl($scope, loginService, $http) {
@@ -405,7 +380,6 @@ function loginCtrl($scope, loginService, $http) {
 		loginService.submitlogin($scope.loginUsername, $scope.loginPassword);
 	};
 	
-<<<<<<< HEAD
 	$scope.$on('loginResponse', function(){
 		$scope.loginStatus = loginService.loginStatus;
 	});
@@ -417,7 +391,7 @@ function GraphCtrl($scope, graphService){
 	$scope.zAngle = true;
 	$scope.aAngle = true;
 	$scope.bAngle = true;
-=======
+	
 	$scope.contentLeft = "contentLeft";
 	$scope.contentRight = "contentRight  contentDividerRight";
 	
@@ -439,7 +413,6 @@ function GraphCtrl($scope, graphService){
 	$scope.playEngine = true;
 	$scope.playTemp = true;
 	$scope.playAlt = true;
->>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 	$scope.play = true;
 	
 	$scope.setGraphVisability = function(var1){
@@ -786,10 +759,7 @@ function VideoCtrl($scope, $timeout){
 
 MenuCtrl.$inject = ['$scope', 'graphService', 'mapService', 'loginService'];
 GraphCtrl.$inject = ['$scope', 'graphService'];
-<<<<<<< HEAD
 MapCtrl.$inject = ['$scope', 'mapService', '$http'];
 loginCtrl.$inject = ['$scope', 'loginService', '$http'];
-=======
 MapCtrl.$inject = ['$scope', 'mapService', '$http', '$timeout', 'geolocation'];
->>>>>>> 626a426c821b11fa77462a54cdb17567434066e9
 
