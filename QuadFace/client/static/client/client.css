@@ -375,6 +375,7 @@ color:#3A66A7;
 margin-left:2%;
 margin-right:2%;
 display:inline;
+line-height:150%;
 }
 
 .smallHeaderLink
@@ -383,6 +384,8 @@ color:#3A66A7;
 cursor: pointer;
 margin-left:2%;
 margin-right:2%;
+display:inline;
+line-height:150%;
 
 }
 

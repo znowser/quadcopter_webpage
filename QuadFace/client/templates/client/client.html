@@ -98,7 +98,7 @@
 				
 				<!-- ==== Right content container, hide for mobile devices ==== -->
 				<div class="contentRight contentDividerRight" ng-hide="mobile">
- 					<h3 class="header">Welcome to the quadcopter GUI</h3>
+ 					<h3 class="header">Welcome to the quadcopter GUI</h3><br>
 					<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
 					<p class="standard">
 						Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.
@@ -111,16 +111,16 @@
 					<p class="standard">
 						This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.
 					</p>
-					<h5 class="smallHeader">Control it</h5>
+					<h5 class="smallHeaderNoNewLine">Control it</h5>
 					<p class="standard">
 						Not only is the user able to watch a live stream from the quadcopter, the user will also be able to stear the quadcopter.
 					</p>
- 					<h3 class="header">About</h3>
-					<h5 class="smallHeader">Quadcopter</h5>
+ 					<h3 class="header">About</h3><br>
+					<h5 class="smallHeaderNoNewLine">Quadcopter</h5>
 					<p class="standard">
 						Quadcopter is a project driven by five students on Linköpings Tekniska Högskola. It is about building a functional quadcopter. 
 					</p>
-					<h5 class="smallHeader">Web GUI</h5>
+					<h5 class="smallHeaderNoNewLine">Web GUI</h5>
 					<p class="standard">
 						This GUI is a part of the quadcopter project and also a part of the course TDDD27, avancerad webbprogrammering. 
 					</p>
@@ -184,10 +184,10 @@
 					<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.<br>
 					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p><hr class="line">
 					
-					<h3 class="header">Play/pause datastream:</h5>
-					<h5 class="smallHeader">Play/Pause</h5>
-					<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
-					<h5 class="smallHeader">Enlarge</h5>
+					<h3 class="header">Play/pause datastream:</h5><br>
+					<h5 class="smallHeaderNoNewLine">Play/Pause</h5><br>
+					<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button><br>
+					<h5 class="smallHeaderNoNewLine">Enlarge</h5>
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 					
@@ -211,12 +211,12 @@
 				
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
-					<h3 class="header">Video Stream</h3>
-					<h5 class="smallHeader">Live</h5>
+					<h3 class="header">Video Stream</h3><br>
+					<h5 class="smallHeaderNoNewLine">Live</h5>
 					<p class="standard">
 						This is a live stream coming from the qudcopter. If the screen is black that means the camera is off. Please start the camera if you wish to watch the stream.
 					</p>
-					<h5 class="smallHeader">Enlarge</h5>
+					<h5 class="smallHeaderNoNewLine">Enlarge</h5>
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 					
@@ -242,16 +242,16 @@
 					</div>
 				
 					<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
-						<h3 class="header">Map</h3>
-						<h5 class="smallHeader">Coordinates</h5>
+						<h3 class="header">Map</h3><br>
+						<h5 class="smallHeaderNoNewLine">Coordinates</h5>
 						<p class="standard">
 						The marker shown on the map is the last known location of the quadcopter.
 						</p>
-						<h5 class="smallHeader">Build route</h5>
+						<h5 class="smallHeaderNoNewLine">Build route</h5>
 						<p class="standard">
 						In the future it will be possible from this GUI to build routes for the quadcopter.
 						</p>
-						<h5 class="smallHeader">Enlarge</h5>
+						<h5 class="smallHeaderNoNewLine">Enlarge</h5>
 						<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 					
 					</div>
