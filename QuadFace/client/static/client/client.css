@@ -321,11 +321,11 @@ color:#104E8B;
 }
 
 .ckboxText {
-	margin-left:2%;
+	margin-left:0px;
 	font-size:80%;
 	display: inline;
 	font-weight: bold;
-	line-height:80%;
+	line-height:20%;
 }
 
 .line
