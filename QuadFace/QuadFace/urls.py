@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^communication/', include('CommunicationLink.urls')),
     url(r'^auth/', include('AuthSystem.urls')),
     url(r'^admin/', include(admin.site.urls)),
+	url(r'^control/', include("control.urls")),
 )

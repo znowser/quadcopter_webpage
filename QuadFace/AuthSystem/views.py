@@ -3,37 +3,26 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
-def loginSite(request):
-	context = {}
-	return render(request, 'AuthSystem/login.html', context)
- 
 def logoutUser(request):
-	logout(request)
+	if request.user.is_authenticated():
+		logout(request)
 	return HttpResponse("Ok")
  
 def authentication(request):
-	#print request.body
-	#data = simplejson.loads( request.raw_post_data )
-	username = request.POST['username']
-	password = request.POST['password']
+	#get username and password from post data
+	username = request.POST.get('username', '')
+	password = request.POST.get('password', '')
 	response = ""
-	
-	#print username + " " + password
+		
 	user = authenticate(username=username, password=password)
 	if user is not None:
-		response = "Logged in"
 		# the password verified for the user
 		if user.is_active:
 			login(request, user)
-			response =  "User is valid, active and authenticated"
+			response =  "ok"
 		else:
 			response = "Account has been disabled!"
 	else:
 		response = "The username/password was incorrect."
 	
 	return HttpResponse(response)
-	
-@login_required(login_url='/auth/')
-def loginTest(request):
-	context = {}
-	return render(request, 'AuthSystem/tete.html', context)

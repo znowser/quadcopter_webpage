@@ -3,7 +3,6 @@ from AuthSystem import views
 
 
 urlpatterns = patterns('',
-	url(r'^authentication/', views.authentication, name='authentication'),
-	url(r'^loginTest', views.loginTest),
-	url(r'^$', views.loginSite, name='loginSite'),
+	url(r'^$', views.authentication, name='auth'),
+	url(r'^logout/', views.logoutUser, name='logoutUser'),
 )

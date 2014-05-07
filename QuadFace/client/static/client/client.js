@@ -1,8 +1,6 @@
 
 var clientModule = angular.module('client', ['google-maps', 'ngAnimate', 'geolocation'])//The main directive on the site.
 
-
-
 var isMobileDevice = function(){
 	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
 		return true;
@@ -76,16 +74,18 @@ clientModule.factory('loginService', function($rootScope, $http){
 			//asynchronously login request
 			$http({ 
 					method: 'POST', 
-					url: '/auth/authentication/', 
+					url: '/auth/', 
 					data: {'username': loginUsername, 'password': loginPassword },
 					}).
 			success(function($data, $status, $headers, $config) {
+				//Django sends ok if the login was successful
+				if($data.localeCompare("ok") == 0)
+					loginService.userLoggedIn = true;
+					
 				loginService.loginStatus = $data;
-				loginService.userLoggedIn = true;
 				loginService.broadcastLoginResponse();
 			}).error(function($data, $status){
-				loginService.loginStatus = $data;
-				loginService.broadcastLoginResponse();
+				alert("Error code from server: " + $status);
 			});
 		}
 	}
@@ -256,23 +256,39 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 	
 }
 
-function MenuCtrl($scope, graphService, mapService, loginService){
-	$scope.welcome = true;
-	$scope.communications = false;
-	$scope.video = false;
-	$scope.maps = false;
-	$scope.login = false;
-	
+function MenuCtrl($scope, $http, graphService, mapService, loginService){
+	 // ==== Help functions used only in this controller ====
+	 $scope.hideAllViews = function(){
+		$scope.welcome = false;
+		$scope.communications = false;
+		$scope.video = false;
+		$scope.maps= false;
+		$scope.loginView = false;
+		$scope.controllerView = false;
+	 }
+	 
+	 $scope.goToFrontPage = function(){
+		//hide all views that are defined and check which one that shall be visible
+		$scope.hideAllViews();
+		$scope.welcome = true;
+		graphService.setUpWebsockets('open');
+		mapService.setUpMapWebsockets('close');//Since the user isen't watching map here no websockets needs to be open, close if open.
+	}
+	//=======================================================
+
+	//set the front page to be the start page
+	$scope.goToFrontPage();
+	$scope.LoggedInControlData = "";
 	//Drive/control tab, only visible for logged in users
 	$scope.driveMenyItem = false;
-	
+	$scope.userLoggedIn = "Sign in";
 	//init value for battery image
 	$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_100.png', description: '100%'};
 	
-	$scope.userLoggedIn = "Sign in";
 	$scope.frameClass = "";//Some css classes differ wether mobile or desktop, these are set here. 
 	$scope.ContentClass = "";
 	
+	//==== Check if the client is desktop or mobile ====
 	$scope.mobile = false;
 	if (isMobileDevice()){
 		$scope.contentClass = "contentMobile";
@@ -283,12 +299,14 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		$scope.frameClass = "frame";
 		$scope.mobile = false;
 	}
+	//============================
 	
-	$scope.showContent = function(item) {//Menu function
+	//Menu function, This function determine what page that shall be shown in the browser
+	$scope.showContent = function(item) {
 		if (item.localeCompare('welcome') == 0){//Welcome window
 			$scope.goToFrontPage();
 		}
-		if (item.localeCompare('communications') == 0){//Communications window
+		else if (item.localeCompare('communications') == 0){//Communications window
 			//hide all views that are defined and check which one that shall be visible	
 			$scope.hideAllViews();
 			$scope.communications = true;
@@ -297,7 +315,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			graphService.setUpWebsockets('open');//Open the websocket for graphs
 			
 		}
-		if (item.localeCompare('video') == 0){//Video view
+		else if (item.localeCompare('video') == 0){//Video view
 			//hide all views that are defined and check which one that shall be visible
 			$scope.hideAllViews();
 			$scope.video = true;
@@ -305,7 +323,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			mapService.setUpMapWebsockets('close');
 			
 		}
-		if (item.localeCompare('maps') == 0){//map view
+		else if (item.localeCompare('maps') == 0){//map view
 			//hide all views that are defined and check which one that shall be visible
 			$scope.hideAllViews();
 			$scope.maps= true;
@@ -316,7 +334,7 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 			
 		}
 		//login view
-		if(item.localeCompare('login') == 0){
+		else if(item.localeCompare('login') == 0){
 			if(loginService.userLoggedIn){
 				$scope.driveMenyItem = false;
 				$scope.loginView = false;
@@ -326,33 +344,30 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 				$scope.hover5 = false;
 				//redirect the newly logged out user to the front page.
 				$scope.goToFrontPage();
+				//send logout request to django
+				//The request to django have no check for failure.
+				$http({method: 'GET', url: '/auth/logout'});
+				//TODO check if the data is actually sent.
 			}
 			else{
 				$scope.loginView = true;
 			}
 		}
 		
-		if(item.localeCompare('controller') == 0){
+		else if(item.localeCompare('controllerView') == 0){
 			$scope.hideAllViews();
-			$scope.controller = true;
+			$scope.controllerView = true;
+			//access logged in page, the login check is done on the server side by django.
+			$http({method: 'GET', url: '/control/'}).
+				success(function($data, $status, $headers, $config) {
+					$scope.LoggedInControlData = $data;
+				}).error(function($data, $status){
+					alert($status);
+				});
 		}
 	 };
 	 
-	 $scope.hideAllViews = function(){
-		$scope.welcome = false;
-		$scope.communications = false;
-		$scope.video = false;
-		$scope.maps= false;
-		$scope.loginView = false;
-	 }
-	 
-	 $scope.goToFrontPage = function(){
-		//hide all views that are defined and check which one that shall be visible
-		$scope.hideAllViews();
-		$scope.welcome = true;
-		graphService.setUpWebsockets('open');
-		mapService.setUpMapWebsockets('close');//Since the user isen't watching map here no websockets needs to be open, close if open.
-	}
+
 	 
 	 //listen if the login was successful and update GUI if that was the case.
 	$scope.$on('loginResponse', function(){
@@ -380,19 +395,25 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		});
 }
 
+//TODO FIX login when updating page (F5)
 function loginCtrl($scope, loginService, $http) {
 	$scope.submitlogin = function(){
 		loginService.submitlogin($scope.loginUsername, $scope.loginPassword);
 	};
 	
 	$scope.$on('loginResponse', function(){
-		$scope.loginStatus = loginService.loginStatus;
+		//Show only a text message if the login failed.
+		var response = loginService.loginStatus;
+		if(response.localeCompare('ok') == 0)
+			$scope.loginStatus = " ";
+		else	
+			$scope.loginStatus = response;
 	});
 }
 
 function GraphCtrl($scope, graphService, $timeout){	
 
-	$scope.left=false;
+	$scope.left = false;
 
 	$scope.setView = function(){
 		$scope.left= ! $scope.left;
@@ -807,7 +828,7 @@ function FooterCtrl($scope){
 }
 
 
-MenuCtrl.$inject = ['$scope', 'graphService', 'mapService', 'loginService'];
+MenuCtrl.$inject = ['$scope', '$http','graphService', 'mapService', 'loginService'];
 GraphCtrl.$inject = ['$scope', 'graphService', '$timeout'];
 MapCtrl.$inject = ['$scope', 'mapService', '$http'];
 loginCtrl.$inject = ['$scope', 'loginService', '$http'];

@@ -48,7 +48,7 @@
 					Map
 			 	</div>
 				<div class="menuLine"></div>
-				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controller')">
+				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controllerView')">
 					Control
 			 	</div>
 				<div class="menuLine" ng-show="driveMenyItem"></div>
@@ -310,9 +310,9 @@
 			<!-------------------------END OF LOGIN-------------------------------------------------------------------------------->
 			<!-- ======================================== -->
 			
-			<!--  control view -->
-			<div class="popupContentSides" ng-show="controlView">
-				TODO
+			<!-- ===========  CONTROL VIEW ============== -->
+			<div class="content" id="controllerDivContent" ng-show="controllerView">
+				<p class="standard"> {% verbatim %}{{LoggedInControlData}}{% endverbatim %} </p>
 			</div>
 			<!-- ======================================== -->
 			
