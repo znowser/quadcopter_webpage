@@ -281,6 +281,9 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 	//Drive/control tab, only visible for logged in users
 	$scope.driveMenyItem = false;
 	
+	//init value for battery image
+	$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_100.png', description: '100%'};
+	
 	$scope.userLoggedIn = "Sign in";
 	$scope.frameClass = "";//Some css classes differ wether mobile or desktop, these are set here. 
 	$scope.ContentClass = "";
@@ -294,9 +297,6 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		$scope.frameClass = "frame";
 		$scope.mobile = false;
 	}
-	
-	//init value for battery image
-	$scope.batteryImage = {image: DJANGO_STATIC_URL + 'client/battery_status/battery_smallest_grey_100.png', description: 'Full battery'};
 	
 	$scope.showContent = function(item) {//Menu function
 		if (item.localeCompare('welcome') == 0){//Welcome window
@@ -378,7 +378,8 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 		}
 	});
 	 
- 	$scope.$on('websocket', function(){//Here a controller listens for new data on the websocket.
+	 //listener for the updating of the battery icon in the menu
+ 	$scope.$on('websocket', function(){
 			result = graphService.message;	
 			$scope.battery = ((result[0].fields.BatteryCell1 + result[0].fields.BatteryCell2 + result[0].fields.BatteryCell3)/3).toFixed(2);
 			if($scope.battery > 75)
