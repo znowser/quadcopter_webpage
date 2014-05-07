@@ -125,19 +125,6 @@ margin: 6px 0px 0px 0px;
 line-height:36px;
 vertical-align:middle;
 }
-.batteryItemLow
-{ 
-position:fixed;
-right:10px;
-height:36px;
-float:left;
-margin-left:3%;
-margin-right:3%;
-text-align:center;
-vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:36px;/*putting the text at the middle of the item heightwise*/
-color:red;
-}
 
 .hover
 { 
