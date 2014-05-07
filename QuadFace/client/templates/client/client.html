@@ -278,36 +278,34 @@
 		<!-------------------------START OF LOGIN-------------------------------------------------------------------------------->	
 		<!-- Login view-->
 		<div class="popupContentSides" ng-show="loginView" ng-click="loginView = false">
-					<center>
-						<div id="loginDivContent" class="popupContent"  ng-click="loginView = true;$event.stopPropagation()" ng-controller="loginCtrl">
-								<div class="popupContentLeft">
-									<form>
-										<h3 class="header">Sign in</h3>
-										<h5 class="smallHeader">Username</h5>
-										<input class="standard inputbox" type="text" ng-model="loginUsername">
-										<h5 class="smallHeader">Password</h5>
-										<input class="standard inputbox" type="password" ng-model="loginPassword">
-										<input class="standard button" type="submit" value="Sign in" ng-click="submitlogin()">
-									</form>
-									<p class="standard">{% verbatim %} {{loginStatus}} {% endverbatim %}</p>
-
-								</div>
-							
-								<div class="popupContentRight contentDividerRight">
-									<h3 class="header">New user</h3>
-									<h5 class="smallHeader">Register new account</h5>
-									<p class="standard"> If you don't already have an account sign up on the form below. It is free and give you access to control the quadcopter!</p>
+					<div id="loginDivContent" class="popupContent"  ng-click="loginView = true;$event.stopPropagation()" ng-controller="loginCtrl">
+							<div class="popupContentLeft">
+								<form>
+									<h3 class="header">Sign in</h3>
 									<h5 class="smallHeader">Username</h5>
-									<input class="standard inputbox" type="text" name="newUsername">
-									<h5 class="smallHeader">Email</h5>
-									<input class="standard inputbox" type="text" name="newEmail">
-									<h5 class="smallHeader">Password &nbsp&nbsp [repeat two times]</h5>
-									<input class="standard inputbox" type="password" name="newPassword1">
-									<input class="standard inputbox" type="password" name="newPassword2">
-									<input class="standard button" type="submit" value="Register">
-								</div>
-					</div>
-				</center>
+									<input class="standard inputbox" type="text" ng-model="loginUsername">
+									<h5 class="smallHeader">Password</h5>
+									<input class="standard inputbox" type="password" ng-model="loginPassword">
+									<input class="standard button" type="submit" value="Sign in" ng-click="submitlogin()">
+								</form>
+								<p class="standard">{% verbatim %} {{loginStatus}} {% endverbatim %}</p>
+
+							</div>
+						
+							<div class="popupContentRight contentDividerRight">
+								<h3 class="header">New user</h3>
+								<h5 class="smallHeader">Register new account</h5>
+								<p class="standard"> If you don't already have an account sign up on the form below. It is free and give you access to control the quadcopter!</p>
+								<h5 class="smallHeader">Username</h5>
+								<input class="standard inputbox" type="text" name="newUsername">
+								<h5 class="smallHeader">Email</h5>
+								<input class="standard inputbox" type="text" name="newEmail">
+								<h5 class="smallHeader">Password &nbsp&nbsp [repeat two times]</h5>
+								<input class="standard inputbox" type="password" name="newPassword1">
+								<input class="standard inputbox" type="password" name="newPassword2">
+								<input class="standard button" type="submit" value="Register">
+							</div>
+				</div>
 			</div>
 			<!-------------------------END OF LOGIN-------------------------------------------------------------------------------->
 			<!-- ======================================== -->
