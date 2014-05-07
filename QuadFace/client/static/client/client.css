@@ -4,7 +4,8 @@ height:100%;
 width:100%;
 margin:0px 0px 0px 0px;
 padding:0;
-background-color:#DBDBDB;
+/*background-color:#DBDBDB;*/
+background-color:#F2F2F2;
 font-family:Georgia;
 color:#333;
 }
@@ -64,7 +65,7 @@ margin: 0 auto -40px;
 .menu
 {
 width:100%;/*Border at the bottom of the border, 1px*/ 
-height:40px;
+height:36px;
 background-color:#3B6AA0;
 text-align:center;/*putting the text at the middle of the item widthwise*/
 top:0;
@@ -83,7 +84,7 @@ border-color:black;
 .footer{
 clear:both;
 width:100%;
-height:40px;
+height:36px;
 background-color:#3B6AA0;
 margin-top:15px;
 margin-right:0%;
@@ -105,11 +106,13 @@ border-color:black;
 { 
 height:100%;
 float:left;
-margin-left:3%;
-margin-right:3%;
+padding-left:2%;
+padding-right:2%;
+margin-left:2px;
+margin-right:2px;
 text-align:center;
 vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:40px;/*putting the text at the middle of the item heightwise*/
+line-height:36px;/*putting the text at the middle of the item heightwise*/
 color:white;
 }
 
@@ -117,41 +120,59 @@ color:white;
 { 
 	position:fixed;
 	right:10px;
-height:40px;
+height:36px;
 float:left;
 margin-left:3%;
 margin-right:3%;
 text-align:center;
 vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:40px;/*putting the text at the middle of the item heightwise*/
+line-height:36px;/*putting the text at the middle of the item heightwise*/
 color:white;
 }
 .batteryItemLow
 { 
 position:fixed;
 right:10px;
-height:100%;
+height:36px;
 float:left;
 margin-left:3%;
 margin-right:3%;
 text-align:center;
 vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:40px;/*putting the text at the middle of the item heightwise*/
+line-height:36px;/*putting the text at the middle of the item heightwise*/
 color:red;
 }
 
 .hover
 { 
-height:100%;
+background-color:#345e8d;
+border-radius:3px;
 cursor: pointer;
+height:26px;
 float:left;
-margin-left:3%;
-margin-right:3%;
-border-radius:7px;
+padding-left:2%;
+padding-right:2%;
+margin-left:2px;
+margin-right:2px;
+margin-top:5px;
 text-align:center;
-vertical-align:middle;
+vertical-align:middle;/*putting the text at the middle of the item heightwise*/
+line-height:26px;/*putting the text at the middle of the item heightwise*/
 color:white;
-background-color:#26466D;
+
+}
+
+.menuLine {
+	height:17px;
+	margin-top:8px;
+	float:left;
+	border-style:solid;
+	border-right:0;
+	border-top:0;
+	border-bottom:0;
+	border-width:1px;
+	color:#345e8d;
+
 }
 
 /*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
@@ -264,6 +285,37 @@ border-left:0px;
 border-top:0px;
 border-bottom:0px;
 border-color:#3B6AA0;
+}
+
+.about {
+width:230px;	
+height:300px;	
+left:180px;
+bottom:38;
+position:fixed;
+background-color:#E3E3E3;
+border-radius:7px;
+z-index:71;
+padding-left:2%;
+padding-right:2%;
+margin-left:2px;
+margin-right:2px;
+border-style:solid;
+border-width:1px;
+border-color:#A6A6A6;
+text-align:left;
+color:black;
+cursor:auto;
+}
+
+.aboutContent{
+	cursor:pointer;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:70;
 }
 
 /*Different text CSS, regular, headings...*/
@@ -436,7 +488,8 @@ width:90%;
 height:50%;
 padding:;
 position:relative;
-background-color:#CCCCCC;
+/*background-color:#CCCCCC;*/
+background-color:#E3E3E3;
 border-radius:10px;
 }
 
@@ -444,7 +497,8 @@ border-radius:10px;
 width:90%;
 height:90%;
 position:relative;
-background-color:#CCCCCC;
+/*background-color:#CCCCCC;*/
+background-color:#E3E3E3;
 border-radius:10px;
 }
 

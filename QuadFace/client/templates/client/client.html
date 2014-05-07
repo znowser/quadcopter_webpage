@@ -11,6 +11,7 @@
 		
 		<script src="{% static "client/client.js" %}"></script>
 		<script src="{% static "client/canvasjs-1/canvasjs.min.js" %}"></script>
+		<!--<script src="{% static "client/canvasjs-1.4.0-beta3-int2/canvasjs.min.js" %}"></script>-->
 		<script src="{% static "client/geolocation/src/geolocation.js" %}"></script>
 		<script src="{% static "client/underscore-master/underscore-min.js" %}"></script>
 		<script src="{% static "client/angular-google-maps-master/dist/angular-google-maps.js" %}"></script>
@@ -25,24 +26,32 @@
 	<!--App for the Angular application is client.-->
 
 	<body ng-app="client" >
+		
+		<!-------------------------START OF MENU-------------------------------------------------------------------------------->
 		<!--MenuCtrl is setting which view that should be seen on menuItem click-->
 		<div ng-controller="MenuCtrl" class="wrapper">
 			<div class="menu">
+				<!-- This is here menuItems are added to the menu, also a menuLine as divider-->
 				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">
 					Home
 			 	</div>
+				<div class="menuLine"></div>
 				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">
 					Quadcopter Data
 			 	</div>
+				<div class="menuLine"></div>
 				<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">
 					Videostream
 			 	</div>
+				<div class="menuLine"></div>
 				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
 					Map
 			 	</div>
+				<div class="menuLine"></div>
 				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controller')">
 					Control
 			 	</div>
+				<div class="menuLine" ng-show="driveMenyItem"></div>
 				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">
 					{% verbatim %}{{userLoggedIn}}{% endverbatim %}
 				</div>
@@ -51,6 +60,9 @@
 					Battery: {% verbatim %}{{battery}}{% endverbatim %}%
 			 	</div>
 		 	</div>
+			<!-------------------------END OF MENU-------------------------------------------------------------------------------->
+			
+			<!-------------------------START OF HOME-------------------------------------------------------------------------------->
 			<!--Index page, slideshow and some information about the page and quadcopter
 			Generates left container for desktop or generate only one large container for mobile devices-->
 			<div id="welcomeDivContent" class="content" ng-show='welcome' ng-controller="SlideCtrl">
@@ -63,7 +75,7 @@
 						<h1 ng-hide="mobile" class="logoText"> Quadcopter Project </h1>
 					</center>
 					
-					<!-- ==== Mobile version of the front page ==== -->
+					<!-- ==== Mobile text of the front page ==== -->
 					<div ng-show="mobile" class="mobileMargin"> 
 						<h1 class="logoText standard">Quadcopter Project</h1>
  						<h3 class="header">Welcome to the quadcopter mobile device GUI</h3>
@@ -116,32 +128,36 @@
  			 	</div>
 				<!-- ================================== -->
 		 	</div>
+			<!-------------------------END OF HOME-------------------------------------------------------------------------------->
+			
+			
+			<!-------------------------START OF COMMUNICATIONS-------------------------------------------------------------------------------->
 			<!-- Data coming from the quadcopter -->
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft" ng-click="setView()" ng-show="!left">
-						<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 		<div id="batteryContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="batteryShow">
-				 		</div>
-				 		<div id="engineContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="engineShow">
-				 		</div>
-						<div id="temperatureContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="temperatureShow" >
-						</div>
-				 		<div id="altitudeContainer" ng-click="$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" >
-				 		</div><br>
-						<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+				<div class="contentLeft" ng-click="setView();" ng-show="!left">
+					<!--This is the graphs being painted on the page, can be hidden by the user -->
+				 	<div id="batteryContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphLeft" ng-show="batteryShow">
+				 	</div>
+				 	<div id="engineContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphLeft" ng-show="engineShow" >
+				 	</div>
+					<div id="temperatureContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphLeft" ng-show="temperatureShow" >
+					</div>
+				 	<div id="altitudeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" >
+				 	</div><br>
+					<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 						
  				</div>
-				<div class="contentLeftBig" ng-click="setView()" ng-show="left">
-						<!--This is the big version of the graphs, the canvasjs packet didn't allow for dynamic resizing of objects.. -->
-				 		<div id="batteryLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="batteryShow" >
-				 		</div>
-				 		<div id="engineLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="engineShow" >
-				 		</div>
-						<div id="temperatureLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" >
-						</div>
-				 		<div id="altitudeLargeContainer" ng-click="$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" >
-				 		</div><br>
-						<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+				<div class="contentLeftBig" ng-click="setView();" ng-show="left">
+					<!--This is the big version of the graphs, the canvasjs packet didn't allow for dynamic resizing of objects.. -->
+				 	<div id="batteryLargeContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphBig" ng-show="batteryShow">
+				 	</div>
+				 	<div id="engineLargeContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphBig" ng-show="engineShow" >
+				 	</div>
+					<div id="temperatureLargeContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" >
+					</div>
+				 	<div id="altitudeLargeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" >
+				 	</div><br>
+					<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
  				</div>
 				
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
@@ -169,7 +185,7 @@
 					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p><hr class="line">
 					
 					<h3 class="header">Play/pause datastream:</h5>
-						<h5 class="smallHeader">Play/Pause</h5>
+					<h5 class="smallHeader">Play/Pause</h5>
 					<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button>
 					<h5 class="smallHeader">Enlarge</h5>
 					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
@@ -177,19 +193,21 @@
 					
 				</div>
 			</div>
+			<!-------------------------END OF COMMUNICATIONS-------------------------------------------------------------------------------->
 			
+			<!------------------------START OF VIDEO-------------------------------------------------------------------------------->
 			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
  				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}" ng-click="setView()">
 					<center>
-					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
 						<!--Videoplayer-->
 						
-	 					<video  class="screen" ng-click="$event.stopPropagation()" ng-class="{screen2 : left}" controls autoplay preload="auto">
-	 	  					<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
+	 						<video  class="screen" ng-click="$event.stopPropagation()" ng-class="{screen2 : left}" controls autoplay preload="auto">
+	 	  						<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
 	 	  					Your browser does not support the video tag.
-	 					</video>
-				</div>
-				</center>
+	 						</video>
+						</div>
+					</center>
 				
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
@@ -204,57 +222,60 @@
 					
 				</div>
 			</div>
+			<!-------------------------END OF VIDEO-------------------------------------------------------------------------------->
 			
+			<!-------------------------START OF MAP-------------------------------------------------------------------------------->
   			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
 				<div ng-if="!left">
-				<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   ng-click="setView()">
-					<center>
-						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
-							<!--Google map-->
-							<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+					<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}"  ng-click="setView()">
+						<center>
+							<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-if="maps" >
+								<!--Google map-->
+								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
+									<marker coords="quadPosition"></marker>
+									<marker coords="mobilePosition"></marker>
+								</google-map>
+							</div>	
+						</center>
+						<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+					
+					</div>
+				
+					<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
+						<h3 class="header">Map</h3>
+						<h5 class="smallHeader">Coordinates</h5>
+						<p class="standard">
+						The marker shown on the map is the last known location of the quadcopter.
+						</p>
+						<h5 class="smallHeader">Build route</h5>
+						<p class="standard">
+						In the future it will be possible from this GUI to build routes for the quadcopter.
+						</p>
+						<h5 class="smallHeader">Enlarge</h5>
+						<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+					
+					</div>
+				</div>
+			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
+				<div ng-if="left">
+					<div  class="contentLeftBig"  ng-click="setView()">
+						<center>
+							<div class="frameMobile" >
+								<!--Google map-->
+								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
 								<marker coords="quadPosition"></marker>
 								<marker coords="mobilePosition"></marker>
 							</google-map>
 						</div>	
 					</center>
 					<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
-					
-				</div>
 				
-				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
-					<h3 class="header">Map</h3>
-					<h5 class="smallHeader">Coordinates</h5>
-					<p class="standard">
-						The marker shown on the map is the last known location of the quadcopter.
-					</p>
-					<h5 class="smallHeader">Build route</h5>
-					<p class="standard">
-						In the future it will be possible from this GUI to build routes for the quadcopter.
-					</p>
-					<h5 class="smallHeader">Enlarge</h5>
-					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
-					
 				</div>
-			</div>
-			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
-			<div ng-if="left">
-			<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentLeftBig : left}"   ng-click="setView()">
-				<center>
-					<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}"  ng-if="maps" >
-						<!--Google map-->
-						<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
-							<marker coords="quadPosition"></marker>
-							<marker coords="mobilePosition"></marker>
-						</google-map>
-					</div>	
-				</center>
-				<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
-				
-			</div>
 			</div>
 		</div>
-			
-			
+		<!-------------------------END OF MAP-------------------------------------------------------------------------------->	
+		
+		<!-------------------------START OF LOGIN-------------------------------------------------------------------------------->	
 		<!-- Login view-->
 		<div class="popupContentSides" ng-show="loginView" ng-click="loginView = false">
 					<center>
@@ -288,6 +309,7 @@
 					</div>
 				</center>
 			</div>
+			<!-------------------------END OF LOGIN-------------------------------------------------------------------------------->
 			<!-- ======================================== -->
 			
 			<!--  control view -->
@@ -300,13 +322,27 @@
 			<div class="push"></div>
 		</div>
 		<!--Footer-->
+		<div ng-controller="FooterCtrl">
 		<div class="footer">
 			<div  class="menuItem">
 				Trademark Quadis
 		 	</div>
-			<div  class="menuItem">
-				<a href="mailto:martinnordn@gmail.com" target="_top"> Contact Us </a>
+			<div class="menuLine"></div>
+			<div  class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="about = true">
+				Contact Us
+
 		 	</div>
 		</div>
+		<div class="aboutContent" ng-show="about" ng-click="about = false;$event.stopPropagation()">
+			
+		</div>
+		<div class="about" ng-show="about" ng-click="$event.stopPropagation()"> 
+			<h3 class="header">Contact info</h3>
+			<h5 class="smallHeader">Martin Nordén</h5>
+			<p class="standard"> mail: martinnordn@gmail.com</p>
+			<h5 class="smallHeader">Erik Tideman</h5>
+			<p class="standard"> mail: erik.tideman@gmail.com</p>
+		</div>
+	</div>
 	</body>
 </html>
