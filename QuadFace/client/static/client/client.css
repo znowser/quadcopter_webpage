@@ -8,6 +8,10 @@ background-color:#DBDBDB;
 font-family:Georgia;
 color:#333;
 }
+video {
+	margin:0 0 0 0;
+	background-color:black;
+}
 
 p
 {
@@ -423,6 +427,7 @@ margin-bottom:4%;
 .frame {
 width:90%;
 height:50%;
+padding:;
 position:relative;
 background-color:#CCCCCC;
 border-radius:10px;
