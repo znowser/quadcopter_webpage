@@ -56,8 +56,8 @@
 					{% verbatim %}{{userLoggedIn}}{% endverbatim %}
 				</div>
 				
-				<div class="batteryItem" ng-class="{batteryItemLow : (battery < 30) == true}" id="mapsDiv" >
-					Battery: {% verbatim %}{{battery}}{% endverbatim %}%
+				<div class="batteryItem" id="mapsDiv" >
+					<img ng-src="{% verbatim %}{{batteryImage.image}}{% endverbatim %}"></img>
 			 	</div>
 		 	</div>
 			<!-------------------------END OF MENU-------------------------------------------------------------------------------->
