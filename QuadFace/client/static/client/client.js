@@ -225,7 +225,6 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 	$scope.setView = function(){//Function that changes view when enlarging map
 		if (!isMobileDevice()){
 			$scope.left= ! $scope.left;
-			$scope.map.control.refresh();
 		}	
 	}
 	
@@ -240,7 +239,7 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
 	
-	$scope.intervalFunction = function(){
+	/*$scope.intervalFunction = function(){
 		$timeout(function() {
 				geolocation.getLocation().then(function(data){//poll for mobile device coordinates, paint on map
 			      $scope.mobilePosition.latitude = data.coords.latitude;
@@ -248,10 +247,10 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 			    });
 			$scope.intervalFunction();
 		}, 4000)
-	};
-	if (isMobileDevice()){
-		$scope.intervalFunction();
-	}
+	};*/
+	
+	//$scope.intervalFunction();
+	
 
 	
 }
@@ -441,8 +440,10 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.batteryChart = new CanvasJS.Chart("batteryContainer",{
 		title :{
 			text: "Battery levels",
-			fontFamily: "Georgia",
-			fontColor: "#3B6AA0"
+			fontColor: "#3B6AA0",
+			fontFamily: "lucida grande",
+			
+			fontSize:16
 		},		
 		backgroundColor: "#E3E3E3",		
 		data: [
@@ -460,14 +461,17 @@ function GraphCtrl($scope, graphService, $timeout){
 	    	  title:"%",
 			  minimum: 0,
 			  maximum: 100,
-			titleFontFamily: "Georgia",
-			titleFontColor: "#3B6AA0"
+			titleFontFamily: "lucida grande",
+			titleFontColor: "#3B6AA0",
+			titleFontSize:14
 	  	}, 
   	});
 	$scope.batteryLargeChart = new CanvasJS.Chart("batteryLargeContainer",{
 		title :{
 			text: "Battery levels",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
 		backgroundColor: "#E3E3E3",		
@@ -486,8 +490,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	    	  title:"%",
 			  minimum: 0,
 			  maximum: 100,
-			titleFontFamily: "Georgia",
-			titleFontColor: "#3B6AA0"
+			titleFontFamily: "lucida grande",
+			titleFontColor: "#3B6AA0",
+			titleFontSize:14
 	  	}, 
   	});
 	
@@ -495,7 +500,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.engineChart = new CanvasJS.Chart("engineContainer",{
 		title :{
 			text: "Engine load",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},	
 		backgroundColor: "#E3E3E3",			
@@ -514,15 +521,18 @@ function GraphCtrl($scope, graphService, $timeout){
 	  		title:"Load",
 			  minimum: 0,
 			  maximum: 100,
-			titleFontFamily: "Georgia",
-			titleFontColor: "#3B6AA0"
+			titleFontFamily: "lucida grande",
+			titleFontColor: "#3B6AA0",
+			titleFontSize:14
 		}, 
 
 	});
 	$scope.engineLargeChart = new CanvasJS.Chart("engineLargeContainer",{
 		title :{
 			text: "Engine load",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},	
 		backgroundColor: "#E3E3E3",			
@@ -541,8 +551,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	  		title:"Load",
 			  minimum: 0,
 			  maximum: 100,
-			titleFontFamily: "Georgia",
-			titleFontColor: "#3B6AA0"
+			titleFontFamily: "lucida grande",
+			titleFontColor: "#3B6AA0",
+			titleFontSize:14
 		}, 
 
 	});
@@ -551,7 +562,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.tempChart = new CanvasJS.Chart("temperatureContainer",{
 		title :{
 			text: "Temperature",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
 		backgroundColor: "#E3E3E3",		
@@ -575,7 +588,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.tempLargeChart = new CanvasJS.Chart("temperatureLargeContainer",{
 			title :{
 				text: "Temperature",
-			fontFamily: "Georgia",
+				fontFamily: "lucida grande",
+			
+				fontSize:16,
 			fontColor: "#3B6AA0"
 			},		
 			backgroundColor: "#E3E3E3",		
@@ -601,7 +616,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.altChart = new CanvasJS.Chart("altitudeContainer",{
 		title :{
 			text: "Altitude",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
 		backgroundColor: "#E3E3E3",	
@@ -609,7 +626,8 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'alt',
 			click: function(e){ 
-			    $scope.playAlt = ! $scope.playAlt;
+				console.log(JSON.stringify(alt));
+			    alert(JSON.stringify(alt));
 			},
 			type: "spline",
 			color:"#000080",
@@ -625,7 +643,9 @@ function GraphCtrl($scope, graphService, $timeout){
 	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
 		title :{
 			text: "Altitude",
-			fontFamily: "Georgia",
+			fontFamily: "lucida grande",
+			
+			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
 		backgroundColor: "#E3E3E3",	
@@ -757,12 +777,14 @@ function SlideCtrl($scope, $timeout){
 	
 	} else {
 		$scope.slides = [
+		
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0011.jpg', description: 'Image 0'},
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0012.jpg', description: 'Image 1'},
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0013.jpg', description: 'Image 2'},
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0014.jpg', description: 'Image 3'},
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0015.jpg', description: 'Image 4'},
 		];
+		console.log("slides");
 	}
 	/* Static images loaded from Django inte the clientview. These being displayed as a slideshow on the home page. */
 	
@@ -777,6 +799,8 @@ function SlideCtrl($scope, $timeout){
 	$scope.isCurrentSlideIndex = function (index) {
 		return $scope.currentIndex === index;
 	};
+	
+	
 	
 	//Update which slide to show every 4:th second.
 	$scope.intervalFunction = function(){

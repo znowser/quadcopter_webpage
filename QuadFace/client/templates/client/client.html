@@ -1,4 +1,4 @@
-	<html>
+<html>
 	<head>
 		<title>QuadFace</title>
 	
@@ -25,107 +25,80 @@
 	</head>
 	<!--App for the Angular application is client.-->
 
-	<body ng-app="client" >
+	<body ng-app="client">
 		
 		<!-------------------------START OF MENU-------------------------------------------------------------------------------->
 		<!--MenuCtrl is setting which view that should be seen on menuItem click-->
 		<div ng-controller="MenuCtrl" class="wrapper">
 			<div class="menu">
 				<!-- This is here menuItems are added to the menu, also a menuLine as divider-->
-				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">
-					Home
-			 	</div>
+				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">Home<hr class="clicked" ng-show="welcome"></hr></div>
 				<div class="menuLine"></div>
-				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">
-					Quadcopter Data
-			 	</div>
+				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Quadcopter Data<hr class="clicked" ng-show="communications"></hr></div>
+				<div class="menuLine" ng-hide="mobile"></div>
+				<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">Videostream<hr class="clicked" ng-show="video"></hr></div>
 				<div class="menuLine"></div>
-				<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">
-					Videostream
-			 	</div>
+				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">Map<hr class="clicked" ng-show="maps"></hr></div>
 				<div class="menuLine"></div>
-				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">
-					Map
-			 	</div>
-				<div class="menuLine"></div>
-				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controller')">
-					Control
-			 	</div>
+				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controller')">Control<hr class="clicked" ng-show="welcome"></hr></div>
 				<div class="menuLine" ng-show="driveMenyItem"></div>
-				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">
-					{% verbatim %}{{userLoggedIn}}{% endverbatim %}
-				</div>
-				
-				<div class="batteryItem" id="mapsDiv" >
-					<img ng-src="{% verbatim %}{{batteryImage.image}}{% endverbatim %}"></img>
-			 	</div>
+				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">{% verbatim %}{{userLoggedIn}}{% endverbatim %}<hr class="clicked" ng-show="login"></hr></div>	
 		 	</div>
 			<!-------------------------END OF MENU-------------------------------------------------------------------------------->
 			
 			<!-------------------------START OF HOME-------------------------------------------------------------------------------->
 			<!--Index page, slideshow and some information about the page and quadcopter
 			Generates left container for desktop or generate only one large container for mobile devices-->
-			<div id="welcomeDivContent" class="content" ng-show='welcome' ng-controller="SlideCtrl">
- 				<div  ng-init='currentIndex = 0'  class="{% verbatim %}{{contentClass}}{% endverbatim %}" >
+			<div id="welcomeDivContent" class="content" ng-if='welcome' ng-controller="SlideCtrl">
+ 				<div  ng-init='currentIndex = 0'  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn" >
 					<center>
 						<!--Slideshow-->
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" >
-							<img  class="slide" ng-animate="{show:'animate-show', hide:'animate-hide'}"  ng-repeat="slide in slides" ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}">
+							<img  class="slide"  ng-repeat="slide in slides" ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}">
 						</div>
 						<h1 ng-hide="mobile" class="logoText"> Quadcopter Project </h1>
 					</center>
 					
 					<!-- ==== Mobile text of the front page ==== -->
 					<div ng-show="mobile" class="mobileMargin"> 
-						<h1 class="logoText standard">Quadcopter Project</h1>
+						<br><br>
  						<h3 class="header">Welcome to the quadcopter mobile device GUI</h3>
 						<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
-						<p class="standard">
-						Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.
-						</p>
+						<p class="standardMobile">Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.</p><br>
 						<h5 class="smallHeaderLink" ng-click="showContent('maps')">Coordinates</h5>
-						<p class="standard">
-						This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.
-						</p>
+						<p class="standardMobile">This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.</p><br>
  						<h3 class="header">About</h3>
 						<h5 class="smallHeader">Mobile GUI</h5>
-						<p class="standard">
-						The quadcopter mobile GUI is a GUI more suitable for mobile devices. 
-						</p>
+						<p class="standardMobile">The quadcopter mobile GUI is a GUI more suitable for mobile devices.</p>
 					</div>
 					<!--============================== -->
 				</div>	
+
 				
 				<!-- ==== Right content container, hide for mobile devices ==== -->
 				<div class="contentRight contentDividerRight" ng-hide="mobile">
- 					<h3 class="header">Welcome to the quadcopter GUI</h3><br>
-					<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
-					<p class="standard">
-						Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.
-					</p>
-					<h5 class="smallHeaderLink" ng-click="showContent('communications')">Dynamic data updates</h5>
-					<p class="standard">
-						The quadcopter can send a stream of dynamic data to our server, making it possible to see everything about the quadcopter dynamically. Everything from current battery level to engine load.
-					</p>
-					<h5 class="smallHeaderLink" ng-click="showContent('maps')">Coordinates</h5>
-					<p class="standard">
-						This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.
-					</p>
-					<h5 class="smallHeaderNoNewLine">Control it</h5>
-					<p class="standard">
-						Not only is the user able to watch a live stream from the quadcopter, the user will also be able to stear the quadcopter.
-					</p>
- 					<h3 class="header">About</h3><br>
-					<h5 class="smallHeaderNoNewLine">Quadcopter</h5>
-					<p class="standard">
-						Quadcopter is a project driven by five students on Linköpings Tekniska Högskola. It is about building a functional quadcopter. 
-					</p>
-					<h5 class="smallHeaderNoNewLine">Web GUI</h5>
-					<p class="standard">
-						This GUI is a part of the quadcopter project and also a part of the course TDDD27, avancerad webbprogrammering. 
-					</p>
-
+					<center>
+						<div class="frameText">
+ 							<h3 class="header">Welcome to the quadcopter GUI</h3>
+							<h5 class="smallHeaderLink" ng-click="showContent('video')">Live Video</h5>
+							<p class="standard">Come and watch the quadcopter in action. See whatever the quadcopter sees. A camera module is mounted onto the quadcopter and can send a stream to our web server.</p>
+							<h5 class="smallHeaderLink" ng-click="showContent('communications')">Dynamic data updates</h5>
+							<p class="standard">The quadcopter can send a stream of dynamic data to our server, making it possible to see everything about the quadcopter dynamically. Everything from current battery level to engine load.</p>
+							<h5 class="smallHeaderLink" ng-click="showContent('maps')">Coordinates</h5>
+							<p class="standard">This GUI makes the user able to see where the quadcopter is located, using a map module and live coordinates from the user. The user will also be able to create routes for the quadcopter through this map.</p>
+							<h5 class="smallHeaderNoNewLine">Control it</h5>
+							<p class="standard">Not only is the user able to watch a live stream from the quadcopter, the user will also be able to stear the quadcopter.</p>
+						</div>
+						<div class="frameTextBottom">
+ 							<h3 class="header">About</h3>
+							<h5 class="smallHeaderNoNewLine">Quadcopter</h5>
+							<p class="standard">Quadcopter is a project driven by five students on Linköpings Tekniska Högskola. It is about building a functional quadcopter.</p>
+							<h5 class="smallHeaderNoNewLine">Web GUI</h5>
+							<p class="standard">This GUI is a part of the quadcopter project and also a part of the course TDDD27, avancerad webbprogrammering.</p>
+						</div>
+					</center>
  			 	</div>
+				
 				<!-- ================================== -->
 		 	</div>
 			<!-------------------------END OF HOME-------------------------------------------------------------------------------->
@@ -134,63 +107,56 @@
 			<!-------------------------START OF COMMUNICATIONS-------------------------------------------------------------------------------->
 			<!-- Data coming from the quadcopter -->
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft" ng-click="setView();" ng-show="!left">
+				<div class="contentLeft animated fadeIn" ng-click="setView();" ng-show="!left">
 					<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 	<div id="batteryContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphLeft" ng-show="batteryShow">
-				 	</div>
-				 	<div id="engineContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphLeft" ng-show="engineShow" >
-				 	</div>
-					<div id="temperatureContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphLeft" ng-show="temperatureShow" >
-					</div>
-				 	<div id="altitudeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" >
-				 	</div><br>
+				 	<div id="batteryContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphLeft" ng-show="batteryShow"></div>
+				 	<div id="engineContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphLeft" ng-show="engineShow" ></div>
+					<div id="temperatureContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphLeft" ng-show="temperatureShow" ></div>
+				 	<div id="altitudeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphLeft" ng-show="altitudeShow" ></div><br>
 					<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 						
  				</div>
-				<div class="contentLeftBig" ng-click="setView();" ng-show="left">
+				<div class="contentLeftBig animated fadeIn" ng-click="setView();" ng-show="left">
 					<!--This is the big version of the graphs, the canvasjs packet didn't allow for dynamic resizing of objects.. -->
-				 	<div id="batteryLargeContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphBig" ng-show="batteryShow">
-				 	</div>
-				 	<div id="engineLargeContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphBig" ng-show="engineShow" >
-				 	</div>
-					<div id="temperatureLargeContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" >
-					</div>
-				 	<div id="altitudeLargeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" >
-				 	</div><br>
+				 	<div id="batteryLargeContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphBig" ng-show="batteryShow"></div>
+				 	<div id="engineLargeContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphBig" ng-show="engineShow" ></div>
+					<div id="temperatureLargeContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" ></div>
+				 	<div id="altitudeLargeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" ></div><br>
 					<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
  				</div>
 				
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
-				<div class="contentRight  contentDividerRight" ng-show="!left">
-					<h3 class="header">Controls for Quadcopter data</h3>
-					<h5 class="smallHeaderBold">Which data to show:</h5>
-					<h5 class="smallHeaderNoNewLine">Battery</h5>
-					<p class = "standard">Battery shows all cells individually aswell as complete battery percentage. <br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input  class ="standard"type="checkbox" ng-model="batteryShow" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p></p><hr class="line">
-					
-					<h5 class="smallHeaderNoNewLine">Engine load</h5>
-					<p class = "standard">Showing the engine load on the different engines.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="engineShow" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p></p><hr class="line">
-					
-					<h5 class="smallHeaderNoNewLine">Temperature</h5>
-					<p class = "standard">Showing temperature values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="temperatureShow" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p></p><hr class="line">
-					
-					<h5 class="smallHeaderNoNewLine">Altitude</h5>
-					<p class = "standard">Showing altitude values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br>
-					<p class="ckboxText"><input class="standard" type="checkbox" ng-model="altitudeShow" checked ng-click="setGraphVisability(aAngle)"> Show altitude</p></p><hr class="line">
-					
-					<h5 class="smallHeaderNoNewLine">3d model</h5>
-					<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.<br>
-					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p><hr class="line">
-					
-					<h3 class="header">Play/pause datastream:</h5><br>
-					<h5 class="smallHeaderNoNewLine">Play/Pause</h5><br>
-					<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button><br>
-					<h5 class="smallHeaderNoNewLine">Enlarge</h5>
-					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
-					
-					
+				<div class="contentRight contentDividerRight" ng-show="!left">
+					<center>
+						<div class="frameText">
+							<h3 class="header">Controls for Quadcopter data</h3>
+							<h5 class="smallHeaderNoNewLine">Battery</h5>
+							<p class = "standard">Battery shows all cells individually aswell as complete battery percentage. <br>Click on data in the graph to pause it.<br></p>
+							<h5 class="smallHeaderNoNewLine">Engine load</h5>
+							<p class = "standard">Showing the engine load on the different engines.<br>Click on data in the graph to pause it.<br></p>
+							<h5 class="smallHeaderNoNewLine">Temperature</h5>
+							<p class = "standard">Showing temperature values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br></p>
+							<h5 class="smallHeaderNoNewLine">Altitude</h5>
+							<p class = "standard">Showing altitude values over an interval of 10 seconds.<br>Click on data in the graph to pause it.<br></p>
+							<h5 class="smallHeaderNoNewLine">3d model</h5>
+							<p class = "standard">Showing a dynamic 3d model over the quadcopter.<br>Click on data in the graph to pause it.<br>This is a feature hopefully coming in the future.
+					<!--<p class="ckboxText"><input type="checkbox" ng-model="bAngle" checked ng-click="setGraphVisability(zAngle)"> Show 3d model</p>--></p>
+						</div>
+						<div class="frameText">
+							<h3 class="header">Visability</h3>
+							<p class="ckboxText"><input  type="checkbox" ng-model="batteryShow" checked ng-click="setGraphVisability(xAngle)"> Show battery power</p>
+							<p class="ckboxText"><input  type="checkbox" ng-model="engineShow" checked ng-click="setGraphVisability(yAngle)"> Show engine load</p>
+							<p class="ckboxText"><input  type="checkbox" ng-model="temperatureShow" checked ng-click="setGraphVisability(zAngle)"> Show temperatures</p>
+							<p class="ckboxText"><input  type="checkbox" ng-model="altitudeShow" checked ng-click="setGraphVisability(aAngle)"> Show altitude</p><p></p>
+						</div>
+						<div class="frameTextBottom">
+							<h3 class="header">Play/pause datastream</h5>
+								<h5 class="smallHeaderNoNewLine">Play/Pause</h5>
+								<button class="standard button" type="button" ng-model="play" ng-click="setPlayPause()">play/pause</button><br><br>
+								<h5 class="smallHeaderNoNewLine">Enlarge</h5>
+								<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+						</div>
+					</center>
 				</div>
 			</div>
 			<!-------------------------END OF COMMUNICATIONS-------------------------------------------------------------------------------->
@@ -202,32 +168,38 @@
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameMobile : left}">
 						<!--Videoplayer-->
 						
-	 						<video  class="screen" ng-click="$event.stopPropagation()" ng-class="{screen2 : left}" controls autoplay preload="auto">
+	 						<video  class="screen animated fadeIn" ng-show="!left" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
 	 	  						<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
 	 	  					Your browser does not support the video tag.
 	 						</video>
-						</div>
+	 						<video  class="screen animated fadeIn" ng-show="left" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
+	 	  						<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
+	 	  					Your browser does not support the video tag.
+	 						</video>
+							
+						</div><br>
+						<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 					</center>
 				
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
-					<h3 class="header">Video Stream</h3><br>
-					<h5 class="smallHeaderNoNewLine">Live</h5>
-					<p class="standard">
-						This is a live stream coming from the qudcopter. If the screen is black that means the camera is off. Please start the camera if you wish to watch the stream.
-					</p>
-					<h5 class="smallHeaderNoNewLine">Enlarge</h5>
-					<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
-					
-					
+					<center>
+						<div class="frameTextBottom">
+							<h3 class="header">Video Stream</h3>
+							<h5 class="smallHeaderNoNewLine">Live</h5>
+							<p class="standard">This is a live stream coming from the qudcopter. If the screen is black that means the camera is off. Please start the camera if you wish to watch the stream.</p>
+							<h5 class="smallHeaderNoNewLine">Enlarge</h5>
+							<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+						</div>
+					</center>
 				</div>
 			</div>
 			<!-------------------------END OF VIDEO-------------------------------------------------------------------------------->
 			
 			<!-------------------------START OF MAP-------------------------------------------------------------------------------->
-  			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
-				<div ng-if="!left">
-					<div  class="{% verbatim %}{{contentClass}}{% endverbatim %}"  ng-click="setView()">
+			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
+				<div ng-if="!left" >
+					<div  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn"  ng-click="setView()">
 						<center>
 							<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-if="maps" >
 								<!--Google map-->
@@ -236,111 +208,94 @@
 									<marker coords="mobilePosition"></marker>
 								</google-map>
 							</div>	
-						</center>
+						</center><br>
 						<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 					
 					</div>
 				
-					<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
-						<h3 class="header">Map</h3><br>
-						<h5 class="smallHeaderNoNewLine">Coordinates</h5>
-						<p class="standard">
-						The marker shown on the map is the last known location of the quadcopter.
-						</p>
-						<h5 class="smallHeaderNoNewLine">Build route</h5>
-						<p class="standard">
-						In the future it will be possible from this GUI to build routes for the quadcopter.
-						</p>
-						<h5 class="smallHeaderNoNewLine">Enlarge</h5>
-						<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+					<div class="contentRight contentDividerRight"  ng-hide="mobile" ng-show="!left">
+						<center>
+							<div class="frameTextBottom" >
+								<h3 class="header">Map</h3>
+								<h5 class="smallHeaderNoNewLine">Coordinates</h5>
+								<p class="standard">The marker shown on the map is the last known location of the quadcopter.</p>
+								<h5 class="smallHeaderNoNewLine">Build route</h5>
+								<p class="standard">In the future it will be possible from this GUI to build routes for the quadcopter.</p>
+								<h5 class="smallHeaderNoNewLine">Enlarge</h5>
+								<p class ="standard">Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>	
+							</div>
+						</center>
 					
 					</div>
 				</div>
 			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
 				<div ng-if="left">
-					<div  class="contentLeftBig"  ng-click="setView()">
+					<div  class="contentLeftBig animated fadeIn"  ng-click="setView()">
 						<center>
 							<div class="frameMobile" >
 								<!--Google map-->
 								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen" ng-class="{screen2 : left}" center="map.center" zoom="map.zoom">
 								<marker coords="quadPosition"></marker>
 								<marker coords="mobilePosition"></marker>
-							</google-map>
-						</div>	
-					</center>
-					<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+								</google-map>
+							</div>	
+						</center><br>
+						<button class="buttonMap button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 				
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-------------------------END OF MAP-------------------------------------------------------------------------------->	
+			<!-------------------------END OF MAP-------------------------------------------------------------------------------->	
 		
-		<!-------------------------START OF LOGIN-------------------------------------------------------------------------------->	
-		<!-- Login view-->
-		<div class="popupContentSides" ng-show="loginView" ng-click="loginView = false">
+			<!-------------------------START OF LOGIN-------------------------------------------------------------------------------->	
+			<!-- Login view-->
+			<div class="popupContentSides animated fadeIn" ng-show="loginView" ng-click="loginView = false">
+				<center>
 					<div id="loginDivContent" class="popupContent"  ng-click="loginView = true;$event.stopPropagation()" ng-controller="loginCtrl">
-							<div class="popupContentLeft">
-								<form>
-									<h3 class="header">Sign in</h3>
-									<h5 class="smallHeader">Username</h5>
-									<input class="standard inputbox" type="text" ng-model="loginUsername">
-									<h5 class="smallHeader">Password</h5>
-									<input class="standard inputbox" type="password" ng-model="loginPassword">
-									<input class="standard button" type="submit" value="Sign in" ng-click="submitlogin()">
-								</form>
-								<p class="standard">{% verbatim %} {{loginStatus}} {% endverbatim %}</p>
-
-							</div>
-						
-							<div class="popupContentRight contentDividerRight">
-								<h3 class="header">New user</h3>
-								<h5 class="smallHeader">Register new account</h5>
-								<p class="standard"> If you don't already have an account sign up on the form below. It is free and give you access to control the quadcopter!</p>
+						<div class="popupContentLeft">
+							<form>
+								<h3 class="header">Sign in</h3>
 								<h5 class="smallHeader">Username</h5>
-								<input class="standard inputbox" type="text" name="newUsername">
-								<h5 class="smallHeader">Email</h5>
-								<input class="standard inputbox" type="text" name="newEmail">
-								<h5 class="smallHeader">Password &nbsp&nbsp [repeat two times]</h5>
-								<input class="standard inputbox" type="password" name="newPassword1">
-								<input class="standard inputbox" type="password" name="newPassword2">
-								<input class="standard button" type="submit" value="Register">
-							</div>
-				</div>
+								<input class="standard inputbox" type="text" ng-model="loginUsername">
+								<h5 class="smallHeader">Password</h5>
+								<input class="standard inputbox" type="password" ng-model="loginPassword">
+								<input class="standard button" type="submit" value="Sign in" ng-click="submitlogin()">
+							</form>
+							<p class="standard">{% verbatim %} {{loginStatus}} {% endverbatim %}</p>
+
+						</div>
+							
+						<div class="popupContentRight contentDividerRight">
+							<h3 class="header">New user</h3>
+							<h5 class="smallHeader">Register new account</h5>
+							<p class="standard"> If you don't already have an account sign up on the form below. It is free and give you access to control the quadcopter!</p>
+							<h5 class="smallHeader">Username</h5>
+							<input class="standard inputbox" type="text" name="newUsername">
+							<h5 class="smallHeader">Email</h5>
+							<input class="standard inputbox" type="text" name="newEmail">
+							<h5 class="smallHeader">Password &nbsp&nbsp [repeat two times]</h5>
+							<input class="standard inputbox" type="password" name="newPassword1">
+							<input class="standard inputbox" type="password" name="newPassword2">
+							<input class="standard button" type="submit" value="Register">
+						</div>
+					</div>
+				</center>
 			</div>
 			<!-------------------------END OF LOGIN-------------------------------------------------------------------------------->
 			<!-- ======================================== -->
 			
 			<!--  control view -->
-			<div class="popupContentSides" ng-show="controlView">
-				TODO
-			</div>
+			<div class="popupContentSides" ng-show="controlView">TODO</div>
 			<!-- ======================================== -->
 			
 			<!--Pushing down the footer if content isen't filling up the page.-->
-			<div class="push"></div>
+				
 		</div>
+		<div class="push"></div>
 		<!--Footer-->
-		<div ng-controller="FooterCtrl">
 		<div class="footer">
-			<div  class="menuItem">
-				Trademark Quadis
-		 	</div>
-			<div class="menuLine"></div>
-			<div  class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="about = true">
-				Contact Us
+			<div class="footerItem">The developers of this site are Martin Nordén and Erik Tideman.</div><br><div class="footerItem">We can be reached on the following emails: <p class="green">martinnordn@gmail.com</p> and <p class="green">erik.tideman@gmail.com.</p></div>
 
-		 	</div>
 		</div>
-		<div class="aboutContent" ng-show="about" ng-click="about = false;$event.stopPropagation()">
-			
-		</div>
-		<div class="about" ng-show="about" ng-click="$event.stopPropagation()"> 
-			<h3 class="header">Contact info</h3>
-			<h5 class="smallHeader">Martin Nordén</h5>
-			<p class="standard"> mail: martinnordn@gmail.com</p>
-			<h5 class="smallHeader">Erik Tideman</h5>
-			<p class="standard"> mail: erik.tideman@gmail.com</p>
-		</div>
-	</div>
 	</body>
 </html>
