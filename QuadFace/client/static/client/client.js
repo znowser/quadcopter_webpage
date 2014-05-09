@@ -108,7 +108,7 @@ clientModule.factory('graphService', function($rootScope, $http){//Factory for c
 		
 		if (!graphService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/comLink?subscribe-broadcast');
+			ws = new WebSocket('ws://127.0.0.1:8080/ws/comLink?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				graphService.set = true;
@@ -165,7 +165,7 @@ clientModule.factory('mapService', function($rootScope, $http){//Factory for web
 		
 		if (!mapService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.186:8080/ws/coords?subscribe-broadcast');
+			ws = new WebSocket('ws://127.0.0.1:8080/ws/coords?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				mapService.set = true;
@@ -239,7 +239,7 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 		$scope.quadPosition.longitude = result[0].fields.longitude;
 	});
 	
-	/*$scope.intervalFunction = function(){
+	$scope.intervalFunction = function(){
 		$timeout(function() {
 				geolocation.getLocation().then(function(data){//poll for mobile device coordinates, paint on map
 			      $scope.mobilePosition.latitude = data.coords.latitude;
@@ -247,9 +247,12 @@ function MapCtrl($scope, mapService, $http, $timeout, geolocation){
 			    });
 			$scope.intervalFunction();
 		}, 4000)
-	};*/
-	
-	//$scope.intervalFunction();
+	};
+	geolocation.getLocation().then(function(data){//poll for mobile device coordinates, paint on map
+      $scope.mobilePosition.latitude = data.coords.latitude;
+	  $scope.mobilePosition.longitude = data.coords.longitude; 
+    });
+	$scope.intervalFunction();
 	
 
 	
@@ -274,8 +277,8 @@ function MenuCtrl($scope, graphService, mapService, loginService){
 	
 	$scope.mobile = false;
 	if (isMobileDevice()){
-		$scope.contentClass = "contentMobile";
-		$scope.frameClass = "frameMobile";
+		$scope.contentClass = "contentBig";
+		$scope.frameClass = "frameBig";
 		$scope.mobile = true;
 	} else {
 		$scope.contentClass = "contentLeft";
@@ -434,6 +437,8 @@ function GraphCtrl($scope, graphService, $timeout){
 	var engines = [];
 	var temp = [];
 	var alt = [];
+	var displayEngine = [];
+	var displayBattery = [];
 	
 	/*---------- Below are all different datas displayed on the communication view.---------------------------------------------------- */
 	//------------------------------Battery----------------------------
@@ -450,6 +455,16 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'battery',
 			click: function(e){ 
+				var output = "";
+				var k = 1;
+				for (var i = displayBattery.length-1; i > 0; i--){
+					output += displayBattery[i].label + ": " + displayBattery[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
 			    $scope.playBattery = ! $scope.playBattery;
 			},
 			type: "column",
@@ -479,6 +494,16 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'battery',
 			click: function(e){ 
+				var output = "";
+				var k = 1;
+				for (var i = displayBattery.length-1; i > 0; i--){
+					output += displayBattery[i].label + ": " + displayBattery[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
 			    $scope.playBattery = ! $scope.playBattery;
 			},
 			type: "column",
@@ -510,6 +535,16 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'engines',
 			click: function(e){ 
+				var output = "";
+				var k = 1;
+				for (var i = displayEngine.length-1; i > 0; i--){
+					output += displayEngine[i].label + ": " + displayEngine[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
 			    $scope.playEngine = ! $scope.playEngine;
 			},
 			type: "column",
@@ -540,6 +575,16 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'engines',
 			click: function(e){ 
+				var output = "";
+				var k = 1;
+				for (var i = displayEngine.length-1; i > 0; i--){
+					output += displayEngine[i].label + ": " + displayEngine[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
 			    $scope.playEngine = ! $scope.playEngine;
 			},
 			type: "column",
@@ -572,6 +617,16 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'temp',
 			click: function(e){ 
+				var output = "";
+				var k = 1;
+				for (var i = temp.length-1; i > 0; i--){
+					output += i + ": " + temp[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
 			    $scope.playTemp = ! $scope.playTemp;
 			},
 			type: "spline",
@@ -598,6 +653,16 @@ function GraphCtrl($scope, graphService, $timeout){
 			{
 				name:'temp',
 				click: function(e){ 
+					var output = "";
+					var k = 1;
+					for (var i = temp.length-1; i > 0; i--){
+						output += i + ": " + temp[i].y + " ";
+						if (k % 4 == 0){
+							output += "\n";
+						}
+						k++;
+					}
+					alert(output);
 				    $scope.playTemp = ! $scope.playTemp;
 				},
 				type: "spline",
@@ -626,8 +691,17 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'alt',
 			click: function(e){ 
-				console.log(JSON.stringify(alt));
-			    alert(JSON.stringify(alt));
+				var output = "";
+				var k = 1;
+				for (var i = alt.length-1; i > 0; i--){
+					output += i + ": " + alt[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
+				 $scope.playAlt = ! $scope.playAlt;
 			},
 			type: "spline",
 			color:"#000080",
@@ -653,7 +727,17 @@ function GraphCtrl($scope, graphService, $timeout){
 		{
 			name:'alt',
 			click: function(e){ 
-			    $scope.playAlt = ! $scope.playAlt;
+				var output = "";
+				var k = 1;
+				for (var i = alt.length-1; i > 0; i--){
+					output += i + ": " + alt[i].y + " ";
+					if (k % 4 == 0){
+						output += "\n";
+					}
+					k++;
+				}
+				alert(output);
+			 $scope.playAlt = ! $scope.playAlt;
 			},
 			type: "spline",
 			color:"#000080",
@@ -684,7 +768,24 @@ function GraphCtrl($scope, graphService, $timeout){
 		engines.push({ label: "Engine2", y: e2});
 		engines.push({ label: "Engine3", y: e3});
 		engines.push({ label: "Engine4", y: e4});
+		
+		displayBattery.push({ label: "Cell1", y: c1});
+		displayBattery.push({ label: "Cell2", y: c2});
+		displayBattery.push({ label: "Cell3", y: c3});
+		displayBattery.push({ label: "Total", y: ((c1+c2+c3)/3).toFixed(2)});
+		
+		displayEngine.push({ label: "Engine1", y: e1});
+		displayEngine.push({ label: "Engine2", y: e2});
+		displayEngine.push({ label: "Engine3", y: e3});
+		displayEngine.push({ label: "Engine4", y: e4});
 
+		if (displayBattery.length > dataLength)
+		{
+			displayBattery.shift();	
+			displayEngine.shift();	
+	
+		}
+		
 		if ($scope.play){
 			if ($scope.playBattery){//Check which to update
 				$scope.batteryChart.render();
@@ -763,6 +864,15 @@ function GraphCtrl($scope, graphService, $timeout){
 }
 
 function SlideCtrl($scope, $timeout){
+	
+	$scope.left=false;
+
+	$scope.setView = function(){
+		if (!isMobileDevice()){
+			$scope.left= ! $scope.left;
+		}
+		
+	}
 	$scope.mobile = false;
 	if (isMobileDevice()){
 		$scope.mobile = true;
@@ -825,15 +935,10 @@ function VideoCtrl($scope){
 	}
 
 }
-function FooterCtrl($scope){
-	$scope.about=false;
-
-}
 
 
 MenuCtrl.$inject = ['$scope', 'graphService', 'mapService', 'loginService'];
 GraphCtrl.$inject = ['$scope', 'graphService', '$timeout'];
-MapCtrl.$inject = ['$scope', 'mapService', '$http'];
 loginCtrl.$inject = ['$scope', 'loginService', '$http'];
 MapCtrl.$inject = ['$scope', 'mapService', '$http', '$timeout', 'geolocation'];
 

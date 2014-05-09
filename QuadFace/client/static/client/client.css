@@ -10,43 +10,60 @@ background-color:#F2F2F2;
 font-family:Georgia;
 color:#333;
 }
-video {
-	margin:0 0 0 0;
-	background-color:black;
+
+input,button
+{
+margin-left:2%;
+text-align:left;
+}
+
+button
+{
+margin-bottom:25px;	
+}
+
+video 
+{
+margin:0;
+background-color:black;
+}
+
+h1
+{
+color:#104E8B;
+font-family:lucida grande;
 }
 
 p
 {
 /*Larger space between p tags*/
-margin:0px 0px 25px 0px;
+margin: 0px 2% 25px 2%;
 padding:0px;
+text-align:left;
 }
 
 h3
 {
-margin: 5px 10px 20px 10px;
+margin: 2% 10px 20px 2%;
 padding:0px;
 
 font-family:lucida grande;
+color:#104E8B;
+font-size:17px;
+text-align:left;
 }
 
 h5
 {
-margin: 10px 10px 10px 10px;
+margin: 2% 10px 7px 2%;
 padding:0px;
+color:#3A66A7;
+
+line-height:30%;
+text-align:left;
 }
 
-a:link
-{
-color:#FFFFFF;
-}
 
-/*properties used by canvasJS to format graphs*/
-.chart {
-float:left;
-width: 50%;
-height:100%;
-}
 
 /*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
 .push {
@@ -106,7 +123,8 @@ border-width:1px;
 border-color:black;
 }
 
-.footerItem {
+.footerItem 
+{
 color:white;
 left:30px;
 margin-top:40px;	
@@ -114,7 +132,9 @@ position:absolute;
 font-size:12px;
 font-family:sans-serif;
 }
-.green{
+
+.green
+{
 color:#458B00;
 display:inline;
 }
@@ -122,25 +142,21 @@ display:inline;
 /* Menu items (clicked is the chososen tab, hover is hover..)*/
 .menuItem
 { 
-
-	height:25%;
-	margin-left:1%;
-	margin-right:1%;
-	padding-left:1%;
-	padding-right:1%;
-	float:left;
-	position:relative;
-	vertical-align:bottom;
-	margin-top:62px;
-	text-height:25%;
-	font-family:sans-serif;
-	
-
+height:25%;
+margin-left:1%;
+margin-right:1%;
+padding-left:1%;
+padding-right:1%;
+float:left;
+position:relative;
+vertical-align:bottom;
+margin-top:62px;
+text-height:25%;
+font-family:sans-serif;	
 }
 
 .hover
 { 
-
 background-color:#C7C7C7;
 border-radius:3px;
 cursor: pointer;
@@ -152,21 +168,20 @@ vertical-align:bottom;
 position:relative;
 padding-left:1%;
 padding-right:1%;
-
 }
+
 .clicked
 { 
-
 margin-top:1px;
 color:#3A66A7;
 background-color:#3A66A7;
 border-color:#3A66A7;
 height:1px;
+border-width:1px;
 border-top:0;
 border-left:0;
 border-radius:1px;
 padding:0;
-
 }
 
 .menuLine {
@@ -179,7 +194,6 @@ border-top:0;
 border-bottom:0;
 border-width:2px;
 color:#345e8d;
-
 }
 
 /*Login popup div classes*/
@@ -225,21 +239,13 @@ width:59%;
 text-align: left;
 }
 
-/*Content on mobile device(small screen) single row.*/
-.contentMobile
-{
-margin-top:3%;
-margin-left:0%;
-width:100%;
-float:left;
 
-}
 
 .mobileMargin
 {
- margin-left:3%;
+ margin-left:2%;
  margin-top:-3%;
- margin-right:3%;
+
 }
 
 /*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
@@ -259,13 +265,13 @@ width:55%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 
 }
-.contentLeftBig
+.contentBig
 {
 margin-top:10px;
-margin-left:5%;
-margin-right:5%;
+margin-left:4%;
+margin-right:4%;
 /*margin-bottom:30px;*/
-width:90%;
+width:92%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 }
 
@@ -277,11 +283,6 @@ width:35%;
 float:left;
 }
 
-.contentRightSmall
-{	
-width:0%;
-float:left;
-}
 
 .contentDividerRight
 {
@@ -303,14 +304,9 @@ border-color:#3B6AA0;
 }
 
 /*Different text CSS, regular, headings...*/
-.logoText
-{
-color:#104E8B;
-font-family:lucida grande;
-}
 
-.ckboxText {
-margin-left:2%;
+.checkboxText {
+margin-left:0%;
 font-size:90%;
 line-height:110%;
 margin-bottom:2px;
@@ -319,58 +315,16 @@ text-align:left;
 font-family:lucida grande;
 }
 
-.standard
-{
-margin-left:2%;
-text-align:left;
-}
-.standardMobile
-{
-margin-left:10px;
-text-align:left;
-}
 
-.buttonMap
+.buttonEnlargeReduce
 {
 margin-left:5%;
+margin-bottom:25px;
 }
 
-
-.header
+.Link
 {
-color:#104E8B;
-font-size:17px;
-text-align:left;
-}
-
-.smallHeader
-{
-color:#3A66A7;
-
-margin-right:2%;
-text-align:left;
-}
-
-.smallHeaderNoNewLine
-{
-color:#3A66A7;
-margin-left:2%;
-margin-right:2%;
-
-line-height:30%;
-text-align:left;
-}
-
-.smallHeaderLink
-{
-color:#3A66A7;
 cursor: pointer;
-
-margin-right:2%;
-
-line-height:30%;
-text-align:left;
-left: -50%;
 }
 
 /*Google map container*/
@@ -387,14 +341,6 @@ height:90%;
 position:absolute;
 top:5%;
 left:5%;
-}
-
-.screen2 {
-width:92%;
-height:92%;	
-position:absolute;
-top:4%;
-left:4%;
 }
 
 .slide {	
@@ -440,7 +386,6 @@ font-color:#3A66A7;
 color:#3A66A7;	
 font-size:14px;
 text-align:left;
-display:inline; float:left
 }
 
 
@@ -478,18 +423,18 @@ border-radius:10px;
 /*box-shadow:  2px 2px 5px #888888;*/
 }
 
-.frameMobile {/*Frame for mobile devices (small screen)*/
+.frameBig {/*Frame for mobile devices (small screen)*/
 width:90%;
 height:90%;
 position:relative;
 /*background-color:#CCCCCC;*/
 background-color:#E3E3E3;
 border-radius:10px;
-box-shadow:  1px 1px 3px #888888;
+/*box-shadow:  1px 1px 3px #888888;*/
 }
 
 /*CSS for painting graphs*/
-.graphLeft 
+.graph
 {
 height:40%;
 width:44%; 
