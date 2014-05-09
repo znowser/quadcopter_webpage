@@ -1,0 +1,135 @@
+/*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
+.push {
+clear:both;
+height:136px;
+width:100%;
+bottom:0;
+right:0;
+left:0;
+
+
+}
+
+.wrapper {
+min-height: 100%;
+width:100%;
+margin: 0 auto -136px;
+}
+
+/*Footer, menu CSS. Hover = hovering over a menuitem, menuItem = a clickable link in menu.*/
+/* Menu */
+.menu
+{
+width:100%;/*Border at the bottom of the border, 1px*/ 
+height:90px;
+background: -webkit-linear-gradient(#EBEBEB, #D6D6D6); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(#EBEBEB, #D6D6D6); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(#EBEBEB, #D6D6D6); /* For Firefox 3.6 to 15 */
+background: linear-gradient(#EBEBEB, #D6D6D6); /* Standard syntax */
+text-align:center;/*putting the text at the middle of the item widthwise*/
+top:0;
+right:0;
+left:0;
+z-index:10;
+position:relative;
+box-shadow:  2px 2px 5px #888888;
+}
+/* Menu items (clicked is the chososen tab, hover is hover..)*/
+.menuItem
+{ 
+height:25%;
+margin-left:1%;
+margin-right:1%;
+padding-left:1%;
+padding-right:1%;
+float:left;
+position:relative;
+vertical-align:bottom;
+margin-top:62px;
+text-height:25%;
+font-family:sans-serif;	
+}
+
+.hover
+{ 
+background-color:#C7C7C7;
+border-radius:3px;
+cursor: pointer;
+padding-top:4px;
+margin-top:58px;
+height:25%;
+float:left;
+vertical-align:bottom;
+position:relative;
+padding-left:1%;
+padding-right:1%;
+}
+
+.clicked
+{ 
+margin-top:1px;
+color:#3A66A7;
+background-color:#3A66A7;
+border-color:#3A66A7;
+height:1px;
+border-width:1px;
+border-top:0;
+border-left:0;
+border-radius:1px;
+padding:0;
+}
+
+.menuLine {
+height:17px;
+margin-top:65px;
+float:left;
+border-style:solid;
+border-right:0;
+border-top:0;
+border-bottom:0;
+border-width:2px;
+color:#345e8d;
+}
+
+/*footer*/
+.footer{
+clear:both;
+width:100%;
+height:136px;
+background-color:#424242;/*#3B6AA0*/
+margin-top:15px;
+margin-right:0%;
+text-align:center;/*putting the text at the middle of the item widthwise*/
+position:relative;
+z-index:10;
+bottom:0;
+right:0;
+left:0;
+border-style:solid;/*Border at the top of the border, 1px*/ 
+border-left:0px; 
+border-right:0px;
+border-bottom:0px;
+border-width:1px;
+border-color:black;
+}
+
+/*footer items*/
+.footerItem 
+{
+margin-left:0px;
+color:white;
+left:30px;
+margin-top:40px;	
+position:absolute;	
+font-size:12px;
+font-family:sans-serif;
+}
+
+.green
+{
+margin-left:0%;
+margin-right:0%;
+color:#458B00;
+display:inline;
+}
+

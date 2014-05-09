@@ -1,0 +1,104 @@
+html, body {
+height:100%;
+width:100%;
+margin:0px 0px 0px 0px;
+padding:0 0 0 0;
+
+/*background-color:#DBDBDB;*/
+background-color:#F2F2F2;
+font-family:Georgia;
+color:#333;
+}
+
+input,button
+{
+margin-left:2%;
+text-align:left;
+}
+
+button
+{
+margin-bottom:25px;	
+}
+
+video 
+{
+margin:0;
+background-color:black;
+}
+
+h1
+{
+color:#104E8B;
+font-family:lucida grande;
+}
+
+p
+{
+/*Larger space between p tags*/
+margin: 0px 2% 25px 2%;
+padding:0px;
+text-align:left;
+}
+
+h3
+{
+margin: 2% 10px 20px 2%;
+padding:0px;
+
+font-family:lucida grande;
+color:#104E8B;
+font-size:17px;
+text-align:left;
+}
+
+h5
+{
+margin: 2% 10px 7px 2%;
+padding:0px;
+color:#3A66A7;
+
+line-height:30%;
+text-align:left;
+}
+
+.checkboxText {
+margin-left:0%;
+font-size:90%;
+line-height:110%;
+margin-bottom:2px;
+display:block;
+text-align:left;
+font-family:lucida grande;
+}
+
+
+.buttonEnlargeReduce
+{
+margin-left:5%;
+margin-bottom:25px;
+}
+
+.Link
+{
+cursor: pointer;
+}
+
+.inputbox{
+font-size:18px;
+font-family:Georgia;
+color:#333;	
+height:30px;
+width:150px;
+margin-bottom:10px;
+}
+
+.button{
+padding-top:7px;
+padding-bottom:7px;
+font-family:Georgia;
+font-color:#3A66A7;
+color:#3A66A7;	
+font-size:14px;
+text-align:left;
+}

@@ -3,93 +3,114 @@ html, body {
 height:100%;
 width:100%;
 margin:0px 0px 0px 0px;
-padding:0;
+padding:0 0 0 0;
+
 /*background-color:#DBDBDB;*/
 background-color:#F2F2F2;
 font-family:Georgia;
 color:#333;
 }
-video {
-	margin:0 0 0 0;
-	background-color:black;
+
+input,button
+{
+margin-left:2%;
+text-align:left;
+}
+
+button
+{
+margin-bottom:25px;	
+}
+
+video 
+{
+margin:0;
+background-color:black;
+}
+
+h1
+{
+color:#104E8B;
+font-family:lucida grande;
 }
 
 p
 {
 /*Larger space between p tags*/
-margin:0px 0px 15px 0px;
+margin: 0px 2% 25px 2%;
 padding:0px;
+text-align:left;
 }
 
 h3
 {
-margin: 5px 10px 0px 10px;
+margin: 2% 10px 20px 2%;
 padding:0px;
+
+font-family:lucida grande;
+color:#104E8B;
+font-size:17px;
+text-align:left;
 }
 
 h5
 {
-margin: 10px 10px 10px 10px;
+margin: 2% 10px 7px 2%;
 padding:0px;
+color:#3A66A7;
+
+line-height:30%;
+text-align:left;
 }
 
-a:link
-{
-color:#FFFFFF;
-}
 
-/*properties used by canvasJS to format graphs*/
-.chart {
-float:left;
-width: 50%;
-height:100%;
-}
 
 /*Pushing down content so footer is placed at bottom even if content isen't filling up the page*/
 .push {
 clear:both;
-height:40px;
+height:136px;
 width:100%;
 bottom:0;
 right:0;
 left:0;
+
+
 }
 
 .wrapper {
 min-height: 100%;
 width:100%;
-margin: 0 auto -40px;
+margin: 0 auto -136px;
 }
 
 /*Footer, menu CSS. Hover = hovering over a menuitem, menuItem = a clickable link in menu.*/
 .menu
 {
 width:100%;/*Border at the bottom of the border, 1px*/ 
-height:36px;
-background-color:#3B6AA0;
+height:90px;
+background: -webkit-linear-gradient(#EBEBEB, #D6D6D6); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(#EBEBEB, #D6D6D6); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(#EBEBEB, #D6D6D6); /* For Firefox 3.6 to 15 */
+background: linear-gradient(#EBEBEB, #D6D6D6); /* Standard syntax */
 text-align:center;/*putting the text at the middle of the item widthwise*/
 top:0;
 right:0;
 left:0;
 z-index:10;
-position:fixed;
-border-style:solid; 
-border-left:0px; 
-border-top:0px;
-border-right:0px;
-border-width:1px;
-border-color:black;	
+position:relative;
+box-shadow:  2px 2px 5px #888888;
 }
 
+/*footer items*/
 .footer{
 clear:both;
 width:100%;
-height:36px;
-background-color:#3B6AA0;
+height:136px;
+background-color:#424242;/*#3B6AA0*/
 margin-top:15px;
 margin-right:0%;
 text-align:center;/*putting the text at the middle of the item widthwise*/
-position:static;
+position:relative;
 z-index:10;
 bottom:0;
 right:0;
@@ -102,68 +123,80 @@ border-width:1px;
 border-color:black;
 }
 
-.menuItem
-{ 
-height:100%;
-float:left;
-padding-left:2%;
-padding-right:2%;
-margin-left:2px;
-margin-right:2px;
-text-align:center;
-vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:36px;/*putting the text at the middle of the item heightwise*/
+.footerItem 
+{
 color:white;
+left:30px;
+margin-top:40px;	
+position:absolute;	
+font-size:12px;
+font-family:sans-serif;
 }
 
-.batteryItem
+.green
+{
+color:#458B00;
+display:inline;
+}
+
+/* Menu items (clicked is the chososen tab, hover is hover..)*/
+.menuItem
 { 
-position:fixed;
-right:10px;
-margin: 6px 0px 0px 0px;
-line-height:36px;
-vertical-align:middle;
+height:25%;
+margin-left:1%;
+margin-right:1%;
+padding-left:1%;
+padding-right:1%;
+float:left;
+position:relative;
+vertical-align:bottom;
+margin-top:62px;
+text-height:25%;
+font-family:sans-serif;	
 }
 
 .hover
 { 
-background-color:#345e8d;
+background-color:#C7C7C7;
 border-radius:3px;
 cursor: pointer;
-height:26px;
+padding-top:4px;
+margin-top:58px;
+height:25%;
 float:left;
-padding-left:2%;
-padding-right:2%;
-margin-left:2px;
-margin-right:2px;
-margin-top:5px;
-text-align:center;
-vertical-align:middle;/*putting the text at the middle of the item heightwise*/
-line-height:26px;/*putting the text at the middle of the item heightwise*/
-color:white;
+vertical-align:bottom;
+position:relative;
+padding-left:1%;
+padding-right:1%;
+}
 
+.clicked
+{ 
+margin-top:1px;
+color:#3A66A7;
+background-color:#3A66A7;
+border-color:#3A66A7;
+height:1px;
+border-width:1px;
+border-top:0;
+border-left:0;
+border-radius:1px;
+padding:0;
 }
 
 .menuLine {
-	height:17px;
-	margin-top:8px;
-	float:left;
-	border-style:solid;
-	border-right:0;
-	border-top:0;
-	border-bottom:0;
-	border-width:1px;
-	color:#345e8d;
-
+height:17px;
+margin-top:65px;
+float:left;
+border-style:solid;
+border-right:0;
+border-top:0;
+border-bottom:0;
+border-width:2px;
+color:#345e8d;
 }
 
-/*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
-.content/*No set height since heiht isen't know and might be bigger than windowsize*/
-{
-width:100%;
-margin-top:60px;
-}
-
+/*Login popup div classes*/
 .popupContent{
 padding: 10px 10px 20px 10px;
 width:750px;
@@ -206,64 +239,59 @@ width:59%;
 text-align: left;
 }
 
-/*Content on mobile device(small screen) single row.*/
-.contentMobile
-{
-margin-top:3%;
-margin-left:0%;
-width:100%;
-float:left;
 
-}
 
 .mobileMargin
 {
- margin-left:3%;
+ margin-left:2%;
  margin-top:-3%;
- margin-right:3%;
+
+}
+
+/*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
+.content/*No set height since heiht isen't know and might be bigger than windowsize*/
+{
+width:100%;
+margin-top:30px;
+
 }
 
 .contentLeft
 {
 margin-top:10px;
-margin-left:10px;
-margin-bottom:10px;
+/*margin-bottom:10px;*/
+margin-left:4%;
 width:55%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
+
 }
-.contentLeftBig
+.contentBig
 {
 margin-top:10px;
-margin-left:10px;
-margin-bottom:10px;
-width:95%;
+margin-left:4%;
+margin-right:4%;
+/*margin-bottom:30px;*/
+width:92%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 }
 
 .contentRight
 {	
 margin-top:10px;
-margin-bottom:10px;
-margin-right:10px;	
-width:40%;
+margin-right:4%;	
+width:35%;
 float:left;
 }
 
-.contentRightSmall
-{
-	margin-top:10px;
-	margin-bottom:10px;
-	margin-right:10px;	
-	width:0%;
-	float:left;
-}
+
 .contentDividerRight
 {
 border-style:solid;
 border-right:0px;
 border-top:0px;
 border-bottom:0px;
-border-color:#3B6AA0;
+border-color:#3A66A7;
+/*margin-bottom:5%;*/
 }
 
 .contentDividerLeft
@@ -275,123 +303,28 @@ border-bottom:0px;
 border-color:#3B6AA0;
 }
 
-.about {
-width:230px;	
-height:300px;	
-left:180px;
-bottom:38;
-position:fixed;
-background-color:#E3E3E3;
-border-radius:7px;
-z-index:71;
-padding-left:2%;
-padding-right:2%;
-margin-left:2px;
-margin-right:2px;
-border-style:solid;
-border-width:1px;
-border-color:#A6A6A6;
-text-align:left;
-color:black;
-cursor:auto;
-}
-
-.aboutContent{
-	cursor:pointer;
-	position:fixed;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-	z-index:70;
-}
-
 /*Different text CSS, regular, headings...*/
-.logoText
-{
-color:#104E8B;
+
+.checkboxText {
+margin-left:0%;
+font-size:90%;
+line-height:110%;
+margin-bottom:2px;
+display:block;
+text-align:left;
+font-family:lucida grande;
 }
 
-.ckboxText {
-	margin-left:0px;
-	font-size:80%;
-	display: inline;
-	font-weight: bold;
-	line-height:20%;
-}
 
-.line
-{
-	margin-left:2%;
-	color: #3B6AA0;
-	height:2px;
-	border:0;
-	background-color: #3B6AA0;
-	border-radius:50px;
-}
-
-.standard
-{
-margin-left:2%;
-}
-
-.buttonMap
+.buttonEnlargeReduce
 {
 margin-left:5%;
+margin-bottom:25px;
 }
 
-.standardQuad
+.Link
 {
-margin-left:2%;
-line-height:130%
-}
-
-.standardNoNewLine
-{
-margin-left:2%;
-display:inline;
-}
-
-.header
-{
-color:#104E8B;
-margin-left:2%;
-margin-right:2%;
-}
-
-.smallHeader
-{
-color:#3A66A7;
-margin-left:2%;
-margin-right:2%;
-}
-
-.smallHeaderBold
-{
-color:#3A66A7;
-margin-left:2%;
-margin-right:2%;
-font-weight: bold;
-}
-
-.smallHeaderNoNewLine
-{
-color:#3A66A7;
-margin-left:2%;
-margin-right:2%;
-display:inline;
-line-height:150%;
-}
-
-.smallHeaderLink
-{
-color:#3A66A7;
 cursor: pointer;
-margin-left:2%;
-margin-right:2%;
-display:inline;
-line-height:150%;
-
 }
 
 /*Google map container*/
@@ -410,20 +343,29 @@ top:5%;
 left:5%;
 }
 
-.screen2 {
-width:92%;
-height:92%;	
-position:absolute;
-top:4%;
-left:4%;
-}
-
 .slide {	
 width:90%;
 height:90%;	
 position:absolute;
 top:5%;
 left:5%;
+}
+
+.slide.ng-hide-add,
+.slide.ng-hide-remove {
+  -webkit-transition: all linear 1s;
+  -moz-transition: all linear 1s;
+  -o-transition: all linear 1s;
+  transition: all linear 1s;
+  display: block!important;
+}
+.slide.ng-hide-add.ng-hide-add-active,
+.slide.ng-hide-remove {
+  opacity: 0;
+}
+.slide.ng-hide-add,
+.slide.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
 }
 
 .inputbox{
@@ -438,35 +380,16 @@ margin-bottom:10px;
 
 .button{
 padding-top:7px;
-padding-bottom:3px;
+padding-bottom:7px;
 font-family:Georgia;
-color:#333;	
-margin-bottom:4%;
+font-color:#3A66A7;
+color:#3A66A7;	
+font-size:14px;
+text-align:left;
 }
 
-.animate-show, .animate-hide {
-  -webkit-transition:all linear 1s;
-  -moz-transition:all linear 1s;
-  -ms-transition:all linear 1s;
-  -o-transition:all linear 1s;
-  transition:all linear 1s;
-}
 
-.animate-show {
-  opacity:0;
-}
 
-.animate-show.animate-show-active {
-  opacity:1;
-}
-
-.animate-hide {
-  opacity:1;
-}
-
-.animate-hide.animate-hide-active {
-  opacity:0;
-}
 
 .frame {
 width:90%;
@@ -476,19 +399,42 @@ position:relative;
 /*background-color:#CCCCCC;*/
 background-color:#E3E3E3;
 border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+.frameText {
+	
+width:90%;
+position:relative;
+padding:4px;
+margin-bottom:5%;
+/*background-color:#CCCCCC;*/
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+.frameTextBottom {
+width:90%;
+position:relative;
+padding:4px;
+
+/*background-color:#CCCCCC;*/
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
 }
 
-.frameMobile {/*Frame for mobile devices (small screen)*/
+.frameBig {/*Frame for mobile devices (small screen)*/
 width:90%;
 height:90%;
 position:relative;
 /*background-color:#CCCCCC;*/
 background-color:#E3E3E3;
 border-radius:10px;
+/*box-shadow:  1px 1px 3px #888888;*/
 }
 
 /*CSS for painting graphs*/
-.graphLeft 
+.graph
 {
 height:40%;
 width:44%; 
@@ -497,17 +443,6 @@ margin-bottom:4%;
 margin-left:2%; 
 margin-right:2%;
 z-index:30;/*Making it go below footer and header when scrolled*/
-}
-
-.graphFull
-{
-	height:80%;
-	width:90%; 
-	display:inline-block; 
-	margin-bottom:4%;
-	margin-left:2%; 
-	margin-right:2%;
-	z-index:30;/*Making it go below footer and header when scrolled*/
 }
 
 .graphBig
@@ -519,4 +454,20 @@ margin-bottom:4%;
 margin-left:2%; 
 margin-right:2%;
 z-index:30;/*Making it go below footer and header when scrolled*/
+}
+.graphLeft.ng-hide-add,
+.graphLeft.ng-hide-remove {
+  -webkit-transition: all linear 0.4s;
+  -moz-transition: all linear 0.4s;
+  -o-transition: all linear 0.4s;
+  transition: all linear 0.4s;
+  display: block!important;
+}
+.graphLeft.ng-hide-add.ng-hide-add-active,
+.graphLeft.ng-hide-remove {
+  opacity: 0;
+}
+.graphLeft.ng-hide-add,
+.graphLeft.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
 }

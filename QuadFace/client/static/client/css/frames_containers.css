@@ -1,0 +1,119 @@
+.frame {/*Standard frame, seen on slideshow, video and map*/
+width:90%;
+height:50%;
+padding:;
+position:relative;
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+
+.frameText {/*frame for text*/
+width:90%;
+position:relative;
+padding:4px;
+margin-bottom:5%;
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+
+.frameTextBottom {/*Frame for text at bottom of page, less margin down.*/
+width:90%;
+position:relative;
+padding:4px;
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+
+.frameBig {/*Frame for fullscreen views*/
+width:90%;
+height:90%;
+position:relative;
+background-color:#E3E3E3;
+border-radius:10px;
+/*box-shadow:  1px 1px 3px #888888;*/
+}
+
+/*CSS for painting graphs*/
+.graph
+{/*small view of graphs*/
+height:40%;
+width:44%; 
+display:inline-block; 
+margin-bottom:4%;
+margin-left:2%; 
+margin-right:2%;
+z-index:30;/*Making it go below footer and header when scrolled*/
+}
+
+.graphBig
+{/*fullscreen view of graphs*/
+height:60%;
+width:44%; 
+display:inline-block; 
+margin-bottom:4%;
+margin-left:2%; 
+margin-right:2%;
+z-index:30;/*Making it go below footer and header when scrolled*/
+}
+
+/*animations of graphs when hiding them*/
+.graphLeft.ng-hide-add,
+.graphLeft.ng-hide-remove {
+  -webkit-transition: all linear 0.4s;
+  -moz-transition: all linear 0.4s;
+  -o-transition: all linear 0.4s;
+  transition: all linear 0.4s;
+  display: block!important;
+}
+.graphLeft.ng-hide-add.ng-hide-add-active,
+.graphLeft.ng-hide-remove {
+  opacity: 0;
+}
+.graphLeft.ng-hide-add,
+.graphLeft.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+}
+
+/*Google map container*/
+.angular-google-map-container 
+{ 
+height:100%;
+width:100%; 
+}
+
+/*Screen = CSS for video and google map, slide = CSS for slideshow, frame = the frame around Screen and Slide.*/
+.screen {
+width:90%;
+height:90%;	
+position:absolute;
+top:5%;
+left:5%;
+}
+
+.slide {	
+width:90%;
+height:90%;	
+position:absolute;
+top:5%;
+left:5%;
+}
+/*slideshow animation*/
+.slide.ng-hide-add,
+.slide.ng-hide-remove {
+  -webkit-transition: all linear 1s;
+  -moz-transition: all linear 1s;
+  -o-transition: all linear 1s;
+  transition: all linear 1s;
+  display: block!important;
+}
+.slide.ng-hide-add.ng-hide-add-active,
+.slide.ng-hide-remove {
+  opacity: 0;
+}
+.slide.ng-hide-add,
+.slide.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+}

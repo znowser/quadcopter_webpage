@@ -1,0 +1,42 @@
+/*Login popup div classes*/
+.popupContent{
+padding: 10px 10px 20px 10px;
+width:750px;
+height:350px;
+z-index:12;
+/*=== Center popup both vertical and horizontal ===*/
+position:absolute;
+left:50%;
+top:50%;
+margin: -175px 0px 0px -375px;
+/*====================*/
+background-color: rgba(242, 242, 242, 1); /* #F2F2F2 in hex, rgba doesn't support hex parameter */
+border-radius:5px;
+overflow: hidden;
+}
+
+.popupContentSides{
+width:100%;
+height:100%;
+z-index:11;
+position:fixed;
+top:0;
+left:0;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popupContentLeft{
+background-color: rgba(242, 242, 242, 1); /* #F2F2F2 in hex, rgba doesn't support hex parameter */
+text-align: left;
+float:left;
+width:40%;
+margin:0;
+}
+
+.popupContentRight{
+margin:0;
+background-color: rgba(242, 242, 242, 1); /* #F2F2F2 in hex, rgba doesn't support hex parameter */
+float:right;
+width:59%;
+text-align: left;
+}
