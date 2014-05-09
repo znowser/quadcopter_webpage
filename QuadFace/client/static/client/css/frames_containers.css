@@ -1,7 +1,8 @@
 .frame {/*Standard frame, seen on slideshow, video and map*/
-width:90%;
+	margin-left:15px;
+	margin-right:15px;
 height:50%;
-padding:;
+padding:4px;
 position:relative;
 background-color:#E3E3E3;
 border-radius:10px;
@@ -9,7 +10,8 @@ border-radius:10px;
 }
 
 .frameText {/*frame for text*/
-width:90%;
+	margin-left:15px;
+	margin-right:15px;
 position:relative;
 padding:4px;
 margin-bottom:5%;
@@ -19,7 +21,8 @@ border-radius:10px;
 }
 
 .frameTextBottom {/*Frame for text at bottom of page, less margin down.*/
-width:90%;
+margin-left:15px;
+margin-right:15px;
 position:relative;
 padding:4px;
 background-color:#E3E3E3;
@@ -28,7 +31,9 @@ border-radius:10px;
 }
 
 .frameBig {/*Frame for fullscreen views*/
-width:90%;
+margin-right:15px;
+margin-left:15px;
+padding:4px;
 height:90%;
 position:relative;
 background-color:#E3E3E3;
@@ -40,7 +45,7 @@ border-radius:10px;
 .graph
 {/*small view of graphs*/
 height:40%;
-width:44%; 
+width:45%; 
 display:inline-block; 
 margin-bottom:4%;
 margin-left:2%; 
@@ -51,7 +56,7 @@ z-index:30;/*Making it go below footer and header when scrolled*/
 .graphBig
 {/*fullscreen view of graphs*/
 height:60%;
-width:44%; 
+width:45%; 
 display:inline-block; 
 margin-bottom:4%;
 margin-left:2%; 
@@ -116,4 +121,9 @@ left:5%;
 .slide.ng-hide-add,
 .slide.ng-hide-remove.ng-hide-remove-active {
   opacity: 1;
+}
+
+.mapMargin
+{
+	margin-top:3%;
 }

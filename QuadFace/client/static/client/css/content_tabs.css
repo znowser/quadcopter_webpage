@@ -17,7 +17,9 @@ margin-top:30px;
 {
 margin-top:10px;
 margin-left:4%;
-width:55%;
+margin-right:0%;
+padding:0;
+width:56%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 
 }
@@ -25,8 +27,9 @@ float:left;/*Floating, putting both contentLeft and contentRight next to each ot
 .contentRight/*Right side of content*/
 {	
 margin-top:10px;
-margin-right:4%;	
-width:35%;
+margin-right:4%;
+padding:0;
+width:36%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 }
 
@@ -36,12 +39,14 @@ margin-top:10px;
 margin-left:4%;
 margin-right:4%;
 width:92%;
+float:left;
 }
 
 
 /*Dividers, blue line between contents*/
 .contentDividerRight
 {
+	box-sizing:border-box;
 border-style:solid;
 border-right:0px;
 border-top:0px;

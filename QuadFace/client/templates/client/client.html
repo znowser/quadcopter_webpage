@@ -69,14 +69,15 @@
 			<!--Index page, slideshow and some information about the page and quadcopter
 			Generates left container for desktop or generate only one large container for mobile devices-->
 			<div id="welcomeDivContent" class="content" ng-if='welcome' ng-controller="SlideCtrl">
- 				<div  ng-init='currentIndex = 0'  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn" ng-class="{contentBig : left}" ng-click="setView()">
-					<center>
+				<center>
+ 				<div  ng-init='currentIndex = 0'  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn" ng-class="{contentBig : left}" >
+
 						<!--Slideshow-->
-						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameBig : left}">
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameBig : left}" ng-click="setView()">
 							<img  class="slide"  ng-repeat="slide in slides" ng-show="isCurrentSlideIndex($index)" ng-src="{% verbatim %}{{slide.image}}{% endverbatim %}">
 						</div>
 						<h1 ng-hide="mobile"> Quadcopter Project </h1>
-					</center>
+
 					
 					<!-- ==== Mobile text of the front page ==== -->
 					<div ng-show="mobile" class="mobileMargin"> 
@@ -96,7 +97,6 @@
 				
 				<!-- ==== Right content container, hide for mobile devices ==== -->
 				<div class="contentRight contentDividerRight" ng-show="!left" ng-hide="mobile">
-					<center>
 						<div class="frameText">
  							<h3 >Welcome to the quadcopter GUI</h3>
 							<h5 class="Link" ng-click="showContent('video')">Live video</h5>
@@ -119,9 +119,9 @@
 							<h5 >Web GUI</h5>
 							<p>This GUI is a part of the quadcopter project and also a part of the course TDDD27, advanced web programming.</p>
 						</div>
-					</center>
+					
  			 	</div>
-				
+				</center>
 				<!-- ================================== -->
 		 	</div>
 			<!-------------------------END OF HOME-------------------------------------------------------------------------------->
@@ -186,9 +186,9 @@
 			
 			<!------------------------START OF VIDEO-------------------------------------------------------------------------------->
 			<div id="videoDivContent" class="content"  ng-show='video' ng-controller="VideoCtrl">
- 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentBig : left}" ng-click="setView()">
+ 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentBig : left}" >
 					<center>
-						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameBig : left}">
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameBig : left}" ng-click="setView()">
 						<!--Videoplayer-->
 						
 	 						<video  class="screen animated fadeIn" ng-show="!left" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
@@ -203,7 +203,7 @@
 						</div><br>
 						
 					</center>
-					<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+					<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
  				</div>
 				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
 					<center>
@@ -222,9 +222,9 @@
 			<!-------------------------START OF MAP-------------------------------------------------------------------------------->
 			<div id="mapsDivContent" class="content" ng-if='maps' ng-controller="MapCtrl" >
 				<div ng-if="!left" >
-					<div  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn"  ng-click="setView()">
+					<div  class="{% verbatim %}{{contentClass}}{% endverbatim %} animated fadeIn">
 						<center>
-							<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-if="maps" >
+							<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-if="maps" ng-click="setView()">
 								<!--Google map-->
 								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen"  center="map.center" zoom="map.zoom">
 									<marker coords="quadPosition"></marker>
@@ -232,7 +232,7 @@
 								</google-map>
 							</div>	
 						</center><br>
-						<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+						<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
 					
 					</div>
 				
@@ -254,18 +254,18 @@
 					</div>
 				</div>
 			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
-				<div ng-if="left">
-					<div  class="contentBig animated fadeIn"  ng-click="setView()">
+				<div ng-if="left" >
+					<div  class="contentBig animated fadeIn"  >
 						<center>
-							<div class="frameBig" >
+							<div class="frameBig" ng-click="setView()">
 								<!--Google map-->
-								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen"  center="map.center" zoom="map.zoom">
+								<google-map class="screen" refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'    center="map.center" zoom="map.zoom">
 								<marker coords="quadPosition"></marker>
 								<marker coords="mobilePosition"></marker>
 								</google-map>
 							</div>	
 						</center><br>
-						<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+						<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
 				
 					</div>
 				</div>

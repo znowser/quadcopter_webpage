@@ -9,7 +9,7 @@ angular.module('client').factory('graphService', function($rootScope, $http){//F
 		
 		if (!graphService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://127.0.0.1:8080/ws/comLink?subscribe-broadcast');
+			ws = new WebSocket('ws://192.168.0.186:8080/ws/comLink?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				graphService.set = true;
