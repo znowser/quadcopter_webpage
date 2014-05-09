@@ -6,7 +6,13 @@ from django.contrib.auth import authenticate, login, logout
 def logoutUser(request):
 	if request.user.is_authenticated():
 		logout(request)
-	return HttpResponse("Ok")
+	return HttpResponse("ok")
+	
+def isLoggedin(request):
+	if request.user.is_authenticated():
+		return HttpResponse("true")
+	else:
+		return HttpResponse("false")
  
 def authentication(request):
 	#get username and password from post data
