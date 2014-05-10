@@ -64,7 +64,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			
 			fontSize:16
 		},		
-		backgroundColor: "#E3E3E3",		
+		backgroundColor: "#F2F2F2",		
 		data: [
 		{
 			name:'battery',
@@ -103,7 +103,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
-		backgroundColor: "#E3E3E3",		
+		backgroundColor: "#F2F2F2",		
 		data: [
 		{
 			name:'battery',
@@ -144,7 +144,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},	
-		backgroundColor: "#E3E3E3",			
+		backgroundColor: "#F2F2F2",			
 		data: [
 		{
 			name:'engines',
@@ -184,7 +184,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},	
-		backgroundColor: "#E3E3E3",			
+		backgroundColor: "#F2F2F2",			
 		data: [
 		{
 			name:'engines',
@@ -226,7 +226,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
-		backgroundColor: "#E3E3E3",		
+		backgroundColor: "#F2F2F2",		
 		data: [
 		{
 			name:'temp',
@@ -262,7 +262,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 				fontSize:16,
 			fontColor: "#3B6AA0"
 			},		
-			backgroundColor: "#E3E3E3",		
+			backgroundColor: "#F2F2F2",		
 			data: [
 			{
 				name:'temp',
@@ -300,7 +300,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
-		backgroundColor: "#E3E3E3",	
+		backgroundColor: "#F2F2F2",	
 		data: [
 		{
 			name:'alt',
@@ -336,7 +336,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 			fontSize:16,
 			fontColor: "#3B6AA0"
 		},		
-		backgroundColor: "#E3E3E3",	
+		backgroundColor: "#F2F2F2",	
 		data: [
 		{
 			name:'alt',

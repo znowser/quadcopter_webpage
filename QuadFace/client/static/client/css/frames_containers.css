@@ -5,18 +5,44 @@ height:50%;
 padding:4px;
 position:relative;
 background-color:#E3E3E3;
-border-radius:10px;
+border-radius:5px;
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+.frameGraphs {/*Standard frame, seen on slideshow, video and map*/
+overflow: auto;
+	margin-left:15px;
+	margin-right:15px;
+padding:4px;
+padding-top:0px;
+position:relative;
+background-color:#E3E3E3;
+border-radius:5px;
+
+/*box-shadow:  2px 2px 5px #888888;*/
+}
+.frameGraphsBig {/*Standard frame, seen on slideshow, video and map*/
+width:calc(100% - 37px);
+overflow: auto;
+
+margin-left:15px;
+margin-right:15px;
+padding:4px;
+padding-top:0px;
+position:relative;
+background-color:#E3E3E3;
+border-radius:5px;
+
 /*box-shadow:  2px 2px 5px #888888;*/
 }
 
 .frameText {/*frame for text*/
-	margin-left:15px;
-	margin-right:15px;
+margin-left:15px;
+margin-right:15px;
 position:relative;
 padding:4px;
 margin-bottom:5%;
-background-color:#E3E3E3;
-border-radius:10px;
+background-color:#EBEBEB;
+border-radius:5px;
 /*box-shadow:  2px 2px 5px #888888;*/
 }
 
@@ -25,8 +51,8 @@ margin-left:15px;
 margin-right:15px;
 position:relative;
 padding:4px;
-background-color:#E3E3E3;
-border-radius:10px;
+background-color:#EBEBEB;
+border-radius:5px;
 /*box-shadow:  2px 2px 5px #888888;*/
 }
 
@@ -37,30 +63,37 @@ padding:4px;
 height:90%;
 position:relative;
 background-color:#E3E3E3;
-border-radius:10px;
+border-radius:5px;
 /*box-shadow:  1px 1px 3px #888888;*/
 }
 
 /*CSS for painting graphs*/
 .graph
 {/*small view of graphs*/
-height:40%;
-width:45%; 
-display:inline-block; 
-margin-bottom:4%;
-margin-left:2%; 
-margin-right:2%;
+	margin: 0% 3% 6% 3% ;
+	width:44%;
+	height:46%;
+	float:left;
+
+
 z-index:30;/*Making it go below footer and header when scrolled*/
 }
+.graphT
+{/*small view of graphs*/
+	margin: 3%;
+	width:44%;
+	height:44%;
+	float:left;
 
+
+z-index:30;/*Making it go below footer and header when scrolled*/
+}
 .graphBig
 {/*fullscreen view of graphs*/
-height:60%;
-width:45%; 
-display:inline-block; 
-margin-bottom:4%;
-margin-left:2%; 
-margin-right:2%;
+height:62%;
+width:46%; 
+margin:2%;
+float:left;
 z-index:30;/*Making it go below footer and header when scrolled*/
 }
 
@@ -91,19 +124,20 @@ width:100%;
 
 /*Screen = CSS for video and google map, slide = CSS for slideshow, frame = the frame around Screen and Slide.*/
 .screen {
-width:90%;
+width:94%;
 height:90%;	
 position:absolute;
 top:5%;
-left:5%;
+left:3%;
 }
 
 .slide {	
-width:90%;
-height:90%;	
-position:absolute;
-top:5%;
-left:5%;
+	
+	width:94%;
+	height:90%;
+	position:absolute;
+	left:3%;
+	top:5%;
 }
 /*slideshow animation*/
 .slide.ng-hide-add,

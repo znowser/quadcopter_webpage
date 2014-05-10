@@ -4,54 +4,60 @@
  margin-top:-3%;
 
 }
+.noMargin
+{
+	margin:0px;
+	padding:0px;
+}
 
 /*Content is two columns, left and right (contentLeft and contentRight, these being float so they're located next to each other.)*/
 .content/*No set height since height isen't know and might be bigger than windowsize*/
 {
 width:100%;
-margin-top:30px;
+margin-top:40px;
 
 }
 
 .contentLeft/*Left side of content*/
 {
-margin-top:10px;
+
 margin-left:4%;
-margin-right:0%;
+margin-right:-1px;
 padding:0;
 width:56%;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
-
 }
 
 .contentRight/*Right side of content*/
 {	
-margin-top:10px;
+
 margin-right:4%;
-padding:0;
 width:36%;
+padding:0;
+margin-left:-1px;
 float:left;/*Floating, putting both contentLeft and contentRight next to each other*/
 }
 
 .contentBig/*Fullscreen mode of content*/
 {
-margin-top:10px;
+
 margin-left:4%;
 margin-right:4%;
 width:92%;
-float:left;
+padding:0;
+z-index:10;
 }
 
 
 /*Dividers, blue line between contents*/
 .contentDividerRight
 {
-	box-sizing:border-box;
 border-style:solid;
 border-right:0px;
 border-top:0px;
 border-bottom:0px;
 border-color:#3A66A7;
+border-width:2px;
 }
 
 .contentDividerLeft

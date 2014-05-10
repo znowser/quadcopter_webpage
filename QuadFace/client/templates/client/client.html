@@ -130,22 +130,24 @@
 			<!-------------------------START OF COMMUNICATIONS-------------------------------------------------------------------------------->
 			<!-- Data coming from the quadcopter -->
 			<div id="communicationsDivContent" ng-controller="GraphCtrl" class="content"  ng-if='communications'>
-				<div class="contentLeft animated fadeIn" ng-click="setView();" ng-show="!left">
+				<div class="contentLeft animated fadeIn" ng-show="!left">
 					<!--This is the graphs being painted on the page, can be hidden by the user -->
-				 	<div id="batteryContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graph" ng-show="batteryShow"></div>
-				 	<div id="engineContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graph" ng-show="engineShow" ></div>
-					<div id="temperatureContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graph" ng-show="temperatureShow" ></div>
-				 	<div id="altitudeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graph" ng-show="altitudeShow" ></div><br>
-					<button class="standard button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+					<div class="frameGraphs" ng-click="setView();">
+				 	<div id="batteryContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphT" ng-show="batteryShow"></div>
+				 	<div id="engineContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphT" ng-show="engineShow" ></div>
+					<div id="temperatureContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphT" ng-show="temperatureShow" ></div>
+				 	<div id="altitudeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphT" ng-show="altitudeShow" ></div></div><br>
+					<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
 						
  				</div>
-				<div class="contentBig animated fadeIn" ng-click="setView();" ng-show="left">
+				<div class="contentBig animated fadeIn" ng-show="left">
 					<!--This is the big version of the graphs, the canvasjs packet didn't allow for dynamic resizing of objects.. -->
+					<div class="frameGraphsBig" ng-click="setView();">
 				 	<div id="batteryLargeContainer" ng-click="playBattery = ! playBattery;$event.stopPropagation()" class="graphBig" ng-show="batteryShow"></div>
 				 	<div id="engineLargeContainer" ng-click="playEngine = ! playEngine;$event.stopPropagation()" class="graphBig" ng-show="engineShow" ></div>
 					<div id="temperatureLargeContainer" ng-click="playTemp = ! playTemp;$event.stopPropagation()" class="graphBig" ng-show="temperatureShow" ></div>
-				 	<div id="altitudeLargeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" ></div><br>
-					<button class="button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
+				 	<div id="altitudeLargeContainer" ng-click="playAlt = ! playAlt;$event.stopPropagation()" class="graphBig" ng-show="altitudeShow" ></div></div><br>
+					<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="">Enlarge/Reduce</button>
  				</div>
 				
 				<!--Controls for the quadcopter data, graphs can be hidden/showed, stream of data can be paused. --> 
@@ -254,7 +256,7 @@
 					</div>
 				</div>
 			<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
-				<div ng-if="left" >
+				<div ng-if="left" class="noMargin">
 					<div  class="contentBig animated fadeIn"  >
 						<center>
 							<div class="frameBig" ng-click="setView()">
