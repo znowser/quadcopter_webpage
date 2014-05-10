@@ -15,6 +15,7 @@ var MenuCtrl = angular.module('client').controller('MenuCtrl', function($scope, 
 		$scope.maps= false;
 		$scope.loginView = false;
 		$scope.controllerView = false;
+		$scope.model = false;
 	 }
 	 
 	 $scope.goToFrontPage = function(){
@@ -82,6 +83,12 @@ var MenuCtrl = angular.module('client').controller('MenuCtrl', function($scope, 
 			graphService.setUpWebsockets('open');
 			mapService.setUpMapWebsockets('open');//Open websocket for map
 			
+		}
+		else if(item.localeCompare('model') == 0){
+			$scope.hideAllViews();
+			$scope.model = true;
+			graphService.setUpWebsockets('open');
+			mapService.setUpMapWebsockets('close');
 		}
 		//login view
 		else if(item.localeCompare('login') == 0){

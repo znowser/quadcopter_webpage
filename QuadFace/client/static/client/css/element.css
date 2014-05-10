@@ -66,6 +66,7 @@ color:#3A66A7;
 line-height:30%;
 text-align:left;
 }
+canvas { width: 100%; height: 100% }
 
 .checkboxText {
 margin-left:0%;

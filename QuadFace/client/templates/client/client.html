@@ -14,6 +14,8 @@
 		<script src="{% static "AuthSystem/scripts/loginService.js" %}"></script>
 		<script src="{% static "CommunicationLink/scripts/graphController.js" %}"></script>
 		<script src="{% static "CommunicationLink/scripts/graphService.js" %}"></script>
+		<script src="{% static "CommunicationLink/threejs/build/three.js" %}"></script>
+		<script src="{% static "CommunicationLink/scripts/modelController.js" %}"></script>
 		<script src="{% static "CommunicationLink/canvasjs-1/canvasjs.min.js" %}"></script>
 		<script src="{% static "maps/scripts/mapController.js" %}"></script>
 		<script src="{% static "maps/scripts/mapService.js" %}"></script>
@@ -50,7 +52,7 @@
 		<div ng-controller="MenuCtrl" class="wrapper">
 			<div class="menu">
 				<!-- This is here menuItems are added to the menu, also a menuLine as divider-->
-				<div id="welcomeDiv" class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">Home<hr class="clicked" ng-show="welcome"></hr></div>
+				<div class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">Home<hr class="clicked" ng-show="welcome"></hr></div>
 				<div class="menuLine"></div>
 				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Quadcopter Data<hr class="clicked" ng-show="communications"></hr></div>
 				<div class="menuLine" ng-hide="mobile"></div>
@@ -58,7 +60,8 @@
 				<div class="menuLine"></div>
 				<div class="menuItem" id="mapsDiv" ng-class="{hover: hover4}" ng-mouseenter="hover4 = true" ng-mouseleave="hover4 = false" ng-click="showContent('maps')">Map<hr class="clicked" ng-show="maps"></hr></div>
 				<div class="menuLine"></div>
-
+				<div class="menuItem" ng-class="{hover: hover7}" ng-mouseenter="hover7 = true" ng-mouseleave="hover7 = false" ng-click="showContent('model')">3D Model<hr class="clicked" ng-show="model"></hr></div>
+				<div class="menuLine"></div>
 				<div class="menuItem" id="driveDiv" ng-show="driveMenyItem" ng-class="{hover: hover6}" ng-mouseenter="hover6 = true" ng-mouseleave="hover6 = false" ng-click="showContent('controllerView')">Control<hr class="clicked" ng-show="controllerView"></hr></div>
 				<div class="menuLine" ng-show="driveMenyItem"></div>
 				<div class="menuItem" id="loginDiv" ng-class="{hover: hover5}" ng-mouseenter="hover5 = true" ng-mouseleave="hover5 = false" ng-click="showContent('login')">{% verbatim %}{{userLoggedIn}}{% endverbatim %}<hr class="clicked" ng-show="login"></hr></div>	
@@ -273,7 +276,34 @@
 				</div>
 			</div>
 			<!-------------------------END OF MAP-------------------------------------------------------------------------------->	
-		
+			<div  class="content"  ng-if='model' ng-controller="ModelCtrl">
+ 				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentBig : left}" >
+					<center>
+						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-class="{frameBig : left}" ng-click="setView();resize()">
+							<div class="screen" id="3d" ng-click="$event.stopPropagation()" ng-init="init3d()">
+
+							</div>
+							
+							
+						
+						</div><br>
+					</center>
+					<button class="buttonEnlargeReduce button" ng-hide="mobile" type="button" ng-click="setView()">Enlarge/Reduce</button>
+ 				</div>
+ 				
+				<div class="contentRight contentDividerRight" ng-hide="mobile" ng-show="!left">
+					<center>
+						<div class="frameTextBottom">
+							<h3>3D Model</h3>
+							<h5>Real time</h5>
+							<p>This is a real time view of the quadcopters instantenous state.</p>
+							<h5>Enlarge</h5>
+							<p>Click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
+						</div>
+					</center>
+				</div>
+			</div>
+			
 			<!-------------------------START OF LOGIN-------------------------------------------------------------------------------->	
 			<!-- Login view-->
 			<div class="popupContentSides animated fadeIn" ng-show="loginView" ng-click="loginView = false">

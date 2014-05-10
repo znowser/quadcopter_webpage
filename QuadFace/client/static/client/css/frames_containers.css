@@ -98,20 +98,20 @@ z-index:30;/*Making it go below footer and header when scrolled*/
 }
 
 /*animations of graphs when hiding them*/
-.graphLeft.ng-hide-add,
-.graphLeft.ng-hide-remove {
+.graphT.ng-hide-add,
+.graphT.ng-hide-remove {
   -webkit-transition: all linear 0.4s;
   -moz-transition: all linear 0.4s;
   -o-transition: all linear 0.4s;
   transition: all linear 0.4s;
   display: block!important;
 }
-.graphLeft.ng-hide-add.ng-hide-add-active,
-.graphLeft.ng-hide-remove {
+.graphT.ng-hide-add.ng-hide-add-active,
+.graphT.ng-hide-remove {
   opacity: 0;
 }
-.graphLeft.ng-hide-add,
-.graphLeft.ng-hide-remove.ng-hide-remove-active {
+.graphT.ng-hide-add,
+.graphT.ng-hide-remove.ng-hide-remove-active {
   opacity: 1;
 }
 
