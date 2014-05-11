@@ -1,3 +1,4 @@
+
 <html>
 	<head>
 		<title>QuadFace</title>
@@ -12,11 +13,7 @@
 		<script src="{% static "client/scripts/app.js" %}"></script>
 		<script src="{% static "AuthSystem/scripts/loginController.js" %}"></script>
 		<script src="{% static "AuthSystem/scripts/loginService.js" %}"></script>
-		<script src="{% static "CommunicationLink/scripts/graphController.js" %}"></script>
-		<script src="{% static "CommunicationLink/scripts/graphService.js" %}"></script>
-		<script src="{% static "CommunicationLink/threejs/build/three.js" %}"></script>
-		<script src="{% static "CommunicationLink/scripts/modelController.js" %}"></script>
-		<script src="{% static "CommunicationLink/canvasjs-1/canvasjs.min.js" %}"></script>
+
 		<script src="{% static "maps/scripts/mapController.js" %}"></script>
 		<script src="{% static "maps/scripts/mapService.js" %}"></script>
 		<script src="{% static "maps/geolocation/src/geolocation.js" %}"></script>
@@ -25,6 +22,11 @@
 		<script src="{% static "client/scripts/controllers/slideController.js" %}"></script>
 		<script src="{% static "client/scripts/controllers/videoController.js" %}"></script>
 		<script src="{% static "client/scripts/controllers/menuController.js" %}"></script>
+		<script src="{% static "CommunicationLink/canvasjs-1/canvasjs.min.js" %}"></script>
+		<script src="{% static "CommunicationLink/scripts/graphController.js" %}"></script>
+		<script src="{% static "CommunicationLink/scripts/graphService.js" %}"></script>
+		<script src="{% static "CommunicationLink/threejs/build/three.min.js" %}"></script>
+		<script src="{% static "CommunicationLink/scripts/modelController.js" %}"></script>
 		
 		
 		
@@ -54,7 +56,7 @@
 				<!-- This is here menuItems are added to the menu, also a menuLine as divider-->
 				<div class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">Home<hr class="clicked" ng-show="welcome"></hr></div>
 				<div class="menuLine"></div>
-				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}" ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Quadcopter Data<hr class="clicked" ng-show="communications"></hr></div>
+				<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}"  ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Quadcopter Data<hr class="clicked" ng-show="communications"></hr></div>
 				<div class="menuLine" ng-hide="mobile"></div>
 				<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">Videostream<hr class="clicked" ng-show="video"></hr></div>
 				<div class="menuLine"></div>
@@ -196,11 +198,7 @@
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}" ng-class="{frameBig : left}" ng-click="setView()">
 						<!--Videoplayer-->
 						
-	 						<video  class="screen animated fadeIn" ng-show="!left" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
-	 	  						<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
-	 	  					Your browser does not support the video tag.
-	 						</video>
-	 						<video  class="screen animated fadeIn" ng-show="left" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
+	 						<video  class="screen animated fadeIn" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
 	 	  						<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true',}>
 	 	  					Your browser does not support the video tag.
 	 						</video>
@@ -231,7 +229,7 @@
 						<center>
 							<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-if="maps" ng-click="setView()">
 								<!--Google map-->
-								<google-map refresh='true' ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen"  center="map.center" zoom="map.zoom">
+								<google-map ng-click="$event.stopPropagation()" id="gMap" draggable='true'  class="screen"  center="map.center" zoom="map.zoom">
 									<marker coords="quadPosition"></marker>
 									<marker coords="mobilePosition"></marker>
 								</google-map>
@@ -280,7 +278,7 @@
  				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentBig : left}" >
 					<center>
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-class="{frameBig : left}" ng-click="setView();resize()">
-							<div class="screen" id="3d" ng-click="$event.stopPropagation()" ng-init="init3d()">
+							<div class="screen" id="3d" ng-click="$event.stopPropagation()">
 
 							</div>
 							
@@ -297,6 +295,10 @@
 							<h3>3D Model</h3>
 							<h5>Real time</h5>
 							<p>This is a real time view of the quadcopters instantenous state.</p>
+							<h5>Axis</h5>
+							<p>The blue line is the way the quadcopter is watching. The red line is up on the quadcopter.</p>
+							<h5>WebGL</h5>
+							<p>If you aren't seeing anything that means that your browser isen't supporting WebGL, if you wish to watch the 3d model please change browser or install the necessary plugins.</p>
 							<h5>Enlarge</h5>
 							<p>Click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>
 						</div>

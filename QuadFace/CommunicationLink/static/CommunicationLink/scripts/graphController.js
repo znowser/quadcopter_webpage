@@ -56,6 +56,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 	
 	/*---------- Below are all different datas displayed on the communication view.---------------------------------------------------- */
 	//------------------------------Battery----------------------------
+	
 	$scope.batteryChart = new CanvasJS.Chart("batteryContainer",{
 		title :{
 			text: "Battery levels",
@@ -372,6 +373,13 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 	
 	//Function for columncharts
 	$scope.updateColumnChart = function (c1, c2, c3, e1, e2, e3, e4) {
+		c1 = parseInt(c1);
+		c2 = parseInt(c2);
+		c3 = parseInt(c3);
+		e1 = parseInt(e1);
+		e2 = parseInt(e2);
+		e3 = parseInt(e3);
+		e4 = parseInt(e4);
 		
 		battery.push({ label: "Cell1", y: c1});
 		battery.push({ label: "Cell2", y: c2});
@@ -416,8 +424,8 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 	
 	//update splinecharts
 	$scope.updateChart = function (x_value, y_value) {
-		var x1 = +x_value;
-		var y1 = +y_value;
+		var x1 = parseInt(x_value);
+		var y1 = parseInt(y_value);
 		
 		temp.push(
 			{ x: xVal, y: x1}
@@ -465,6 +473,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		alt.length=0;
 		xVal = 0;//ON new http clear x value
 		result = graphService.data;
+	
 		$scope.updateColumnChart(result[result.length-1].fields.BatteryCell1,result[result.length-1].fields.BatteryCell2,
 			result[result.length-1].fields.BatteryCell3, result[result.length-1].fields.Engine1,result[result.length-1].fields.Engine2,
 			result[result.length-1].fields.Engine3, result[result.length-1].fields.Engine4);
