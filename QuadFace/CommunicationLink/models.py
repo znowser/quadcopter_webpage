@@ -11,11 +11,11 @@ class QuadCopterData(models.Model):
     Engine3 = models.IntegerField(default=0)
     Engine4 = models.IntegerField(default=0)
 
-    Temperature = models.DecimalField(max_digits=4,decimal_places=1)#Celsius
-    Altitude = models.DecimalField(max_digits=5,decimal_places=1)#Meter
+    Temperature = models.DecimalField(max_digits=5,decimal_places=2)#Celsius
+    Altitude = models.DecimalField(max_digits=6,decimal_places=2)#Meter
 
-    Roll = models.DecimalField(max_digits=4,decimal_places=1)
-    Pitch = models.DecimalField(max_digits=4,decimal_places=1)
-    Yaw = models.DecimalField(max_digits=4,decimal_places=1)
+    Roll = models.DecimalField(max_digits=5,decimal_places=2)
+    Pitch = models.DecimalField(max_digits=5,decimal_places=2)
+    Yaw = models.DecimalField(max_digits=5,decimal_places=2)
     
     

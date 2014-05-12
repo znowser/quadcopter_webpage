@@ -1,14 +1,3 @@
-var isMobileDevice = function(){
-	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
-		return true;
-	} else {
-		return false;
-	}
-}
-var init3DModel = function(){
-
-	
-}
 var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope, graphService, $timeout){
 	$scope.left = false;
 	$scope.intervalFunction = function(){
@@ -17,8 +6,7 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 			var obj2 = window.getComputedStyle(obj, null);
 			var height = parseInt(obj2.getPropertyValue('height'));
 			var width = parseInt(obj2.getPropertyValue('width'));
-			console.log(height);
-			console.log(width);
+
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
 			$scope.renderer.setSize( width, height );
@@ -33,19 +21,11 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	$scope.setView = function(){
 		if (!isMobileDevice()){
 			$scope.left= ! $scope.left;
-
-			
-
 		}		
 	}
 	$scope.resize = function(){
 		$scope.intervalFunction();
-
 	}
-	$scope.model = null;
-	/*$scope.init3d = function(){
-		
-	}*/
 	window.onresize = function(event) {
 		var obj = document.getElementById("3d");
 		var obj2 = window.getComputedStyle(obj, null);
@@ -82,8 +62,9 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	//$scope.cube = new THREE.Mesh( new THREE.CubeGeometry( 6, 1, 3 ), new THREE.MeshNormalMaterial({morphTargs:true, etshading:THREE.FlatShading}) );
 	$scope.cube = new THREE.Mesh(geometry, material);
 	scene.add($scope.cube);
-	camera.position.set(5,5,5);
+	camera.position.set(0,3,7);
 	camera.lookAt(new THREE.Vector3(0,0,0));
+	camera.scale.z = 1.5;
 	var light = new THREE.AmbientLight( 0x000044 ); // soft white light
 	scene.add( light );
 	var directionalLight = new THREE.DirectionalLight(0xffffff);
@@ -91,17 +72,13 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	scene.add(directionalLight);
 	directionalLight.lookAt(new THREE.Vector3(0,0,0))
 	
-
-	
-
-	
 	var material = new THREE.LineBasicMaterial({
 		color: 0x0000ff
 	});
 
 	var geometry = new THREE.Geometry();
 	geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
-	geometry.vertices.push( new THREE.Vector3( 0, 0, 5 ) );
+	geometry.vertices.push( new THREE.Vector3( 0, 0, -5 ) );
 
 	var linez = new THREE.Line( geometry, material );
 	scene.add( linez );
@@ -126,30 +103,30 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	render();
 	$scope.$on('websocket', function(){//Here the controller listens for new data on the websocket.
 		result = graphService.message;
-			if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.x) > 3.14159){
-				tempx = -(7.28 - ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.x));
-			} else if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.x) < -3.14159) {
-				tempx = 7.28 + ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.x);
+			if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y) > 3.14159){
+				tempy = -(6.28 - ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y));
+			} else if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y) < -3.14159) {
+				tempy = 6.28 + ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y);
 			} else {
-				tempx = (result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.x;
+				tempy = (result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y;
 			}
 		
 		
 	
-			if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.y) > 3.14159){
-				tempy = -(7.28 - ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.y));
-			} else if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.y) < -3.14159) {
-				tempy = 7.28 + ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.y);
+			if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x) > 3.14159){
+				tempx = -(6.28 - ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x));
+			} else if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x) < -3.14159) {
+				tempx = 6.28 + ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x);
 			} else {
-				tempy = (result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.y;
+				tempx = (result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x;
 			}
 		
 		
 	
 			if (((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z) > 3.14159){
-				tempz = -(7.28 - ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z));
+				tempz = -(6.28 - ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z));
 			} else if (((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z) < -3.14159) {
-				tempz = 7.28 + ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z);
+				tempz = 6.28 + ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z);
 			} else {
 				tempz = (result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z;
 			}

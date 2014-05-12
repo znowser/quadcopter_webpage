@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^auth/', include('AuthSystem.urls')),
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^control/', include("control.urls")),
+    url(r'^log/', include("log.urls")),
 )

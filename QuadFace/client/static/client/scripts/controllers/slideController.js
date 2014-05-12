@@ -1,12 +1,4 @@
 
-var isMobileDevice = function(){
-	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
-		return true;
-	} else {
-		return false;
-	}
-}
-
 angular.module('client').controller('SlideCtrl', function($scope, $timeout){
 	
 	$scope.left=false;
@@ -38,7 +30,6 @@ angular.module('client').controller('SlideCtrl', function($scope, $timeout){
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0014.jpg', description: 'Image 3'},
 			{image: DJANGO_STATIC_URL+'client/quadcopter/IMAG0015.jpg', description: 'Image 4'},
 		];
-		console.log("slides");
 	}
 	/* Static images loaded from Django inte the clientview. These being displayed as a slideshow on the home page. */
 	

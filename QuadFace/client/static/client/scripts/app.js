@@ -1,3 +1,11 @@
+var isMobileDevice = function(){
+	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
+		return true;
+	} else {
+		return false;
+	}
+}
+
 var clientModule = angular.module('client', ['google-maps', 'ngAnimate', 'geolocation'])//The main directive on the site.
 
 

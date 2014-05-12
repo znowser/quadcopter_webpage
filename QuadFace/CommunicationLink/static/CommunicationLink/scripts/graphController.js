@@ -1,11 +1,3 @@
-var isMobileDevice = function(){
-	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
-		return true;
-	} else {
-		return false;
-	}
-}
-
 var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope, graphService, $timeout){	
 
 	$scope.left=false;
@@ -326,7 +318,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		axisY:{
 	   		suffix:"m",
 			  minimum: 80,
-			  maximum: 140
+			  maximum: 300
 	  	}, 
   	});
 	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
@@ -362,7 +354,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		axisY:{
 	   		suffix:"m",
 			  minimum: 80,
-			  maximum: 140
+			  maximum: 300
 	  	}, 
   	});
 	

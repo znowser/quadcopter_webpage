@@ -1,11 +1,3 @@
-var isMobileDevice = function(){
-	if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){//return true if mobile device(small screen)
-		return true;
-	} else {
-		return false;
-	}
-}
-
 var MenuCtrl = angular.module('client').controller('MenuCtrl', function($scope, $http, graphService, mapService, loginService){
 	 // ==== Help functions used only in this controller ====
 	 $scope.hideAllViews = function(){
