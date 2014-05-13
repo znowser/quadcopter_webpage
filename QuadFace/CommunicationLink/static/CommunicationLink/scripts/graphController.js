@@ -416,8 +416,8 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 	
 	//update splinecharts
 	$scope.updateChart = function (x_value, y_value) {
-		var x1 = parseInt(x_value);
-		var y1 = parseInt(y_value);
+		var x1 = parseFloat(x_value);
+		var y1 = parseFloat(y_value);
 		
 		temp.push(
 			{ x: xVal, y: x1}

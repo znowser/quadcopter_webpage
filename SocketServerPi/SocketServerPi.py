@@ -19,7 +19,7 @@ def handle_data(data):
     for i in range(12):
         start = data.find(":")
         end = data.find("!")
-        quad_data[i] = int(data[start+1:end])
+        quad_data[i] = data[start+1:end]
         data = data[end+1:]	    
 
     return_str = ""

@@ -4,11 +4,15 @@
 	<title>QuadFace</title>
 	
 	{% load staticfiles %}
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
+	<script src="{% static "client/jquery-1.11.1.min.js" %}"></script>
+	<script src="{% static "client/angular-1.3.0-beta.4/angular.min.js" %}"></script>
+	<script src="{% static "client/angular-1.3.0-beta.4/angular-animate.js" %}"></script>
+	<script src="{% static "client/angular-1.3.0-beta.4/angular-resource.min.js" %}"></script>
+	<!--<script src="{% static "client/googlemaps.js" %}"></script>-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-animate.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-resource.min.js"></script>
-	<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 		
 	<script src="{% static "client/scripts/app.js" %}"></script>
 	<script src="{% static "AuthSystem/scripts/loginController.js" %}"></script>
@@ -49,7 +53,7 @@
 			<!-- This is here menuItems are added to the menu, also a menuLine as divider-->
 			<div class="menuItem" ng-class="{hover: hover1}" ng-mouseenter="hover1 = true" ng-mouseleave="hover1 = false" ng-click="showContent('welcome')">Home<hr class="clicked" ng-show="welcome"></hr></div>
 			<div class="menuLine"></div>
-			<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}"  ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Data<hr class="clicked" ng-show="communications"></hr></div>
+			<div id="communicationsDiv" class="menuItem" ng-class="{hover: hover2}"  ng-hide="mobile" ng-mouseenter="hover2 = true" ng-mouseleave="hover2 = false" ng-click="showContent('communications')">Data<hr class="clicked" ng-show="communications"></hr></div>
 			<div class="menuLine" ng-hide="mobile"></div>
 			<div class="menuItem" id="videoDiv" ng-class="{hover: hover3}" ng-mouseenter="hover3 = true" ng-mouseleave="hover3 = false" ng-click="showContent('video')">Stream<hr class="clicked" ng-show="video"></hr></div>
 			<div class="menuLine"></div>
@@ -198,7 +202,7 @@
 							<!--Videoplayer-->
 						
 							<video  class="screen animated fadeIn" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
-								<source src="http://192.168.0.186:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true'}>
+								<source src="http://192.168.0.13:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true'}>
 									Your browser does not support the video tag.
 							</video>	
 						</div>
