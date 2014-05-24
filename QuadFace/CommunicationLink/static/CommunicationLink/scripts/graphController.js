@@ -317,8 +317,8 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		],
 		axisY:{
 	   		suffix:"m",
-			  minimum: 80,
-			  maximum: 300
+			  minimum: 30,
+			  maximum: 55
 	  	}, 
   	});
 	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
@@ -353,8 +353,8 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		],
 		axisY:{
 	   		suffix:"m",
-			  minimum: 80,
-			  maximum: 300
+			  minimum: 30,
+			  maximum: 55
 	  	}, 
   	});
 	

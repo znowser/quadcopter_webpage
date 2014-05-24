@@ -8,7 +8,7 @@
 	<script src="{% static "client/angular-1.3.0-beta.4/angular.min.js" %}"></script>
 	<script src="{% static "client/angular-1.3.0-beta.4/angular-animate.js" %}"></script>
 	<script src="{% static "client/angular-1.3.0-beta.4/angular-resource.min.js" %}"></script>
-	<!--<script src="{% static "client/googlemaps.js" %}"></script>-->
+	<script src="{% static "client/googlemaps.js" %}"></script>
 	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-animate.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-resource.min.js"></script>
@@ -261,7 +261,7 @@
 				</div>
 				<!--Big maps (Google maps har rezising issues, so we coulden't use the above map for the bigger one.)-->
 				<div ng-if="left" class="noMargin">
-					<div  class="contentBig animated fadeIn"  >
+					<div  class="contentBig"  >
 						<center>
 							<div class="frameBig" ng-click="setView()">
 								<!--Google map-->
@@ -277,7 +277,7 @@
 			</div>
 			<!-------------------------END OF MAP-------------------------------------------------------------------------------->	
 			<div  class="content"  ng-if='model' ng-controller="ModelCtrl">
-				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}" ng-class="{contentBig : left}" >
+				<div   class="{% verbatim %}{{contentClass}}{% endverbatim %}  animated fadeIn" ng-class="{contentBig : left}" >
 					<center>
 						<div class="{% verbatim %}{{frameClass}}{% endverbatim %}"  ng-class="{frameBig : left}" ng-click="setView();resize()">
 							<div class="screen" id="3d" ng-click="$event.stopPropagation()">

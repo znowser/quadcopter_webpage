@@ -40,8 +40,6 @@ class EchoHandler(asyncore.dispatcher_with_send):
             conn = httplib.HTTPConnection("localhost", 8080)
             conn.request("GET", "/communication/addData/"+dataStr)
             response = conn.getresponse()
-            conn.request("GET", "/communication/updateSockets")
-            response = conn.getresponse()
             conn.close
 
 class EchoServer(asyncore.dispatcher):
