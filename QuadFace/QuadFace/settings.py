@@ -64,8 +64,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'ws4redis.context_processors.default',
 )
-SESSION_ENGINE = 'redis_sessions.session'
-SESSION_REDIS_PREFIX = 'session'
+#SESSION_ENGINE = 'redis_sessions.session'
+#SESSION_REDIS_PREFIX = 'session'
 
 
 # Database

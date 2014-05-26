@@ -35,8 +35,23 @@ angular.module('client').factory('loginService', function($rootScope, $http){
 			}).error(function($data, $status){
 				alert("Error code from server: " + $status);
 			});
-		}
-	};
+		}};
+		
+	loginService.submitRegister = function(newUsername, newEmail, newPassword1, newPassword2){
+		if (newUsername && newEmail && newPassword1 && newPassword2){		
+			$http({ 
+					method: 'POST', 
+					url: '/auth/register/', 
+					data: {'newUsername': newUsername, 'newEmail': newEmail, 'newPassword1' : newPassword1, 'newPassword2' : newPassword2 },
+					}).
+			success(function($data, $status, $headers, $config) {
+				loginService.loginStatus = $data;
+				$rootScope.$broadcast('registerResponse');}).
+			error(function($data, $status){
+				document.write($data);
+				alert("Error code from server: " + $status);
+			});
+		}};
 	
 	//help login function that sets all the angular variables to logged in
 	//if log_in is true, the user is being logged in.
