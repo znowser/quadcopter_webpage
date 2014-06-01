@@ -96,7 +96,6 @@ var MenuCtrl = angular.module('client').controller('MenuCtrl', function($scope, 
 				//send logout request to django
 				//The request to django have no check for failure.
 				$http({method: 'GET', url: '/auth/logout'});
-				//TODO check if the data is actually sent.
 			}
 			else{
 				$scope.loginView = true;
