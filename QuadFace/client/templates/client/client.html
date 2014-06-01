@@ -251,7 +251,7 @@
 								<h5>Build route</h5>
 								<p>In the future it will be possible from this GUI to build routes for the quadcopter.</p>
 								<h5>Enlarge</h5>
-								<p>Dubble click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>	
+								<p>Double click in the left pane or click on the 'Enlarge' button to increase the size of the left pane.</p>	
 								<h5>Client coordinates</h5>
 								<p>The other marker is your coordinates.</p>
 							</div>
@@ -327,13 +327,13 @@
 							<h5>Register new account</h5>
 							<p> If you don't already have an account sign up on the form below. It is free and give you access to control the quadcopter!</p>
 							<h5>Username</h5>
-							<input class="inputbox" type="text" name="newUsername">
+							<input class="inputbox" type="text" ng-model="newUsername">
 							<h5>Email</h5>
-							<input class="inputbox" type="text" name="newEmail">
-							<h5>Password &nbsp&nbsp [repeat two times]</h5>
-							<input class="inputbox" type="password" name="newPassword1">
-							<input class="inputbox" type="password" name="newPassword2">
-							<input class="button" type="submit" value="Register">
+							<input class="inputbox" type="text" ng-model="newEmail">
+							<h5>Password</h5>
+							<input class="inputbox" type="password" ng-model="newPassword1">
+							<input class="inputbox" type="password" ng-model="newPassword2">
+							<input class="button" type="submit" value="Register" ng-click="submitRegister()" >
 						</div>
 					</div>
 				</center>
@@ -343,7 +343,9 @@
 			
 			<!-- ===========  CONTROL VIEW ============== -->
 			<div class="content" id="controllerDivContent" ng-show="controllerView">
-				<p class="standard"> {% verbatim %}{{LoggedInControlData}}{% endverbatim %} </p>
+				<div class="contentLeft" >
+					<p class="standard"> {% verbatim %}{{LoggedInControlData}}{% endverbatim %} </p>
+				</div>
 			</div>
 
 			<!-- ======================================== -->
