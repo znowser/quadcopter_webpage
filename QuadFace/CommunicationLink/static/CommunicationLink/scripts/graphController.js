@@ -316,9 +316,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		}
 		],
 		axisY:{
-	   		suffix:"m",
-			  minimum: 30,
-			  maximum: 55
+	   		suffix:"m"
 	  	}, 
   	});
 	$scope.altLargeChart = new CanvasJS.Chart("altitudeLargeContainer",{
@@ -352,9 +350,7 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		}
 		],
 		axisY:{
-	   		suffix:"m",
-			  minimum: 30,
-			  maximum: 55
+	   		suffix:"m"
 	  	}, 
   	});
 	
@@ -372,33 +368,34 @@ var GraphCtrl = angular.module('client').controller('GraphCtrl', function($scope
 		e2 = parseInt(e2);
 		e3 = parseInt(e3);
 		e4 = parseInt(e4);
-		
+		var tot = ((c1+c2+c3)/3);
+			
 		battery.push({ label: "Cell1", y: c1});
 		battery.push({ label: "Cell2", y: c2});
 		battery.push({ label: "Cell3", y: c3});
-		battery.push({ label: "Total", y: ((c1+c2+c3)/3)});
+		battery.push({ label: "Total", y: tot});
 		
-		engines.push({ label: "Engine1", y: e1});
-		engines.push({ label: "Engine2", y: e2});
-		engines.push({ label: "Engine3", y: e3});
-		engines.push({ label: "Engine4", y: e4});
+		engines.push({ label: "L Front", y: e1});
+		engines.push({ label: "R Front", y: e2});
+		engines.push({ label: "L Back", y: e3});
+		engines.push({ label: "R Back", y: e4});
 		
 		displayBattery.push({ label: "Cell1", y: c1});
 		displayBattery.push({ label: "Cell2", y: c2});
 		displayBattery.push({ label: "Cell3", y: c3});
-		displayBattery.push({ label: "Total", y: ((c1+c2+c3)/3).toFixed(2)});
+		displayBattery.push({ label: "Total", y: tot});
 		
-		displayEngine.push({ label: "Engine1", y: e1});
-		displayEngine.push({ label: "Engine2", y: e2});
-		displayEngine.push({ label: "Engine3", y: e3});
-		displayEngine.push({ label: "Engine4", y: e4});
+		displayEngine.push({ label: "Left Front", y: e1});
+		displayEngine.push({ label: "Right Front", y: e2});
+		displayEngine.push({ label: "Left Back", y: e3});
+		displayEngine.push({ label: "Right Back", y: e4});
 
-		if (displayBattery.length > dataLength)
-		{
-			displayBattery.shift();	
-			displayEngine.shift();	
+		//if (displayBattery.length > dataLength)
+		//{
+		//	displayBattery.shift();	
+		//	displayEngine.shift();	
 	
-		}
+		//}
 		
 		if ($scope.play){
 			if ($scope.playBattery){//Check which to update

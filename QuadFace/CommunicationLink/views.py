@@ -16,6 +16,12 @@ def clear_data(request):
     return HttpResponse("")
     
 def add_data(request, cell1, cell2, cell3, engine1, engine2, engine3, engine4, temp, alt, roll, pitch, yaw):
+    if cell1 < 0:
+        cell1 = 0
+    if cell2 < 0:
+        cell2 = 0
+    if cell3 < 0:
+        cell3 = 0
     q = QuadCopterData(BatteryCell1=cell1,BatteryCell2=cell2,BatteryCell3=cell3,
     Engine1=engine1, Engine2=engine2, Engine3=engine3, Engine4=engine4, 
     Temperature=float(temp), Altitude=float(alt), Roll=float(roll), Pitch=float(pitch), Yaw=float(yaw))

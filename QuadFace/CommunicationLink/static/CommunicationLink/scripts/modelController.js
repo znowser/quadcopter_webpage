@@ -73,7 +73,7 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	directionalLight.lookAt(new THREE.Vector3(0,0,0))
 	
 	var material = new THREE.LineBasicMaterial({
-		color: 0x0000ff
+		color: 0x006400
 	});
 
 	var geometry = new THREE.Geometry();
@@ -94,7 +94,9 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	var liney = new THREE.Line( geometry, material );
 	scene.add( liney );
 
-
+	$scope.cube.rotation.order = 'YXZ';
+	liney.rotation.order = 'YXZ';
+	linez.rotation.order = 'YXZ';
 	var render = function () {
 		requestAnimationFrame(render);
 		$scope.renderer.render(scene, camera);
@@ -103,33 +105,62 @@ var ModelCtrl = angular.module('client').controller('ModelCtrl', function($scope
 	render();
 	$scope.$on('websocket', function(){//Here the controller listens for new data on the websocket.
 		result = graphService.message;
-			if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y) > 3.14159){
-				tempy = -(6.28 - ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y));
-			} else if (((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y) < -3.14159) {
-				tempy = 6.28 + ((result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y);
-			} else {
-				tempy = (result[0].fields.Roll * 3.14159/180) - $scope.cube.rotation.y;
-			}
-		
-		
+		var pi = 3.14159;
 	
-			if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x) > 3.14159){
-				tempx = -(6.28 - ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x));
-			} else if (((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x) < -3.14159) {
-				tempx = 6.28 + ((result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x);
-			} else {
-				tempx = (result[0].fields.Pitch * 3.14159/180) - $scope.cube.rotation.x;
-			}
+		if (result[0].fields.Roll < 0){
+			result[0].fields.Roll = (360 + parseInt(result[0].fields.Roll));
+		} else {
+			result[0].fields.Roll = (result[0].fields.Roll);
+		}
+		if (result[0].fields.Pitch < 0){
+			result[0].fields.Pitch = (360 + parseInt(result[0].fields.Pitch));
+		} else {
+			result[0].fields.Pitch = (result[0].fields.Pitch);
+		}
+		if (result[0].fields.Yaw < 0){
+			result[0].fields.Yaw = (360 + parseInt(result[0].fields.Yaw));;
+		} else {
+			result[0].fields.Yaw = (result[0].fields.Yaw);
+		}
+		
+		console.log("roll: " + result[0].fields.Roll + " pitch: " + result[0].fields.Pitch + " yaw: " + result[0].fields.Yaw); 
+		
+		result[0].fields.Roll = (result[0].fields.Roll)*pi/180
+		result[0].fields.Pitch = (result[0].fields.Pitch)*pi/180
+		result[0].fields.Yaw = (result[0].fields.Yaw)*pi/180
+		//console.log("roll: " + result[0].fields.Roll + " pitch: " + result[0].fields.Pitch + " yaw: " + result[0].fields.Yaw); 
+		
+		if ((result[0].fields.Roll - $scope.cube.rotation.y) > pi){
+			tempy = 2*pi - (result[0].fields.Roll - $scope.cube.rotation.y);
+			tempy = tempy * -1;
+			//console.log("tempy negative: " + tempy);
+		} else if ((result[0].fields.Roll - $scope.cube.rotation.y) < -pi) {
+			tempy = 2*pi + (result[0].fields.Roll - $scope.cube.rotation.y);
+			//console.log("tempy positive: " + tempy);
+			
+		} else {
+			tempy = result[0].fields.Roll - $scope.cube.rotation.y;
+		}
 		
 		
-	
-			if (((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z) > 3.14159){
-				tempz = -(6.28 - ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z));
-			} else if (((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z) < -3.14159) {
-				tempz = 6.28 + ((result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z);
-			} else {
-				tempz = (result[0].fields.Yaw * 3.14159/180) - $scope.cube.rotation.z;
-			}
+		if ((result[0].fields.Pitch - $scope.cube.rotation.x) > pi){
+			tempx = 2*pi - (result[0].fields.Pitch - $scope.cube.rotation.x);
+			tempx = tempx * -1;
+		} else if ((result[0].fields.Pitch - $scope.cube.rotation.x) < -pi) {
+			tempx = 2*pi + (result[0].fields.Pitch - $scope.cube.rotation.x);
+		} else {
+			tempx = result[0].fields.Pitch - $scope.cube.rotation.x;
+		}
+		
+		
+		if (((result[0].fields.Yaw * pi/180) - $scope.cube.rotation.z) > pi){
+			tempz = 2*pi - (result[0].fields.Yaw  - $scope.cube.rotation.z);
+			tempz = tempz * -1;
+		} else if ((result[0].fields.Yaw - $scope.cube.rotation.z) < -pi) {
+			tempz = 2*pi + (result[0].fields.Yaw - $scope.cube.rotation.z);
+		} else {
+			tempz = result[0].fields.Yaw - $scope.cube.rotation.z;
+		}
 		
 		
 		
