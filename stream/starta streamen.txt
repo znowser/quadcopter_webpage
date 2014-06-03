@@ -2,7 +2,7 @@
 2. Starta ffmpeg på servern. måste alltid startas först.
 2. Kör följande kommando på raspberryn. (432x240, bitrate = 500 kb/s. fps = 20 force rtp protocol).
 
-raspivid -t 0 -fps 20 -w 320 -h 240 -n -b 700000 -o - | ffmpeg -i - -vcodec copy -an -f rtp rtp://192.168.0.186:5050
+raspivid -t 0 -fps 20 -w 320 -h 240 -n -b 700000 -o - | ffmpeg -i - -vcodec copy -an -f rtp rtp://192.168.0.13:5050
 
 
 //do no use, the rasp cannot decode/decode
