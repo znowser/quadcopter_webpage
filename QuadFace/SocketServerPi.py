@@ -68,8 +68,8 @@ class EchoServer(asyncore.dispatcher):
             try:
                 conn = sqlite3.connect('../QuadFace/db.sqlite3')
                 c = conn.cursor()
-                c.execute("DELETE FROM CommunicationLink_quadcopterdata")		
-                conn.commit()
+                #c.execute("DELETE FROM CommunicationLink_quadcopterdata")		
+                #conn.commit()
                 conn.close()  
             except sqlite3.Error, e:
                 print "Error %s:" % e.args[0]

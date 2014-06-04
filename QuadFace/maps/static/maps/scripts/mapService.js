@@ -9,7 +9,7 @@ angular.module('client').factory('mapService', function($rootScope, $http){//Fac
 		
 		if (!mapService.set && openClose.localeCompare('open') == 0){
 			
-			ws = new WebSocket('ws://192.168.0.13:8080/ws/coords?subscribe-broadcast');
+			ws = new WebSocket('ws://130.236.208.71:8080/ws/coords?subscribe-broadcast');
 			ws.onopen = function() {
 		    	console.log("websocket connected");
 				mapService.set = true;

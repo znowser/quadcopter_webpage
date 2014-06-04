@@ -5,14 +5,14 @@
 	
 	{% load staticfiles %}
 	<script src="{% static "client/jquery-1.11.1.min.js" %}"></script>
-	<!--<script src="{% static "client/angular-1.3.0-beta.4/angular.min.js" %}"></script>
+	<script src="{% static "client/angular-1.3.0-beta.4/angular.min.js" %}"></script>
 	<script src="{% static "client/angular-1.3.0-beta.4/angular-animate.js" %}"></script>
 	<script src="{% static "client/angular-1.3.0-beta.4/angular-resource.min.js" %}"></script>
-	<script src="{% static "client/googlemaps.js" %}"></script>-->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
+	<script src="{% static "client/googlemaps.js" %}"></script>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-animate.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular-resource.min.js"></script>
-	<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 		
 	<script src="{% static "client/scripts/app.js" %}"></script>
 	<script src="{% static "AuthSystem/scripts/loginController.js" %}"></script>
@@ -202,7 +202,7 @@
 							<!--Videoplayer-->
 						
 							<video  class="screen animated fadeIn" ng-click="$event.stopPropagation()"  controls autoplay preload="auto">
-								<source src="http://192.168.0.13:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true'}>
+								<source src="http://192.168.0.198:8090/test.webm" type="video/webm", config: {'provider':'video','fullscreen':'true'}>
 									Your browser does not support the video tag.
 							</video>	
 						</div>
