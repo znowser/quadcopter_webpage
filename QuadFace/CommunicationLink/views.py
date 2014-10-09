@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render
 from ws4redis.publisher import RedisPublisher
-from ws4redis.redis_store import RedisMessage
+#from ws4redis.redis_store import RedisMessage
 from django.core import serializers
 
 from CommunicationLink.models import QuadCopterData
@@ -28,6 +28,7 @@ def add_data(request, cell1, cell2, cell3, engine1, engine2, engine3, engine4, t
     Temperature=float(temp), Altitude=float(alt), Roll=float(roll), Pitch=float(pitch), Yaw=float(yaw))
     q.save()
     data_for_graphs = serializers.serialize('json', QuadCopterData.objects.all().reverse().order_by('id')[:1])
-    RedisPublisher(facility='comLink', broadcast=True).publish_message(RedisMessage(data_for_graphs))
+    #RedisPublisher(facility='comLink', broadcast=True).publish_message(RedisMessage(data_for_graphs))
+    RedisPublisher(facility='comLink', broadcast=True).publish_message(data_for_graphs)
     return HttpResponse("")
     
