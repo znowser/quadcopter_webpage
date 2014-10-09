@@ -37,7 +37,7 @@ class EchoHandler(asyncore.dispatcher_with_send):
         if data:
             dataStr = handle_data(data)
            # print (dataStr)
-            conn = httplib.HTTPConnection("localhost", 8080)
+            conn = httplib.HTTPConnection("localhost", 80)
             conn.request("GET", "/communication/addData/"+dataStr)
             response = conn.getresponse()
             conn.close
@@ -54,7 +54,7 @@ class EchoServer(asyncore.dispatcher):
     def handle_accept(self):
         pair = self.accept()
         if pair is not None:
-            conn = httplib.HTTPConnection("localhost", 8080)
+            conn = httplib.HTTPConnection("localhost", 80)
             conn.request("GET", "/communication/clearData")
             response = conn.getresponse()
             conn.close
@@ -62,6 +62,6 @@ class EchoServer(asyncore.dispatcher):
             print 'Incoming connection from %s' % repr(addr)
             handler = EchoHandler(sock)
 
-server = EchoServer('0.0.0.0', 8091)
+server = EchoServer('0.0.0.0', 8092)
 asyncore.loop()
 
